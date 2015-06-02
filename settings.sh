@@ -1,0 +1,84 @@
+## === Programs from the repository ===
+
+## Accept the EULA by default
+echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | sudo debconf-set-selections
+
+## Basics
+sudo apt-get install -y vim-gtk  ack-grep htop  miredo cstocs testdisk git gnupg  wine htop unrar n2n nmap debfoster qemu osdclock
+
+## Internet and communication
+sudo apt-get install -y pidgin linphone
+
+## Graphics and writing
+sudo apt-get install -y libreoffice-calc libreoffice-writer libreoffice-impress myspell-dictionary-cs hyphen-cs libreoffice-grammarcheck-cs mythes-cs libreoffice-l10n-cs libreoffice-gtk3 
+sudo apt-get install -y gimp inkscape texlive-fonts-extra pdfposter biblatex  texlive-lang-czechslovak pdftk imagemagick pdfjam geeqie djvulibre-bin
+sudo apt-get install -y texlive-latex-extra  # for type1cm.sty to make latex+matplotlib work
+
+## Multimedia 
+sudo apt-get install -y sound-juicer lame gstreamer0.10-plugins-ugly-multiverse smplayer vlc audacity ffmpeg
+sudo apt-get install -y handbrake
+
+## Programming, electronics and research
+sudo apt-get install -y avr-libc gimp gcc-avr glade  avrdude gftp-gtk
+sudo apt-get install -y python-numpy python-sympy python-matplotlib kicad ekiga dvipng
+sudo apt-get install -y geda-utils
+
+## === Remove unused default apps ===
+## Programming, electronics and research
+sudo apt-get remove -y abiword gnumeric 
+
+## === Install non-repository software ===
+
+## Esmska
+# echo "deb http://repo.palatinus.cz/stable / #Esmska" >> /etc/apt/sources.list
+#wget  --quiet -O - http://repo.palatinus.cz/repo.key | sudo apt-key add - > /dev/null
+#sudo apt-get install esmska 
+#apt-get update
+
+## Set up autostart in Lubuntu
+mkdir ~/.config/autostart -p
+echo -e "[Desktop Entry]\nType=Application\nExec=setxkbmap -option caps:swapescape" >> ~/.config/autostart/swapcase.desktop
+echo -e "[Desktop Entry]\nType=Application\nExec=setxkbmap cz -variant dvorak-ucw" >> ~/.config/autostart/dvorak.desktop
+echo -e "[Desktop Entry]\nType=Application\nosd_clock -s 0 -o 16 -c grey -tr -f -misc-fixed-bold-r-semicondensed--*-*-*-*-c-*-*-*" >> ~/.config/autostart/osdclock.desktop
+
+
+## === Custom settings ===
+cat ~/.bashrc files/bashrc.append > /tmp/bashrc; mv /tmp/bashrc ~/.bashrc
+cp files/vim ~/.vim -r 
+cp files/vimrc ~/.vimrc
+
+## === Notes to manual settings ===
+
+echo "Important files that need to be transferred (No, I will not add them to this git repo ;)"
+echo "Move to the old home and run these commands:\n"
+echo '  OLDHOME=.'
+echo '  NEWHOME=~'
+echo '  cp ${OLDHOME}/.gitconfig ${NEWHOME} '
+echo '  cp ${OLDHOME}/.gnupg/ ${NEWHOME}/ -r'
+echo '  cp ${OLDHOME}/.ssh/ ${NEWHOME}/ -r'
+echo '  ssh-add ~/.ssh/id_rsa			## ... so that git does not prompt for a password every time'
+echo '  cp ${OLDHOME}/.purple/ ${NEWHOME}/ -r'
+echo '  cp ${OLDHOME}/.linphonerc ${NEWHOME}/'
+
+## REVTeX for publication in APS journals (PRA, PRB, PRX ...) [added 2014-09-02]
+## TODO: store revtex4-1-tds.zip in the files/ dir
+## needed to be done manually on Ubuntu (Oneiric): download the ZIP installer from the APS website, unzip
+## there are wrong hints in the README file, the supposed directory does not exist. However the following works:
+# sudo unzip revtex4-1-tds.zip -d /usr/share/texmf-texlive/; sudo mktexlsr /usr/share/texmf-texlive/
+
+#sudo add-apt-repository ppa:finalterm/daily
+#sudo apt-get update
+#sudo apt-get install finalterm
+
+## To have clear sound input for IP telephony, it must be:
+##	1) "Analog duplex stereo" on the Hardware tab, 
+##  2) "Mic" in Alsamixer (hit F4, go to the very right, use up/down arrows)
+
+## Colorful bash console:
+# sudo echo "export PS1='${debian_chroot:+($debian_chroot)}\[\033[01;31m\]\u\[\033[01;32m\]@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]#'" >> /root/.bashrc
+# other colors: (todo)
+
+
+# Something like this may be needed to disable screen locking
+# sed -i /etc/default/acpi-support -e 's/LOCK_SCREEN=true/# LOCK_SCREEN=true/'
+

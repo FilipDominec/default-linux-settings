@@ -1,0 +1,83 @@
+# export PYTHONSTARTUP=$HOME/.pythonrc.py
+
+alias fastmotion='mencoder mf://*.JPG -mf w=1024:h=768:fps=25:type=jpg -ovc lavc -lavcopts vcodec=mpeg4:mbd=2:trell:vbitrate=2152 -oac copy -o output.avi'
+# opt="vbitrate=2160000:mbd=2:keyint=132:v4mv:vqmin=3:lumi_mask=0.07:dark_mask=0.2:mpeg_quant:scplx_mask=0.1:tcplx_mask=0.1:naq" (..edges)
+alias py='python'
+alias pym='ipython -i -c  "import os; import matplotlib.pyplot as plt; import numpy as np; from scipy.constants import c, pi, h, e; aa=np.array([[1,2,3],[4,5,6],[7,8,9]])"'
+#alias py='python -i -c "import sys, os, atexit, rlcompleter, readline; sys.path.append(\"~/d/python\"); import physcon as pc; sys.ps1=\"\001\033[1;36m\002>>> \001\033[0m\002\"; readline.parse_and_bind(\"tab: complete\"); histfile=os.path.join(os.environ[\"HOME\"], \".python_history\"); readline.read_history_file(histfile), atexit.register(readline.write_history_file, histfile)"'
+alias lxp='killall lxpanel; lxpanel --profile Lubuntu &'
+alias aa='ack-grep'
+#alias np='mpirun -np 2'
+alias xc='xclock & sleep 1; killall xclock'
+alias vi='gvim -p '
+alias vi_convertutf='vim +"argdo set ff=utf-8" +wqa '
+alias cal='cal -m'
+alias mcf='make menuconfig'
+alias dh='sudo dhclient && exit'
+alias kpdf='evince'
+alias gq='geeqie &'
+alias df="df -h"
+alias ls='ls --color=auto'
+alias licqa='licq -b ~/.licqadam &'
+alias repltxt='sed s/\!:1/\!:2/g \!:3 > temp.txt; mv -f temp.txt \!:3'
+alias gpsd='a=`date  --rfc-3339\=date`; mkdir $a; cd $a; echo "Waypnts... "; gpsbabel -i garmin -f /dev/ttyS0 -o gpx -F waypoints.gpx; echo "Track... "; gpsbabel -t  -i garmin -f /dev/ttyS0 -o gpx -F track.gpx; echo "finished."'
+alias gpsdj='josm & a=`date  --rfc-3339\=date`; mkdir $a; cd $a; echo "Waypnts... "; gpsbabel -i garmin -f /dev/ttyS0 -o gpx -F waypoints.gpx; echo "Track... "; gpsbabel -t  -i garmin -f /dev/ttyS0 -o gpx -F track.gpx; echo "finished."'
+mkcd()  { mkdir "$1" -p && cd "$1"; }
+zz()  { nice zip -rq9 `echo $1 | sed 's/\///g'`.zip "$1"; }
+uz()  { nice unzip -q $1; }
+tisk_vse()  { mkdir /tmp/tisk; cp $1 /tmp/tisk/; cd /tmp/tisk; pdftk $1 burst ; for a in `ls pg_*`; do lpr $a; echo Printing... $a; sleep 30; done; cd -; rm -r /tmp/NICtisk; }
+cdd()    { if [ -z $1 ]; then cd ..;		else ls -d ../$1*/ ;		cd ../$1*/;			fi }
+cddd()   { if [ -z $1 ]; then cd ../..;		else ls -d ../../$1*/ ;		cd ../../$1*/;		fi }
+cdddd()  { if [ -z $1 ]; then cd ../../..;	else ls -d ../../../$1*/ ;	cd ../../../$1*/;	fi }
+n2n1() { sudo edge -a 10.x.y.z -c dominec -k _password_ -l 88.86.108.50:82; }
+n2n2() { ssh 10.x.y.Z -Y; }
+avrload() { sudo avrdude -p m8 -c usbasp -U flash:w:$1.hex; }
+avrfuseXtal() { sudo avrdude -p m8 -c usbasp -U lfuse:w:0xff:m -U hfuse:w:0xd9:m; }
+avrfuseIntOsc() { sudo avrdude -p m8 -c usbasp -U lfuse:w:0xc1:m -U hfuse:w:0xd9:m ; }
+avrfuseread() { sudo avrdude -p m8 -c usbasp -U lfuse:r:-:h -U hfuse:r:-:h $@; }
+avrcompile() { avr-gcc -g -Wall -O1 -mmcu=atmega8 -c $1.c -o $1.o && avr-gcc -g -Wall -O1 -mmcu=atmega8 $1.o    -o $1.elf && avr-objcopy -j .text -j .data -O ihex $1.elf $1.hex; }
+# -lm? see  http://www.nongnu.org/avr-libc/user-manual/FAQ.html#faq_libm
+attinyload() { sudo avrdude -p t26 -c usbasp -U flash:w:$1.hex; }
+attinycompile() { avr-gcc -g -Wall -O1 -mmcu=attiny26 -c $1.c -o $1.o && avr-gcc -g -Wall -O1 -mmcu=attiny26 $1.o    -o $1.elf && avr-objcopy -j .text -j .data -O ihex $1.elf $1.hex; }
+attinyfuseread() { sudo avrdude -p t26 -c usbasp -U lfuse:r:-:h -U hfuse:r:-:h $@; }
+
+
+ev()  { evince "$1" & }
+fddjvu() { DJVUS=""; for a in `ls *jpg`; do nice convert $a -threshold $1"%" $a.pbm;  nice cjb2 $a.pbm  -losslevel 150 $a.djvu; rm $a.pbm; DJVUS="$DJVUS $a.djvu"; echo -n _$a; done; nice djvm -create `pwd | sed -e "s;^.*[^\\]/;;g"`.djvu $DJVUS; rm $DJVUS; }
+fdtex() { pdflatex $1 && bibtex $1 && pdflatex $1 && pdflatex $1 && ev $1.pdf; }
+t() { export max_print_line=1048; time pdflatex -halt-on-error $1 | egrep "Warning|^! |^l\.|Overfull|Underfull" ; }
+
+alias zal="rsync --progress -a /home/filip/ /media/Ext_disk_500G/Filip/zalohy/ --exclude=k --exclude=Stažené --exclude=.local/share/Trash/ --exclude=tmp --exclude=.thumbnails --exclude=.opera/ --exclude=.cache  --exclude=.mozilla"
+alias sshu="ssh -Y root@77.48.134.15"
+alias sapti="sudo apt-get install -y"
+alias saptu="sudo apt-get update"
+alias saptr="sudo apt-get remove -y"
+alias dush="sudo du * -shk | sort -nr"
+alias dtt="date  --rfc-3339\=date"
+alias dt="date --rfc-3339\=date | sed -e 's#20\([0-9][0-9]\)\-\([0-9][0-9]\)-#\1\2#'"
+alias ll="ls -lka"
+alias l="ls -lk"
+alias rsync='rsync --progress '
+alias josm2="export JAVACMD=/etc/alternatives/java; josm &"
+alias josm="java -jar /home/Kompilace/josm/josm-latest.jar -Xmx128m"
+transpose() { Ncol=`head $1 -n 1 | wc -w`; for a in `seq 1 $Ncol`; do cat "$1" | sed 's/\s\+/\t/g' | cut -f$a  | sed -e :a -e N -e 's/\n/\t/' -e ta; done; }
+fdgsch2pcb() { gsch2pcb -f -d ../pcb/newlib/fp *.sch; }
+alias wgetrec="wget --recursive --page-requisites --adjust-extension --convert-links --domains developer.gnome.org --no-parent "
+
+
+## -- to be synchronized` --
+alias swapescape="setxkbmap -option caps:swapescape"
+alias hibernate="sudo /usr/sbin/pm-hibernate"
+alias pkg="wine /home/filip/bin/PKGraph/PKGRAPH.exe"
+alias xg="xgsch2pcb"
+alias h5p="nice h5topng -ZRc hcbluered "
+alias suspend='dbus-send --system --print-reply --dest="org.freedesktop.UPower" /org/freedesktop/UPower org.freedesktop.UPower.Suspend'
+alias pw="paraview s*vtk"
+alias rmh5="find . -name \*h5 -exec mv {} ~/k \;"
+alias rmvtk="find . -name \*vtk -exec mv {} ~/k \;"
+alias jpg2book="~/bin/jpg2book.d/jpg2book"
+briss() { java -jar ~/bin/briss-0.9/briss-0.9.jar -s $1 ; }
+
+gco() { git commit -am "$*"; }
+gcam() { git commit --amend; }
+PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;36m\]\w\[\033[00m\] \[\033[01;31m\]${?/#0/}\[\033[01;00m\]\$ '

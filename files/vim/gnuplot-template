@@ -1,0 +1,23 @@
+
+set border 3; set xtics nomirror; set ytics nomirror; set format "$%g$" # ladění vzhledu
+# Následující řádek nastaví výstup do souboru .tex pro LaTeX. (Zakomentujte jej pro náhled.)
+set terminal latex; set output output_file_name 
+
+
+# == Uživatelské nastavení níže ==
+# Pozn: Pokud chceme vložit LaTeXovou značku, každé zpětné lomítko musíme napsat 2x.
+
+#set xrange [ 0 : 5 ]			 # ruční nastavení rozsahu [odkud : kam]
+#set yrange [ 0 : 100.0 ]
+
+set key top right box		# legenda (zruší se pomocí set nokey)
+#set nokey 			
+
+#set size 0.8,0.8 	# Nastavení velikosti na 80 mm (2 grafy)
+#set size 0.5,0.5 	# a na 50 mm (3 grafy vedle sebe)
+
+unset title
+set xlabel 	""
+set ylabel 	"\\begin{sideways}   \\end{sideways}"
+
+plot 	input_file_name		using 1:2 	title "legenda 1"	with points 4

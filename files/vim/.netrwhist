@@ -1,0 +1,11 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhist_cnt =9
+let g:netrw_dirhist_1='/home/filip/p/MEEP_2014/example_current_driven_homogenisation'
+let g:netrw_dirhist_2='/home/filip/p/130605_Scipy_kungfu'
+let g:netrw_dirhist_3='/home/filip/p/MEEP_2014/tm_harm/diag_pc'
+let g:netrw_dirhist_4='/home/filip/PhD/Publications'
+let g:netrw_dirhist_5='/home/filip/PhD/Publications/141017_SDZ_prezentace'
+let g:netrw_dirhist_6='/home/filip/p/MEEP_2013/130711_EWires/26_Diel020_radiusscan/effparam'
+let g:netrw_dirhist_7='/home/filip/p/130605_Scipy_kungfu'
+let g:netrw_dirhist_8='/home/filip/p/MEEP_2014'
+let g:netrw_dirhist_9='/home/filip/d/zabydlise/old'

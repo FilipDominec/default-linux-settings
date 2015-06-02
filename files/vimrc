@@ -1,0 +1,303 @@
+""" Visual
+set guifont=monospace\ 12
+:syntax enable			
+:colorscheme moje		" vlastni nastaveni barev (v souboru ~/.vim/colors/moje.vim)
+set go-=m go-=T		" hide menu and toolbar
+" cursor color and shape
+highlight Cursor   guifg=white  guibg=green	
+highlight iCursor  guifg=yellow  guibg=red
+set guicursor=n-v-c:block-Cursor
+set guicursor+=i:ver100-iCursor
+set guicursor+=n-v-c:blinkon0-Cursor
+set guicursor+=i:blinkwait20-iCursor
+
+
+""" System integration
+set tabpagemax=30
+:set mouse=a			" mys se hodí...
+:set mousehide 			" schová mys behem psani
+:set clipboard=unnamed 
+vmap <C-x> "+x 
+vmap <C-c> "+y 
+nmap <C-p> "+p 
+
+" Maximize gvim window.
+if has("gui_running")       " GUI is running or is about to start.
+  set lines=199 columns=199
+else                        " This is console Vim.
+  if exists("+lines")
+    set lines=50
+  endif
+  if exists("+columns")
+    set columns=100
+  endif
+endif
+
+
+""" Generic shortcuts
+" movement in insert mode
+imap <C-h> <Left>
+imap <C-j> <Down>
+imap <C-k> <Up>
+imap <C-l> <Right>
+imap § <esc>/[}{]<CR>/[^{}]<CR>i<space>
+
+map <C-tab> :tabnext<CR>
+map <C-S-tab> :tabprev<CR>
+map <C-M-right> :tabnext<CR>
+map <C-M-left> :tabprev<CR>
+
+" fast skip to EOL
+no - $
+no _ ^
+
+" skip to next spellcheck error
+map  ]s 
+imap  <esc>]si
+
+
+""" Behaviour
+filetype plugin indent on
+set scrolloff=3
+set backspace=indent,eol,start
+set ignorecase
+set smartcase
+set incsearch
+set wildmenu
+set wildmode=longest:full,full
+
+inoremap <C-S-space> <C-x><C-o>
+
+if version >= 600		" foldování bloku textu pomocí prikazu zf a zo
+ set foldenable
+ set foldmethod=marker
+ endif
+
+
+set spelllang=cs,en
+set spell
+
+
+
+" default encoding to UTF8
+set enc=utf-8
+
+"highlight Folded guibg=blue guifg=yellow 
+"set foldmethod=syntax
+
+" specialne pro prezentace v LaTeXu/Beameru
+autocmd BufNewFile *.beamer.tex 0r ~/.vim/tex-beamer-template.tex
+" bibtex file
+autocmd BufNewFile *.bib 0r ~/.vim/bib-template.bib
+
+" automatizace pro soubory v LaTeXu
+autocmd BufNewFile *[^r].tex 0r ~/.vim/tex-template.tex
+autocmd BufEnter *.tex set isk+=_			"will allow completion of whole_words_with_underscores
+
+autocmd BufEnter *.tex imap <F1> \begin{enumerate}<CR> \item{} <CR> \item{} <CR> \item{}<CR> \end{enumerate}<UP><UP><UP><LEFT><LEFT>
+autocmd BufEnter *.tex imap <S-F1> \begin{itemize}<CR> \item{} <CR> \item{} <CR> \item{}<CR> \end{itemize}<UP><UP><UP><LEFT><LEFT>
+
+autocmd BufEnter *.tex imap <F9> <ESC>yiwq:ih \<ESC>p<CR>
+
+autocmd BufEnter *.tex imap <C-S-F1> \{}<LEFT><LEFT><LEFT>
+autocmd BufEnter *.tex imap <M-S-F1> \begin{}<CR> \end{}<UP><LEFT>
+autocmd BufEnter *.tex imap <F2> \section{}<LEFT>
+autocmd BufEnter *.tex imap <S-F2> \subsection{}<LEFT>
+autocmd BufEnter *.tex imap <C-S-F2> \subsubsection{}<LEFT>
+autocmd BufEnter *.tex imap <M-S-F2> \paragraph{}<LEFT>
+autocmd BufEnter *.tex imap <F3> \textit{}<LEFT>
+autocmd BufEnter *.tex imap <S-F3> \textbf{}<LEFT>
+autocmd BufEnter *.tex imap <C-S-F3> \underline{}<LEFT>
+autocmd BufEnter *.tex imap <M-S-F3> \texttt{}<LEFT>
+autocmd BufEnter *.tex imap <F4>  \begin{table}[ht]   \caption{}  \label{tb_} \centering <CR>\begin{tabular}{lcr}<CR> \toprule<CR> &	&	\\<CR> \hline<CR> &	&	\\<CR> &	&	\\<CR> \bottomrule<CR> \end{tabular} \end{table}<CR>
+autocmd BufEnter *.tex imap <S-F4> \begin{figure}[h] \caption{} \label{fg_} \centering <CR><TAB>\includegraphics[width=5cm]{img/}<CR>\end{figure}<CR>
+autocmd BufEnter *.tex imap <C-S-F4> \begin{figure}[ht]<CR> <TAB>\begin{minipage}[b]{0.5\linewidth}<CR> <TAB><TAB>\caption{Průběh  } \label{fg_graf_} \centering <CR> <TAB><TAB>\resizebox{90mm}{!}{\input{data/.tex}} <CR> <TAB>\end{minipage}<CR> <TAB>\begin{minipage}[b]{0.5\linewidth}<CR> <TAB><TAB>\caption{  } \label{fg:graf_} \centering <CR> <TAB><TAB>\resizebox{90mm}{!}{\input{data/.tex}}<CR> <TAB>\end{minipage}<CR> \end{figure}<CR> 
+autocmd BufEnter *.tex imap <M-S-F4> \ref{}<LEFT>
+autocmd BufEnter *.tex imap <F5> $$<LEFT>
+autocmd BufEnter *.tex imap <S-F5> \begin{equation}  = \label{eq_}\end{equation}<esc>27hi
+autocmd BufEnter *.tex imap <C-S-F5> \begin{equation*}  = \end{equation*}<esc>18hi
+autocmd BufEnter *.tex imap <M-S-F5> <CR>\begin{subequations}<CR> \begin{equation} = \label{eq_-a}\end{equation}<CR> \begin{equation} = \label{eq_-b}\end{equation}<CR> \end{subequations}<esc>2ki
+autocmd BufEnter *.tex imap <F6> _{}<LEFT>
+autocmd BufEnter *.tex imap <S-F6> ^{}<LEFT>
+autocmd BufEnter *.tex imap <C-S-F6> \frac{}{}<esc>2hi
+autocmd BufEnter *.tex imap <M-S-F6> \left( \right)<esc>5hi
+autocmd BufEnter *.tex imap <F7> ^\circ C<LEFT>
+autocmd BufEnter *.tex imap <S-F7> \,\pm\,
+autocmd BufEnter *.tex imap <C-S-F7> \cdot
+autocmd BufEnter *.tex imap <M-S-F7> \quad \Rightarrow \quad
+autocmd BufEnter *.tex imap <F8> \sqrt{}<LEFT>
+autocmd BufEnter *.tex imap <S-F8> \sqrt[]{}<esc>3hi
+autocmd BufEnter *.tex imap <C-S-F8> \int_{}^{} \mbox{d}
+autocmd BufEnter *.tex imap <F9> \frac{\partial }{\partial }<esc>11hi
+" nahrazeni mezery za bezslabicnymi predlozkami za pevnou mezeru (~)
+autocmd BufWrite *.tex :%s/\(\s[vVkKzZsS]\)\ \+/\1\~/ge
+
+"internationalisation of diacritics for bibtex
+" autocmd BufWrite *.bib :%s/\([ěščřžďťňĚŠČŘŽĎŤŇ]\)/{\\v{\1}}/ge
+" autocmd BufWrite *.bib :%s/\([áéíóúýÁÉÍÓÚÝ]\)/{\\'{\1}}/ge
+" autocmd BufWrite *.bib :%s/\([ůŮ]\)/{\\r{\1}}/ge
+" autocmd BufWrite *.bib :%! cstocs utf8 ascii
+
+
+" automatizace pro soubory HTML
+autocmd BufNewFile *.htm* 0r ~/.vim/html-template.html
+autocmd BufEnter *.htm* imap <F1><ul><CR> <li> </li><CR></ul><UP>
+autocmd BufEnter *.htm* imap <S-F1><ol><CR> <li> </li><CR></ol><UP>
+autocmd BufEnter *.htm* imap <C-S-F1> <><LEFT>
+autocmd BufEnter *.htm* imap <M-S-F1> <><\/><esc>5hi
+autocmd BufEnter *.htm* imap <F2> <h1> </h1><esc>5hi
+autocmd BufEnter *.htm* imap <S-F2> <h2> </h2><esc>5hi
+autocmd BufEnter *.htm* imap <C-S-F2> <h3> </h3><esc>5hi
+autocmd BufEnter *.htm* imap <M-S-F2> <p></p><esc>4hi
+autocmd BufEnter *.htm* imap <F3> <i></i><esc>3hi
+autocmd BufEnter *.htm* imap <S-F3>  <b></b><esc>3hi
+autocmd BufEnter *.htm* imap <C-S-F3>  <u></u><esc>3hi
+autocmd BufEnter *.htm* imap <M-S-F3> <code></code><esc>6hi
+autocmd BufEnter *.htm* imap <F4>  <table width="100%" border="0"><CR> <tr><CR>  <td> </td><CR></tr><CR></table><esc>2k5hi
+autocmd BufEnter *.htm* imap <S-F4> <img alt="" src=""><LEFT><LEFT>
+autocmd BufEnter *.htm* imap <M-S-F4> <a href=""> </a><esc>7hi
+autocmd BufEnter *.htm* imap <S-F5> <center></center><esc>9hi
+autocmd BufEnter *.htm* imap <F6> <sub></sub><esc>6hi
+autocmd BufEnter *.htm* imap <S-F6> <sup></sup><esc>6hi
+
+" automatizace pro soubory C / C++
+autocmd BufNewFile *.cpp 0r ~/.vim/cpp-template.cpp
+"		fold all functions
+autocmd BufEnter *.cpp map <S-F7> :%s/^\([a-z].*\))$/\1) \/\*{{{\*\//g<cr>:%s/^}\s*$/} \/\*}}}\*\//g<cr>ggVGzcgg
+autocmd BufEnter *.c map <S-F7> :%s/^\([a-z].*\))$/\1) \/\*{{{\*\//g<cr>:%s/^}\s*$/} \/\*}}}\*\//g<cr>ggVGzcgg
+"		zap/vyp komentaru
+autocmd BufEnter *.cpp map <F3> V:s/^\([ \t]*\)/\1\/\/<CR>gv:s/\/\/\/\///<CR>
+autocmd BufEnter *.cpp vmap <F3> :s/^\([ \t]*\)/\1\/\/<CR>gv:s/^\([ \t]*\)\/\/\/\//\1/<CR>
+autocmd BufEnter *.c map <F3> V:s/^\([ \t]*\)/\1\/\/<CR>gv:s/\/\/\/\///<CR>
+autocmd BufEnter *.c vmap <F3> :s/^\([ \t]*\)/\1\/\/<CR>gv:s/^\([ \t]*\)\/\/\/\//\1/<CR>
+
+" gnuplot
+"	loads the template	
+autocmd BufNewFile *.gnuplot 0r ~/.vim/gnuplot-template
+"	inserts the name of the input file (.csv) and output file (.tex)
+autocmd BufNewFile *.gnuplot :0!echo 'input_file_name="'`echo "%" | sed s/.gnuplot//g | sed s/^.*[\/\\]//g `'.csv"; output_file_name="'`echo "%" | sed s/.gnuplot//g | sed s/^.*[\/\\]//g `'.tex"'; 
+
+
+" matplotlib python script
+"	loads the template	
+autocmd BufNewFile *.mpl.py 0r ~/.vim/matplotlib.py
+"	inserts the name of the input file (.csv) and output file (.pdf)
+autocmd BufNewFile *.mpl.py :3!echo 'input_file_name="data/'`echo "%" | sed s/.mpl.py//g | sed s/^.*[\/\\]//g `'.dat"; output_file_name="img/'`echo "%" | sed s/.mpl.py//g | sed s/^.*[\/\\]//g `'.pdf"'; 
+
+" python, bash or LaTeX comments toggle by <F3>
+autocmd BufEnter *.tex map <F3> V:s/^\([ \t]*\)/\1%/<CR>gv:s/^\([ \t]*\)%%/\1/<CR>
+autocmd BufEnter *.tex vmap <F3> :s/^\([ \t]*\)/\1%/<CR>gv:s/^\([ \t]*\)%%/\1/<CR>
+autocmd BufEnter *.sh map <F3> V:s/^\([ \t]*\)/\1#/<CR>gv:s/^\([ \t]*\)##/\1/<CR>
+autocmd BufEnter *.sh vmap <F3> :s/^\([ \t]*\)/\1#/<CR>gv:s/^\([ \t]*\)##/\1/<CR>
+autocmd BufEnter *.py map <F3> V:s/^\([ \t]*\)/\1#/<CR>gv:s/^\([ \t]*\)##/\1/<CR>
+autocmd BufEnter *.py vmap <F3> :s/^\([ \t]*\)/\1#/<CR>gv:s/^\([ \t]*\)##/\1/<CR>
+
+" python
+autocmd BufNewFile *[^l].py 0r ~/.vim/python-template.py
+"uncomment line, selection - this did not work
+"au BufEnter *.py nnoremap  <F3>     mn:s/^\(\s*\)#\([^ ]\)/\1\2/ge<CR>:s/^#$//ge<CR>:noh<CR>`n
+"au BufEnter *.py inoremap  <F3>     <C-O>mn<C-O>:s/^\(\s*\)#\([^ ]\)/\1\2/ge<CR><C-O>:s/^#$//ge<CR><C-O>:noh<CR><C-O>`n
+"au BufEnter *.py vnoremap  <F3>     mn:s/^\(\s*\)#\([^ ]\)/\1\2/ge<CR>gv:s/#\n/\r/ge<CR>:noh<CR>gv`n
+autocmd BufEnter *.py filetype indent on
+autocmd BufEnter *.py set smarttab
+autocmd BufEnter *.py set expandtab
+set tabstop=4
+set shiftwidth=4
+set sts=4			"softwatstop
+
+function! SelectIndent ()
+  let temp_var=indent(line("."))
+  while indent(line(".")-1) >= temp_var
+    exe "normal k"
+  endwhile
+  exe "normal V"
+  while indent(line(".")+1) >= temp_var
+    exe "normal j"
+  endwhile
+endfun
+autocmd BufEnter *.py nmap <C-]> :call SelectIndent()<CR>
+
+
+
+onoremap <silent>ai :<C-u>cal IndTxtObj(0)<CR>
+onoremap <silent>ii :<C-u>cal IndTxtObj(1)<CR>
+vnoremap <silent>ai :<C-u>cal IndTxtObj(0)<CR><Esc>gv
+vnoremap <silent>ii :<C-u>cal IndTxtObj(1)<CR><Esc>gv
+
+function! IndTxtObj(inner)
+  let curline = line(".")
+  let lastline = line("$")
+  let i = indent(line(".")) - &shiftwidth * (v:count1 - 1)
+  let i = i < 0 ? 0 : i
+  if getline(".") !~ "^\\s*$"
+    let p = line(".") - 1
+    let nextblank = getline(p) =~ "^\\s*$"
+    while p > 0 && ((i == 0 && !nextblank) || (i > 0 && ((indent(p) >= i && !(nextblank && a:inner)) || (nextblank && !a:inner))))
+      -
+      let p = line(".") - 1
+      let nextblank = getline(p) =~ "^\\s*$"
+    endwhile
+    normal! 0V
+    call cursor(curline, 0)
+    let p = line(".") + 1
+    let nextblank = getline(p) =~ "^\\s*$"
+    while p <= lastline && ((i == 0 && !nextblank) || (i > 0 && ((indent(p) >= i && !(nextblank && a:inner)) || (nextblank && !a:inner))))
+      +
+      let p = line(".") + 1
+      let nextblank = getline(p) =~ "^\\s*$"
+    endwhile
+    normal! $
+  endif
+endfunction
+
+
+
+
+"GPG
+" Transparent editing of gpg encrypted files.
+" By Wouter Hanegraaff <wouter@blub.net>
+
+augroup encrypted
+	au!
+	" First make sure nothing is written to ~/.viminfo while editing
+	" an encrypted file.
+   autocmd BufReadPre,FileReadPre      *.gpg set viminfo=
+   " We don't want a swap file, as it writes unencrypted data to disk
+   autocmd BufReadPre,FileReadPre      *.gpg set noswapfile
+   " Switch to binary mode to read the encrypted file
+   autocmd BufReadPre,FileReadPre      *.gpg set bin
+   autocmd BufReadPre,FileReadPre      *.gpg let ch_save = &ch|set ch=2
+	autocmd BufReadPost,FileReadPost    *.gpg '[,']!gpg --decrypt 2> /dev/null
+	" Switch to normal mode for editing
+	autocmd BufReadPost,FileReadPost    *.gpg set nobin
+	autocmd BufReadPost,FileReadPost    *.gpg let &ch = ch_save|unlet ch_save
+	autocmd BufReadPost,FileReadPost    *.gpg execute ":doautocmd BufReadPost " . expand("%:r")
+	" Convert all text to encrypted text before writing
+	autocmd BufWritePre,FileWritePre    *.gpg   '[,']!gpg --default-recipient-self -ae 2>/dev/null
+	" Undo the encryption so we are back in the normal text, directly
+	" after the file has been written.
+	autocmd BufWritePost,FileWritePost    *.gpg   u
+augroup END
+
+
+" search web
+vmap ,g "zy:let @z = substitute(@z,'[[:space:]]','+','g')<CR>
+ \ :silent !start /usr/bin/chromium-browser
+ \ [http://www.google.com/search?q=<C-R>z<CR> http://www.google.com/search?q=<C-R>z<CR>];
+
+
+
+
+" | sed s/.gnuplot//g | sed `'
+"
+":let filenamewoext = expand("%:h") . ".bak"
+"autocmd BufNewFile *.gnuplot :0!echo 'data_file_name="expand(%:t:r) .csv"; output_file_name="'`echo "%" | sed s/.gnuplot//g`'.csv"'; 
+
+" pokus 
+
+:highlight RulerFileName guifg=#cc8080 ctermfg=red
+:highlight RulerColumn   guifg=#cccc80 ctermfg=yellow
+:highlight RulerLine     guifg=#80cc80 ctermfg=green
+:highlight RulerOffset   guifg=#8080cc ctermfg=blue
+:set ruler
+:set rulerformat=%40(%#RulerFileName#%t:\ %#RulerColumn#%3c\ %#RulerLine#%l/%L\ \ %#RulerOffset#%o\ %#Normal#[%03b=0x%02B]%)

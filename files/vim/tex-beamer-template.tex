@@ -1,0 +1,58 @@
+\documentclass[t]{beamer} \usepackage[czech]{babel} \usepackage[utf8]{inputenc} \usetheme{Singapore} 
+\usefonttheme{serif} \usepackage{palatino}
+\let\OLDsection\section \renewcommand{\section}[1]{\OLDsection{#1} \subsection{}} % each slide has a bullet even when no subsections used
+\setbeamertemplate{navigation symbols}{\insertframenumber}			% leave only tiny page number at the bottom
+\setbeamerfont*{frametitle}{size=\normalsize,series=\bfseries}
+\usepackage{amsthm,booktabs,amsmath,amsfonts,graphicx,lstlisting,sidecap}
+\usepackage{tikz} \tikzstyle{every picture}+=[remember picture] \everymath{\displaystyle}
+
+\hypersetup{
+        pdftitle={},
+        pdfauthor={},
+        pdfsubject={},
+        pdfkeywords={}
+}
+
+
+\title[short title]{full title}
+\author{name surname} \institute{} \date{}
+
+\begin{document}
+\section{Introduction}
+
+\begin{frame}		%{{{ Titulní stránka
+	\titlepage
+\end{frame}		%}}}
+\section{Section1}
+\begin{frame}{A text}	%{{{
+Text text text
+\end{frame} 		%}}}
+
+\begin{frame}{A figure}	%{{{
+\begin{center} 
+% \includegraphics[width=10cm]{} 
+\vspace{-.5cm}
+\end{center} 
+\end{frame} 		%}}}
+
+\section{Section2}
+\begin{frame}[fragile] \frametitle{A Python code}%{{{
+\begin{scriptsize}
+\begin{lstlisting}
+##!/usr/bin/env python
+import meep 		## (optionally use meep_mpi)
+x, y, z, voxelsize = 2e-6, 2e-6, 5e-6, 50e-9
+vol = meep.vol3d(x, y, z, 1/voxelsize)
+class Model(meep.Callback):
+    def double_vec(self, r):
+        if (r.x()-1e-6)**2+(r.y()-1e-6)**2+\
+                     (r.z()-2.5e-6)**2 < .6e-6**2:
+            return 10
+        else: 
+            return 1
+\end{lstlisting}
+\end{scriptsize}
+\end{frame}
+%}}}
+
+\end{document}
