@@ -4,7 +4,12 @@
 echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | sudo debconf-set-selections
 
 ## Basics
-sudo apt-get install -y vim-gtk  ack-grep htop  miredo cstocs testdisk git gnupg  wine htop unrar n2n nmap debfoster qemu osdclock
+sudo apt-get install -y vim-gtk  ack-grep htop  miredo cstocs testdisk git gnupg  wine unrar n2n nmap debfoster qemu osdclock baobab wicd
+sudo apt-get install -y mtpfs mtp-tools gmtp 
+# if it does not help: libmtp-common mtp-tools libmtp-runtime libmtp9
+# sudo sed -i 's/#user_allow_other/user_allow_other/g' /etc/fuse.conf
+sudo apt-get install hplip hplip-gui ## For the HP printer
+# (needs to run `hp-plugin' and install the binary blob, and THEN, add the printer in a common way)
 
 ## Internet and communication
 sudo apt-get install -y pidgin linphone
@@ -20,7 +25,7 @@ sudo apt-get install -y handbrake
 
 ## Programming, electronics and research
 sudo apt-get install -y avr-libc gimp gcc-avr glade  avrdude gftp-gtk geda-utils
-sudo apt-get install -y python-numpy python-sympy python-matplotlib 
+sudo apt-get install -y ipython python-numpy python-sympy python-matplotlib paraview
 sudo apt-get install -y mpb
 
 ## === Remove unused default apps ===
@@ -82,3 +87,8 @@ echo '  cp ${OLDHOME}/.linphonerc ${NEWHOME}/'
 # Something like this may be needed to disable screen locking
 # sed -i /etc/default/acpi-support -e 's/LOCK_SCREEN=true/# LOCK_SCREEN=true/'
 
+
+
+## Do not forget to change saving to DOCX/XLSX
+
+sudo apt-get install ## To upload files to android
