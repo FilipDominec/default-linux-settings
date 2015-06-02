@@ -11,7 +11,7 @@ sudo apt-get install -y pidgin linphone
 
 ## Graphics and writing
 sudo apt-get install -y libreoffice-calc libreoffice-writer libreoffice-impress myspell-dictionary-cs hyphen-cs libreoffice-grammarcheck-cs mythes-cs libreoffice-l10n-cs libreoffice-gtk3 
-sudo apt-get install -y gimp inkscape texlive-fonts-extra pdfposter biblatex  texlive-lang-czechslovak pdftk imagemagick pdfjam geeqie djvulibre-bin
+sudo apt-get install -y gimp inkscape texlive-fonts-extra pdfposter biber texlive-bibtex-extra texlive-lang-czechslovak pdftk imagemagick pdfjam geeqie djvulibre-bin
 sudo apt-get install -y texlive-latex-extra  # for type1cm.sty to make latex+matplotlib work
 
 ## Multimedia 
@@ -19,9 +19,9 @@ sudo apt-get install -y sound-juicer lame gstreamer0.10-plugins-ugly-multiverse 
 sudo apt-get install -y handbrake
 
 ## Programming, electronics and research
-sudo apt-get install -y avr-libc gimp gcc-avr glade  avrdude gftp-gtk
-sudo apt-get install -y python-numpy python-sympy python-matplotlib kicad ekiga dvipng
-sudo apt-get install -y geda-utils
+sudo apt-get install -y avr-libc gimp gcc-avr glade  avrdude gftp-gtk geda-utils
+sudo apt-get install -y python-numpy python-sympy python-matplotlib 
+sudo apt-get install -y mpb
 
 ## === Remove unused default apps ===
 ## Programming, electronics and research
