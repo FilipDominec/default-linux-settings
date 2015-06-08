@@ -1,7 +1,9 @@
 """ Visual
-set guifont=monospace\ 12
-:syntax enable			
-:colorscheme moje		" vlastni nastaveni barev (v souboru ~/.vim/colors/moje.vim)
+set guifont=monospace\ 13
+syntax enable			
+colorscheme moje		" vlastni nastaveni barev (v souboru ~/.vim/colors/moje.vim)
+autocmd BufWritePost,BufEnter *.cpp,*.hpp,*.c,*.h,*.py,*.ctl,*.sh SemanticHighlight  " use the https://github.com/jaxbot/semantic-highlight.vim module
+
 set go-=m go-=T		" hide menu and toolbar
 " cursor color and shape
 highlight Cursor   guifg=white  guibg=green	
@@ -14,9 +16,9 @@ set guicursor+=i:blinkwait20-iCursor
 
 """ System integration
 set tabpagemax=30
-:set mouse=a			" mys se hodí...
-:set mousehide 			" schová mys behem psani
-:set clipboard=unnamed 
+set mouse=a			
+set mousehide 		
+set clipboard=unnamed 
 vmap <C-x> "+x 
 vmap <C-c> "+y 
 nmap <C-p> "+p 
@@ -77,6 +79,7 @@ if version >= 600		" foldování bloku textu pomocí prikazu zf a zo
 set spelllang=cs,en
 set spell
 
+execute pathogen#infect() 
 
 
 " default encoding to UTF8
@@ -88,7 +91,7 @@ set enc=utf-8
 " specialne pro prezentace v LaTeXu/Beameru
 autocmd BufNewFile *.beamer.tex 0r ~/.vim/tex-beamer-template.tex
 " bibtex file
-autocmd BufNewFile *.bib 0r ~/.vim/bib-template.bib
+autocmd BufEnter cmd BufNewFile *.bib 0r ~/.vim/bib-template.bib
 
 " automatizace pro soubory v LaTeXu
 autocmd BufNewFile *[^r].tex 0r ~/.vim/tex-template.tex
@@ -301,3 +304,6 @@ vmap ,g "zy:let @z = substitute(@z,'[[:space:]]','+','g')<CR>
 :highlight RulerOffset   guifg=#8080cc ctermfg=blue
 :set ruler
 :set rulerformat=%40(%#RulerFileName#%t:\ %#RulerColumn#%3c\ %#RulerLine#%l/%L\ \ %#RulerOffset#%o\ %#Normal#[%03b=0x%02B]%)
+
+
+
