@@ -4,7 +4,7 @@
 echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | sudo debconf-set-selections
 
 ## Basics
-sudo apt-get install -y vim-gtk  ack-grep htop  miredo cstocs testdisk git gnupg  wine htop unrar n2n nmap debfoster qemu osdclock
+sudo apt-get install -y vim-gtk  ack-grep htop  miredo cstocs testdisk git gnupg  wine htop unrar n2n nmap debfoster qemu osdclock gftp-gtk 
 
 ## Internet and communication
 sudo apt-get install -y pidgin linphone
@@ -19,12 +19,11 @@ sudo apt-get install -y sound-juicer lame gstreamer0.10-plugins-ugly-multiverse 
 sudo apt-get install -y handbrake
 
 ## Programming, electronics and research
-sudo apt-get install -y avr-libc gimp gcc-avr glade  avrdude gftp-gtk geda-utils
-sudo apt-get install -y python-numpy python-sympy python-matplotlib 
-sudo apt-get install -y mpb
+sudo apt-get install -y avr-libc gcc-avr glade avrdude geda-utils  ## programming and technology
+sudo apt-get install -y python-numpy python-sympy python-matplotlib  ## computing and plotting
+sudo apt-get install -y mpb harminv		## electromagnetic computation (MEEP will be compiled from scratch, search for python-meep-install on github)
 
 ## === Remove unused default apps ===
-## Programming, electronics and research
 sudo apt-get remove -y abiword gnumeric 
 
 
