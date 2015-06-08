@@ -53,6 +53,7 @@ mkdir -p ~/.vim/autoload ~/.vim/bundle
 curl -LSso ~/.vim/autoload/pathogen.vim https://tpo.pe/pathogen.vim
 cd ~/.vim/bundle/ && git clone https://github.com/jaxbot/semantic-highlight.vim.git
 
+
 ## === Notes to manual settings ===
 
 echo "Important files that need to be transferred (No, I will not add them to this git repo ;)"
