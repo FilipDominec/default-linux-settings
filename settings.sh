@@ -21,7 +21,7 @@ sudo apt-get install -y handbrake
 ## Programming, electronics and research
 sudo apt-get install -y avr-libc gcc-avr glade avrdude geda-utils  ## programming and technology
 sudo apt-get install -y python-numpy python-sympy python-matplotlib  ## computing and plotting
-sudo apt-get install -y mpb harminv		## electromagnetic computation (MEEP will be compiled from scratch, search for python-meep-install on github)
+sudo apt-get install -y mpb harminv python-h5py paraview		## electromagnetic computation (MEEP will be compiled from scratch, search for python-meep-install on github)
 
 ## === Remove unused default apps ===
 sudo apt-get remove -y abiword gnumeric 
@@ -65,6 +65,9 @@ echo '  cp ${OLDHOME}/.ssh/ ${NEWHOME}/ -r'
 echo '  ssh-add ~/.ssh/id_rsa			## ... so that git does not prompt for a password every time'
 echo '  cp ${OLDHOME}/.purple/ ${NEWHOME}/ -r'
 echo '  cp ${OLDHOME}/.linphonerc ${NEWHOME}/'
+
+echo 
+echo 'In Paraview, one shall switch "Auto apply"'
 
 ## REVTeX for publication in APS journals (PRA, PRB, PRX ...) [added 2014-09-02]
 ## TODO: store revtex4-1-tds.zip in the files/ dir
