@@ -25,13 +25,13 @@ sudo apt-get install -y sound-juicer lame gstreamer0.10-plugins-ugly-multiverse 
 sudo apt-get install -y handbrake
 
 ## Programming, electronics and research
-sudo apt-get install -y avr-libc gimp gcc-avr glade  avrdude gftp-gtk geda-utils
-sudo apt-get install -y ipython python-numpy python-sympy python-matplotlib paraview
-sudo apt-get install -y mpb
+sudo apt-get install -y avr-libc gcc-avr glade avrdude geda-utils  ## programming and technology
+sudo apt-get install -y ipython python-numpy python-sympy python-matplotlib  ## computing and plotting
+sudo apt-get install -y mpb harminv python-h5py paraview		## electromagnetic computation (MEEP will be compiled from scratch, search for python-meep-install on github)
 
 ## === Remove unused default apps ===
-## Programming, electronics and research
-sudo apt-get remove -y abiword gnumeric gpicview
+sudo apt-get remove -y abiword gnumeric 
+
 
 ## === Install non-repository software ===
 
@@ -46,12 +46,18 @@ mkdir ~/.config/autostart -p
 echo -e "[Desktop Entry]\nType=Application\nExec=setxkbmap -option caps:swapescape" >> ~/.config/autostart/swapcase.desktop
 echo -e "[Desktop Entry]\nType=Application\nExec=setxkbmap cz -variant dvorak-ucw" >> ~/.config/autostart/dvorak.desktop
 echo -e "[Desktop Entry]\nType=Application\nosd_clock -s 0 -o 16 -c grey -tr -f -misc-fixed-bold-r-semicondensed--*-*-*-*-c-*-*-*" >> ~/.config/autostart/osdclock.desktop
-
+if [ -f light-locker.desktop ]; then rm light-locker.desktop fi
 
 ## === Custom settings ===
 cat ~/.bashrc files/bashrc.append > /tmp/bashrc; mv /tmp/bashrc ~/.bashrc
 cp files/vim ~/.vim -r 
 cp files/vimrc ~/.vimrc
+
+## VIM modules (pathogen.vim required for semantic highlight)
+mkdir -p ~/.vim/autoload ~/.vim/bundle
+curl -LSso ~/.vim/autoload/pathogen.vim https://tpo.pe/pathogen.vim
+cd ~/.vim/bundle/ && git clone https://github.com/jaxbot/semantic-highlight.vim.git
+
 
 ## === Notes to manual settings ===
 
@@ -65,6 +71,9 @@ echo '  cp ${OLDHOME}/.ssh/ ${NEWHOME}/ -r'
 echo '  ssh-add ~/.ssh/id_rsa			## ... so that git does not prompt for a password every time'
 echo '  cp ${OLDHOME}/.purple/ ${NEWHOME}/ -r'
 echo '  cp ${OLDHOME}/.linphonerc ${NEWHOME}/'
+
+echo 
+echo 'In Paraview, one shall switch "Auto apply"'
 
 ## REVTeX for publication in APS journals (PRA, PRB, PRX ...) [added 2014-09-02]
 ## TODO: store revtex4-1-tds.zip in the files/ dir
