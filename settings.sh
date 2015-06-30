@@ -4,13 +4,19 @@
 echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | sudo debconf-set-selections
 
 ## Basics
-sudo apt-get install -y vim-gtk  ack-grep htop  miredo cstocs testdisk git gnupg  wine htop unrar n2n nmap debfoster qemu osdclock gftp-gtk 
+sudo apt-get install -y vim-gtk  ack-grep htop  miredo cstocs testdisk git gnupg  wine unrar n2n nmap debfoster qemu osdclock baobab wicd
+sudo apt-get install -y mtpfs mtp-tools gmtp 
+# if it does not help: libmtp-common mtp-tools libmtp-runtime libmtp9
+# sudo sed -i 's/#user_allow_other/user_allow_other/g' /etc/fuse.conf
+sudo apt-get install hp-toolbox hplip hplip-gui ## For the HP printer
+# (needs to run `hp-plugin' and install the binary blob, and THEN, add the printer in a common way)
 
 ## Internet and communication
 sudo apt-get install -y pidgin linphone youtube-dl
 
 ## Graphics and writing
-sudo apt-get install -y libreoffice-calc libreoffice-writer libreoffice-impress myspell-dictionary-cs hyphen-cs libreoffice-grammarcheck-cs mythes-cs libreoffice-l10n-cs libreoffice-gtk3 
+sudo apt-get install -y libreoffice-calc libreoffice-writer libreoffice-impress myspell-dictionary-cs hyphen-cs libreoffice-grammarcheck-cs mythes-cs libreoffice-l10n-cs libreoffice-gtk3 libreoffice-style-tango libreoffice-pdfimport 
+## Do not forget to change saving to DOCX/XLSX
 sudo apt-get install -y gimp inkscape texlive-fonts-extra pdfposter biber texlive-bibtex-extra texlive-lang-czechslovak pdftk imagemagick pdfjam geeqie djvulibre-bin
 sudo apt-get install -y texlive-latex-extra  # for type1cm.sty to make latex+matplotlib work
 
@@ -20,7 +26,7 @@ sudo apt-get install -y handbrake
 
 ## Programming, electronics and research
 sudo apt-get install -y avr-libc gcc-avr glade avrdude geda-utils  ## programming and technology
-sudo apt-get install -y python-numpy python-sympy python-matplotlib  ## computing and plotting
+sudo apt-get install -y ipython python-numpy python-sympy python-matplotlib  ## computing and plotting
 sudo apt-get install -y mpb harminv python-h5py paraview		## electromagnetic computation (MEEP will be compiled from scratch, search for python-meep-install on github)
 
 ## === Remove unused default apps ===
@@ -90,4 +96,6 @@ echo 'In Paraview, one shall switch "Auto apply"'
 
 # Something like this may be needed to disable screen locking
 # sed -i /etc/default/acpi-support -e 's/LOCK_SCREEN=true/# LOCK_SCREEN=true/'
+
+
 
