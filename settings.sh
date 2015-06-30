@@ -7,7 +7,7 @@ echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select tr
 sudo apt-get install -y vim-gtk  ack-grep htop  miredo cstocs testdisk git gnupg  wine htop unrar n2n nmap debfoster qemu osdclock gftp-gtk 
 
 ## Internet and communication
-sudo apt-get install -y pidgin linphone
+sudo apt-get install -y pidgin linphone youtube-dl
 
 ## Graphics and writing
 sudo apt-get install -y libreoffice-calc libreoffice-writer libreoffice-impress myspell-dictionary-cs hyphen-cs libreoffice-grammarcheck-cs mythes-cs libreoffice-l10n-cs libreoffice-gtk3 
