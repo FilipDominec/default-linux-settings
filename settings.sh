@@ -4,7 +4,7 @@
 echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | sudo debconf-set-selections
 
 ## Basics
-sudo apt-get install -y vim-gtk  ack-grep htop  miredo cstocs testdisk git gnupg  wine unrar n2n nmap debfoster qemu osdclock baobab wicd
+sudo apt-get install -y vim-gtk  ack-grep htop  miredo cstocs testdisk git gitg gnupg  wine unrar n2n nmap debfoster qemu osdclock baobab wicd
 sudo apt-get install -y mtpfs mtp-tools gmtp 
 # if it does not help: libmtp-common mtp-tools libmtp-runtime libmtp9
 # sudo sed -i 's/#user_allow_other/user_allow_other/g' /etc/fuse.conf
