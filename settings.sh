@@ -2,14 +2,15 @@
 
 ## Accept the EULA by default
 echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | sudo debconf-set-selections
+echo wicd-daemon wicd/users multiselect `whoami` | debconf-set-selections ## TESTING
 
 ## Basics
-sudo apt-get install -y vim-gtk  ack-grep htop  miredo cstocs testdisk git gitg gnupg  wine unrar n2n nmap debfoster qemu osdclock baobab wicd
+sudo apt-get install -y vim-gtk  ack-grep htop  miredo cstocs testdisk git gitg gnupg  unrar n2n nmap debfoster qemu osdclock baobab wicd
 sudo apt-get install -y mtpfs mtp-tools gmtp 
 # if it does not help: libmtp-common mtp-tools libmtp-runtime libmtp9
-# sudo sed -i 's/#user_allow_other/user_allow_other/g' /etc/fuse.conf
-sudo apt-get install hp-toolbox hplip hplip-gui ## For the HP printer
-# (needs to run `hp-plugin' and install the binary blob, and THEN, add the printer in a common way)
+
+#sudo apt-get install -y wine 
+
 
 ## Internet and communication
 sudo apt-get install -y pidgin linphone youtube-dl
@@ -61,6 +62,9 @@ cd ~/.vim/bundle/ && git clone https://github.com/jaxbot/semantic-highlight.vim.
 ## HP Printer: connect the printer, use all default settings
 ## If not installed or complaining of wrong MD5 sum, install it by compilation http://hplipopensource.com/hplip-web/install/manual/distros/ubuntu.html
 hp-setup -i
+# sudo sed -i 's/#user_allow_other/user_allow_other/g' /etc/fuse.conf
+# sudo apt-get install hp-toolbox hplip hplip-gui ## For the HP printer
+# (needs to run `hp-plugin' and install the binary blob, and THEN, add the printer in a common way)
 
 
 ## === Notes to manual settings ===
