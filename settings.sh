@@ -6,7 +6,7 @@ echo wicd-daemon wicd/users multiselect `whoami` | debconf-set-selections ## TES
 
 ## Basics
 sudo apt-get install -y vim-gtk  ack-grep htop  miredo cstocs testdisk git gitg gnupg  unrar n2n nmap debfoster qemu osdclock baobab wicd unetbootin mc arbtt
-sudo apt-get install default-jre default-jdk
+sudo apt-get install default-jre # default-jdk
 sudo apt-get install -y mtpfs mtp-tools gmtp 
 # if it does not help: libmtp-common mtp-tools libmtp-runtime libmtp9
 
@@ -49,6 +49,12 @@ echo -e "[Desktop Entry]\nType=Application\nExec=setxkbmap -option caps:swapesca
 echo -e "[Desktop Entry]\nType=Application\nExec=setxkbmap cz -variant dvorak-ucw" >> ~/.config/autostart/dvorak.desktop
 echo -e "[Desktop Entry]\nType=Application\nosd_clock -s 0 -o 16 -c grey -tr -f -misc-fixed-bold-r-semicondensed--*-*-*-*-c-*-*-*" >> ~/.config/autostart/osdclock.desktop
 if [ -f light-locker.desktop ]; then rm light-locker.desktop fi
+
+## Install the automatic PDF cropping program
+wget http://sourceforge.net/projects/briss/files/latest/download -O /tmp/briss.gz
+cd ~/bin/
+tar xzf /tmp/briss.gz 
+
 
 ## === Custom settings ===
 cat ~/.bashrc files/bashrc.append > /tmp/bashrc; mv /tmp/bashrc ~/.bashrc
