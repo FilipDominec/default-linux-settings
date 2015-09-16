@@ -81,3 +81,20 @@ pv() { cp $* /tmp/x.vtk; paraview /tmp/x.vtk; }
 gco() { git commit -am "$*"; }
 gcam() { git commit --amend; }
 PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;36m\]\w\[\033[00m\] \[\033[01;31m\]${?/#0/}\[\033[01;00m\]\$ '
+
+p() {
+ python3 -ic 'import sys; sys.ps1 = sys.ps2 = "";
+sys.displayhook = lambda x: x is None or print("\033[92m", x, "\033[0m", sep="")';
+}
+# handle copy-pasted python programs in a more meaningful manner than
+# the 'import' and 'from' programs would do
+import() {
+ python -ic "import $*";
+}
+from() {
+ python -ic "from $*";
+}
+
+# With this you can see that the actual process running your VM is a kvm process.
+pskvm() { ps xa| grep "[b]in/kvm"; }
+alias qemu="qemu-system-x86_64 -m 3000 -smp cpus=2 -enable-kvm"
