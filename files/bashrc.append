@@ -72,12 +72,12 @@ alias pkg="wine /home/filip/bin/PKGraph/PKGRAPH.exe"
 alias xg="xgsch2pcb"
 alias h5p="nice h5topng -ZRc hcbluered "
 alias suspend='dbus-send --system --print-reply --dest="org.freedesktop.UPower" /org/freedesktop/UPower org.freedesktop.UPower.Suspend'
-alias pw="paraview s*vtk"
 alias rmh5="find . -name \*h5 -exec mv {} ~/k \;"
 alias rmvtk="find . -name \*vtk -exec mv {} ~/k \;"
 alias jpg2book="~/bin/jpg2book.d/jpg2book"
 briss() { java -jar ~/bin/briss-0.9/briss-0.9.jar -s $1 ; }
 
+pv() { cp $* /tmp/x.vtk; paraview /tmp/x.vtk; }
 gco() { git commit -am "$*"; }
 gcam() { git commit --amend; }
 PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;36m\]\w\[\033[00m\] \[\033[01;31m\]${?/#0/}\[\033[01;00m\]\$ '
