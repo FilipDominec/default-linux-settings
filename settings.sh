@@ -45,10 +45,14 @@ sudo apt-get remove -y abiword gnumeric
 
 ## Set up autostart in Lubuntu
 mkdir ~/.config/autostart -p
-echo -e "[Desktop Entry]\nType=Application\nExec=setxkbmap -option caps:swapescape" >> ~/.config/autostart/swapcase.desktop
-echo -e "[Desktop Entry]\nType=Application\nExec=setxkbmap cz -variant dvorak-ucw" >> ~/.config/autostart/dvorak.desktop
-echo -e "[Desktop Entry]\nType=Application\nosd_clock -s 0 -o 16 -c grey -tr -f -misc-fixed-bold-r-semicondensed--*-*-*-*-c-*-*-*" >> ~/.config/autostart/osdclock.desktop
-if [ -f light-locker.desktop ]; then rm light-locker.desktop fi
+echo -e "[Desktop Entry]\nType=Application\nExec=setxkbmap -option caps:swapescape" > ~/.config/autostart/swapcase.desktop
+echo -e "[Desktop Entry]\nType=Application\nExec=setxkbmap cz -variant dvorak-ucw" > ~/.config/autostart/dvorak.desktop
+echo -e "[Desktop Entry]\nType=Application\nExec=osd_clock -s 0 -o 16 -c grey -tr -f -misc-fixed-bold-r-semicondensed--*-*-*-*-c-*-*-*" > ~/.config/autostart/osdclock.desktop
+echo -e "" > ~/.config/autostart/light-locker.desktop
+echo -e "[Desktop Entry]\n Type=Application\n Exec=arbtt-capture\n" > /.config/autostart/arbtt.desktop
+echo -e "[Desktop Entry]\n Type=Application\n Exec=linphone\n" > /.config/autostart/linphone.desktop
+echo -e "[Desktop Entry]\n Type=Application\n Exec=pidgin\n" > /.config/autostart/pidgin.desktop
+echo -e "[Desktop Entry]\n Type=Application\n Exec=transmission-gtk\n" > /.config/autostart/transmission.desktop
 
 ## Install the automatic PDF cropping program
 wget http://sourceforge.net/projects/briss/files/latest/download -O /tmp/briss.gz
