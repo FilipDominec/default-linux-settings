@@ -20,7 +20,7 @@ sudo apt-get install -y pidgin linphone youtube-dl
 sudo apt-get install -y libreoffice-calc libreoffice-writer libreoffice-impress myspell-dictionary-cs hyphen-cs libreoffice-grammarcheck-cs mythes-cs libreoffice-l10n-cs libreoffice-gtk3 libreoffice-style-tango libreoffice-pdfimport 
 ## Do not forget to change saving to DOCX/XLSX
 sudo apt-get install -y gimp inkscape texlive-fonts-extra pdfposter biber texlive-bibtex-extra texlive-lang-czechslovak pdftk imagemagick pdfjam geeqie djvulibre-bin
-sudo apt-get install -y texlive-latex-extra  # for type1cm.sty to make latex+matplotlib work
+sudo apt-get install -y texlive-latex-extra dvipng # for type1cm.sty to make latex+matplotlib work
 
 ## Multimedia 
 sudo apt-get install -y sound-juicer lame gstreamer0.10-plugins-ugly-multiverse smplayer vlc audacity ffmpeg
