@@ -28,7 +28,7 @@ sudo apt-get install -y handbrake
 
 ## Programming, electronics and research
 sudo apt-get install -y avr-libc gcc-avr glade avrdude geda-utils  ## programming and technology
-sudo apt-get install -y ipython python-numpy python-sympy python-matplotlib  ## computing and plotting
+sudo apt-get install -y ipython python-numpy python3-numpy python-sympy python-matplotlib  ## computing and plotting
 sudo apt-get install -y mpb harminv python-h5py paraview		## electromagnetic computation (MEEP will be compiled from scratch, search for python-meep-install on github)
 
 ## === Remove unused default apps ===
