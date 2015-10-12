@@ -1,5 +1,7 @@
 # export PYTHONSTARTUP=$HOME/.pythonrc.py
 
+PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;36m\]\w\[\033[00m\] \[\033[01;31m\]${?/#0/}\[\033[01;00m\]\$ '
+# source ~/bin/bash-git-prompt/gitprompt.sh
 alias fastmotion='mencoder mf://*.JPG -mf w=1024:h=768:fps=25:type=jpg -ovc lavc -lavcopts vcodec=mpeg4:mbd=2:trell:vbitrate=2152 -oac copy -o output.avi'
 # opt="vbitrate=2160000:mbd=2:keyint=132:v4mv:vqmin=3:lumi_mask=0.07:dark_mask=0.2:mpeg_quant:scplx_mask=0.1:tcplx_mask=0.1:naq" (..edges)
 alias py='python'
@@ -12,20 +14,14 @@ alias xc='xclock & sleep 1; killall xclock'
 alias vi='gvim -p '
 alias vi_convertutf='vim +"argdo set ff=utf-8" +wqa '
 alias cal='cal -m'
-alias mcf='make menuconfig'
-alias dh='sudo dhclient && exit'
-alias kpdf='evince'
 alias gq='geeqie &'
 alias df="df -h"
 alias ls='ls --color=auto'
 alias licqa='licq -b ~/.licqadam &'
 alias repltxt='sed s/\!:1/\!:2/g \!:3 > temp.txt; mv -f temp.txt \!:3'
-alias gpsd='a=`date  --rfc-3339\=date`; mkdir $a; cd $a; echo "Waypnts... "; gpsbabel -i garmin -f /dev/ttyS0 -o gpx -F waypoints.gpx; echo "Track... "; gpsbabel -t  -i garmin -f /dev/ttyS0 -o gpx -F track.gpx; echo "finished."'
-alias gpsdj='josm & a=`date  --rfc-3339\=date`; mkdir $a; cd $a; echo "Waypnts... "; gpsbabel -i garmin -f /dev/ttyS0 -o gpx -F waypoints.gpx; echo "Track... "; gpsbabel -t  -i garmin -f /dev/ttyS0 -o gpx -F track.gpx; echo "finished."'
 mkcd()  { mkdir "$1" -p && cd "$1"; }
 zz()  { nice zip -rq9 `echo $1 | sed 's/\///g'`.zip "$1"; }
 uz()  { nice unzip -q $1; }
-tisk_vse()  { mkdir /tmp/tisk; cp $1 /tmp/tisk/; cd /tmp/tisk; pdftk $1 burst ; for a in `ls pg_*`; do lpr $a; echo Printing... $a; sleep 30; done; cd -; rm -r /tmp/NICtisk; }
 cdd()    { if [ -z $1 ]; then cd ..;		else ls -d ../$1*/ ;		cd ../$1*/;			fi }
 cddd()   { if [ -z $1 ]; then cd ../..;		else ls -d ../../$1*/ ;		cd ../../$1*/;		fi }
 cdddd()  { if [ -z $1 ]; then cd ../../..;	else ls -d ../../../$1*/ ;	cd ../../../$1*/;	fi }
@@ -78,22 +74,24 @@ alias jpg2book="~/bin/jpg2book.d/jpg2book"
 briss() { java -jar ~/bin/briss-0.9/briss-0.9.jar -s $1 ; }
 
 pv() { cp $* /tmp/x.vtk; paraview /tmp/x.vtk; }
-gco() { git commit -am "$*"; }
-gcam() { git commit --amend; }
-PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;36m\]\w\[\033[00m\] \[\033[01;31m\]${?/#0/}\[\033[01;00m\]\$ '
+ggc() { git commit -am "$*"; }
+gga() { git commit --amend; }
+ggd() { git diff @; }
+ggdd() { git diff @~ @; }
+ggs() { git status; }
+ggh() { git push; }
+ggl() { git pull; }
+gglum() { git pull upstream master; }
 
+#p() { python3 -ic 'import sys; from numpy import *; sys.ps1 = sys.ps2 = ""; sys.displayhook = lambda x: x is None or print("\033[92m", x, "\033[0m", sep="")'; }
 p() {
  python3 -ic 'import sys; sys.ps1 = sys.ps2 = "";
 sys.displayhook = lambda x: x is None or print("\033[92m", x, "\033[0m", sep="")';
 }
 # handle copy-pasted python programs in a more meaningful manner than
 # the 'import' and 'from' programs would do
-import() {
- python -ic "import $*";
-}
-from() {
- python -ic "from $*";
-}
+import() { python -ic "import $*"; }
+from() { python -ic "from $*"; }
 
 # With this you can see that the actual process running your VM is a kvm process.
 pskvm() { ps xa| grep "[b]in/kvm"; }
