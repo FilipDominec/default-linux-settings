@@ -44,7 +44,6 @@ fdtex() { pdflatex $1 && bibtex $1 && pdflatex $1 && pdflatex $1 && ev $1.pdf; }
 t() { export max_print_line=1048; time pdflatex -halt-on-error $1 | egrep "Warning|^! |^l\.|Overfull|Underfull" ; }
 
 alias zal="rsync --progress -a /home/filip/ /media/Ext_disk_500G/Filip/zalohy/ --exclude=k --exclude=Stažené --exclude=.local/share/Trash/ --exclude=tmp --exclude=.thumbnails --exclude=.opera/ --exclude=.cache  --exclude=.mozilla"
-alias sshu="ssh -Y root@77.48.134.15"
 alias sapti="sudo apt-get install -y"
 alias saptu="sudo apt-get update"
 alias saptr="sudo apt-get remove -y"
@@ -82,6 +81,8 @@ ggs() { git status; }
 ggh() { git push; }
 ggl() { git pull; }
 gglum() { git pull upstream master; }
+alias idle="while [ $(cat /proc/loadavg | sed 's/ .*//g') > 0.5 ]; do sleep 10; done"
+alias idlesleep="while [ $(cat /proc/loadavg | sed 's/ .*//g') > 0.5 ]; do sleep 10; done; /etc/acpi/sleep.sh"
 
 #p() { python3 -ic 'import sys; from numpy import *; sys.ps1 = sys.ps2 = ""; sys.displayhook = lambda x: x is None or print("\033[92m", x, "\033[0m", sep="")'; }
 p() {
