@@ -71,11 +71,13 @@ curl -LSso ~/.vim/autoload/pathogen.vim https://tpo.pe/pathogen.vim
 cd ~/.vim/bundle/ && git clone https://github.com/jaxbot/semantic-highlight.vim.git
 
 ## HP Printer: connect the printer, use all default settings
-## If not installed or complaining of wrong MD5 sum, install it by compilation http://hplipopensource.com/hplip-web/install/manual/distros/ubuntu.html
-hp-setup -i
-# sudo sed -i 's/#user_allow_other/user_allow_other/g' /etc/fuse.conf
-# sudo apt-get install hp-toolbox hplip hplip-gui ## For the HP printer
-# (needs to run `hp-plugin' and install the binary blob, and THEN, add the printer in a common way)
+# Guide from: http://cd-rw.org/t/fix-the-broken-hp-printer-driver-installation-on-ubuntu-15-04-linux-mint-17-02-and-others/33
+wget https://www.openprinting.org/download/printdriver/auxfiles/HP/plugins/hplip-3.15.2-plugin.run.asc
+wget https://www.openprinting.org/download/printdriver/auxfiles/HP/plugins/hplip-3.15.2-plugin.run
+sudo apt-get install hplip hplip-gui ## For the HP printer
+sudo hp-setup -i
+sudo sed -i 's/#user_allow_other/user_allow_other/g' /etc/fuse.conf
+## If there are problems installed or complaining of wrong MD5 sum, install it by compilation http://hplipopensource.com/hplip-web/install/manual/distros/ubuntu.html (needs to run `hp-plugin' and install the binary blob, and THEN, add the printer in a common way?)
 
 
 ## === Notes to manual settings ===
