@@ -142,26 +142,26 @@ autocmd BufWrite *.tex :%s/\(\s[vVkKzZsS]\)\ \+/\1\~/ge
 " autocmd BufWrite *.bib :%! cstocs utf8 ascii
 
 
-" automatizace pro soubory HTML
+" HTML macros
 autocmd BufNewFile *.htm* 0r ~/.vim/html-template.html
-autocmd BufEnter *.htm* imap <F1><ul><CR> <li> </li><CR></ul><UP>
-autocmd BufEnter *.htm* imap <S-F1><ol><CR> <li> </li><CR></ol><UP>
+autocmd BufEnter *.htm* imap <F1> <ul><CR><li></li><CR></ul><esc>kyy5li
+autocmd BufEnter *.htm* imap <S-F1> <ol><CR><li></li><CR></ol><esc>kyy5li
 autocmd BufEnter *.htm* imap <C-S-F1> <><LEFT>
 autocmd BufEnter *.htm* imap <M-S-F1> <><\/><esc>5hi
-autocmd BufEnter *.htm* imap <F2> <h1> </h1><esc>5hi
-autocmd BufEnter *.htm* imap <S-F2> <h2> </h2><esc>5hi
-autocmd BufEnter *.htm* imap <C-S-F2> <h3> </h3><esc>5hi
-autocmd BufEnter *.htm* imap <M-S-F2> <p></p><esc>4hi
+autocmd BufEnter *.htm* imap <F2> <h1></h1><esc>5hi
+autocmd BufEnter *.htm* imap <S-F2> <h2></h2><esc>5hi
+autocmd BufEnter *.htm* imap <C-S-F2> <h3></h3><esc>5hi
+autocmd BufEnter *.htm* imap <M-S-F2> <p> </p><esc>4hi
 autocmd BufEnter *.htm* imap <F3> <i></i><esc>3hi
 autocmd BufEnter *.htm* imap <S-F3>  <b></b><esc>3hi
 autocmd BufEnter *.htm* imap <C-S-F3>  <u></u><esc>3hi
-autocmd BufEnter *.htm* imap <M-S-F3> <code></code><esc>6hi
+autocmd BufEnter *.htm* imap <M-S-F3> <pre></pre><esc>5hi
 autocmd BufEnter *.htm* imap <F4>  <table width="100%" border="0"><CR> <tr><CR>  <td> </td><CR></tr><CR></table><esc>2k5hi
 autocmd BufEnter *.htm* imap <S-F4> <img alt="" src=""><LEFT><LEFT>
-autocmd BufEnter *.htm* imap <M-S-F4> <a href=""> </a><esc>7hi
+autocmd BufEnter *.htm* imap <M-S-F4> <a href=""></a><esc>5hi
 autocmd BufEnter *.htm* imap <S-F5> <center></center><esc>9hi
-autocmd BufEnter *.htm* imap <F6> <sub></sub><esc>6hi
-autocmd BufEnter *.htm* imap <S-F6> <sup></sup><esc>6hi
+autocmd BufEnter *.htm* imap <F6> <sub><small> </small></sub><esc>15hi
+autocmd BufEnter *.htm* imap <S-F6> <sup><small> </small> </sup><esc>15hi
 
 " automatizace pro soubory C / C++
 autocmd BufNewFile *.cpp 0r ~/.vim/cpp-template.cpp
@@ -259,44 +259,33 @@ endfunction
 "GPG
 " Transparent editing of gpg encrypted files.
 " By Wouter Hanegraaff <wouter@blub.net>
-
 augroup encrypted
-	au!
-	" First make sure nothing is written to ~/.viminfo while editing
-	" an encrypted file.
-   autocmd BufReadPre,FileReadPre      *.gpg set viminfo=
-   " We don't want a swap file, as it writes unencrypted data to disk
-   autocmd BufReadPre,FileReadPre      *.gpg set noswapfile
-   " Switch to binary mode to read the encrypted file
-   autocmd BufReadPre,FileReadPre      *.gpg set bin
-   autocmd BufReadPre,FileReadPre      *.gpg let ch_save = &ch|set ch=2
-	autocmd BufReadPost,FileReadPost    *.gpg '[,']!gpg --decrypt 2> /dev/null
-	" Switch to normal mode for editing
-	autocmd BufReadPost,FileReadPost    *.gpg set nobin
-	autocmd BufReadPost,FileReadPost    *.gpg let &ch = ch_save|unlet ch_save
-	autocmd BufReadPost,FileReadPost    *.gpg execute ":doautocmd BufReadPost " . expand("%:r")
-	" Convert all text to encrypted text before writing
-	autocmd BufWritePre,FileWritePre    *.gpg   '[,']!gpg --default-recipient-self -ae 2>/dev/null
-	" Undo the encryption so we are back in the normal text, directly
-	" after the file has been written.
-	autocmd BufWritePost,FileWritePost    *.gpg   u
+    au!
+    " First make sure nothing is written to ~/.viminfo while editing
+    " an encrypted file.
+    autocmd BufReadPre,FileReadPre      *.gpg set viminfo=
+    " We don't want a swap file, as it writes unencrypted data to disk
+    autocmd BufReadPre,FileReadPre      *.gpg set noswapfile
+    " Switch to binary mode to read the encrypted file
+    autocmd BufReadPre,FileReadPre      *.gpg set bin
+    autocmd BufReadPre,FileReadPre      *.gpg let ch_save = &ch|set ch=2
+    autocmd BufReadPost,FileReadPost    *.gpg '[,']!gpg --decrypt 2> /dev/null
+    " Switch to normal mode for editing
+    autocmd BufReadPost,FileReadPost    *.gpg set nobin
+    autocmd BufReadPost,FileReadPost    *.gpg let &ch = ch_save|unlet ch_save
+    autocmd BufReadPost,FileReadPost    *.gpg execute ":doautocmd BufReadPost " . expand("%:r")
+    " Convert all text to encrypted text before writing
+    autocmd BufWritePre,FileWritePre    *.gpg   '[,']!gpg --default-recipient-self -ae 2>/dev/null
+    " Undo the encryption so we are back in the normal text, directly
+    " after the file has been written.
+    autocmd BufWritePost,FileWritePost    *.gpg   u
 augroup END
 
 
 " search web
 vmap ,g "zy:let @z = substitute(@z,'[[:space:]]','+','g')<CR>
- \ :silent !start /usr/bin/chromium-browser
+ \ :silent !start /usr/bin/firefox
  \ [http://www.google.com/search?q=<C-R>z<CR> http://www.google.com/search?q=<C-R>z<CR>];
-
-
-
-
-" | sed s/.gnuplot//g | sed `'
-"
-":let filenamewoext = expand("%:h") . ".bak"
-"autocmd BufNewFile *.gnuplot :0!echo 'data_file_name="expand(%:t:r) .csv"; output_file_name="'`echo "%" | sed s/.gnuplot//g`'.csv"'; 
-
-" pokus 
 
 :highlight RulerFileName guifg=#cc8080 ctermfg=red
 :highlight RulerColumn   guifg=#cccc80 ctermfg=yellow
@@ -304,6 +293,3 @@ vmap ,g "zy:let @z = substitute(@z,'[[:space:]]','+','g')<CR>
 :highlight RulerOffset   guifg=#8080cc ctermfg=blue
 :set ruler
 :set rulerformat=%40(%#RulerFileName#%t:\ %#RulerColumn#%3c\ %#RulerLine#%l/%L\ \ %#RulerOffset#%o\ %#Normal#[%03b=0x%02B]%)
-
-
-
