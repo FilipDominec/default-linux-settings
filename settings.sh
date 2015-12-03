@@ -119,10 +119,7 @@ echo 'In Paraview, one shall switch "Auto apply"'
 # sed -i /etc/default/acpi-support -e 's/LOCK_SCREEN=true/# LOCK_SCREEN=true/'
 
 
-## Experimental: middle-mouse pasting from keyboard; add this in the middle of ~/.config/openbox/lubuntu-rc.xml 
-    #<keybind key="C-S-Space">
-      #<action name="Execute">
-		  #<command>sh -c 'xdotool type --clearmodifiers -- "`xsel`" ; xdotool type --clearmodifiers'</command>
-      #</action>
-    #</keybind>
-#
+## Experimental: middle-mouse pasting from keyboard; add this in the middle of  
+if [ -f ~/.config/openbox/lubuntu-rc.xml ]; then
+	sed -i ~/.config/openbox/lubuntu-rc.xml -e '/<keyboard>/r lubuntu-rc.append'
+fi
