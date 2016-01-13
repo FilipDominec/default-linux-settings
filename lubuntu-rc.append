@@ -1,0 +1,12 @@
+	<!-- Middle-mouse pasting from keyboard -->
+    <keybind key="C-A-S-Space">
+      <action name="Execute">
+		  <command>sh -c 'xdotool type --clearmodifiers -- "`xsel`" ; xdotool type --clearmodifiers ""'</command>
+      </action>
+    </keybind>
+	<!-- Launch gvim -->
+    <keybind key="C-A-W">
+      <action name="Execute">
+		  <command>vim-gtk</command>
+      </action>
+    </keybind>
