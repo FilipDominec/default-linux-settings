@@ -19,7 +19,7 @@ sudo apt-get install -y pidgin linphone youtube-dl
 ## Graphics and writing
 sudo apt-get install -y libreoffice-calc libreoffice-writer libreoffice-impress myspell-dictionary-cs hyphen-cs libreoffice-grammarcheck-cs mythes-cs libreoffice-l10n-cs libreoffice-gtk3 libreoffice-style-tango libreoffice-pdfimport 
 ## Do not forget to change saving to DOCX/XLSX
-sudo apt-get install -y gimp inkscape texlive-fonts-extra pdfposter biber texlive-bibtex-extra texlive-lang-czechslovak pdftk imagemagick pdfjam geeqie djvulibre-bin
+sudo apt-get install -y gimp inkscape texlive-fonts-extra pdfposter biber texlive-bibtex-extra texlive-lang-czechslovak pdftk imagemagick pdfjam geeqie djvulibre-bin g3data
 sudo apt-get install -y texlive-latex-extra dvipng # for type1cm.sty to make latex+matplotlib work
 
 ## Multimedia 
@@ -122,4 +122,5 @@ echo 'In Paraview, one shall switch "Auto apply"'
 ## Experimental: middle-mouse pasting from keyboard; add this in the middle of  
 if [ -f ~/.config/openbox/lubuntu-rc.xml ]; then
 	sed -i ~/.config/openbox/lubuntu-rc.xml -e '/<keyboard>/r lubuntu-rc.append'
+	## add "" to the second command  ?
 fi
