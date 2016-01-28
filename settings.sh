@@ -12,6 +12,7 @@ sudo apt-get install -y mtpfs mtp-tools gmtp
 
 #sudo apt-get install -y wine 
 
+xgamma -gamma .7
 
 ## Internet and communication
 sudo apt-get install -y pidgin linphone youtube-dl
@@ -49,10 +50,19 @@ echo -e "[Desktop Entry]\nType=Application\nExec=setxkbmap -option caps:swapesca
 echo -e "[Desktop Entry]\nType=Application\nExec=setxkbmap cz -variant dvorak-ucw" > ~/.config/autostart/dvorak.desktop
 echo -e "[Desktop Entry]\nType=Application\nExec=osd_clock -s 0 -o 16 -c grey -tr -f -misc-fixed-bold-r-semicondensed--*-*-*-*-c-*-*-*" > ~/.config/autostart/osdclock.desktop
 echo -e "" > ~/.config/autostart/light-locker.desktop
-echo -e "[Desktop Entry]\n Type=Application\n Exec=arbtt-capture\n" > /.config/autostart/arbtt.desktop
-echo -e "[Desktop Entry]\n Type=Application\n Exec=linphone\n" > /.config/autostart/linphone.desktop
-echo -e "[Desktop Entry]\n Type=Application\n Exec=pidgin\n" > /.config/autostart/pidgin.desktop
-echo -e "[Desktop Entry]\n Type=Application\n Exec=transmission-gtk\n" > /.config/autostart/transmission.desktop
+echo -e "[Desktop Entry]\n Type=Application\n Exec=arbtt-capture\n" > ~/.config/autostart/arbtt.desktop
+echo -e "[Desktop Entry]\n Type=Application\n Exec=linphone\n" > ~/.config/autostart/linphone.desktop
+echo -e "[Desktop Entry]\n Type=Application\n Exec=pidgin\n" > ~/.config/autostart/pidgin.desktop
+echo -e "[Desktop Entry]\n Type=Application\n Exec=transmission-gtk\n" > ~/.config/autostart/transmission.desktop
+
+echo -e "[Desktop Entry]\n Type=Application\n Exec=transmission-gtk\n" > ~/.config/autostart/transmission.desktop
+echo -e "[Desktop Entry]\n Type=Application\n Exec=transmission-gtk\n" > ~/.config/autostart/transmission.desktop
+echo -e "[Desktop Entry]\n Type=Application\n Exec=osdsh -c red -d 1 -o 0 -a 2 -f -misc-fixed-bold-r-semicondensed--*-*-*-*-c-*-*-*" > ~/.config/autostart/osd.desktop 
+echo -e "#!/bin/bash\n while :\n do\n osdctl -s \"`echo $[100-$(vmstat 1 2|tail -1|awk '{print $15}')]`                              \"\;\n done" > ~/.config/autostart/osd_cpu.sh 
+chmod +x osd_cpu.sh
+echo -e "[Desktop Entry]\n Type=Application\n Exec=bash ~/.config/autostart/osd_cpu.sh" > ~/.config/autostart/osd_cpu.desktop
+
+
 
 ## Install the automatic PDF cropping program
 wget http://sourceforge.net/projects/briss/files/latest/download -O /tmp/briss.gz
