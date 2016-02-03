@@ -5,7 +5,7 @@ echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select tr
 echo wicd-daemon wicd/users multiselect `whoami` | debconf-set-selections ## TESTING
 
 ## Basics
-sudo apt-get install -y vim-gtk  ack-grep htop  miredo cstocs testdisk git gitg gnupg  unrar n2n nmap debfoster qemu osdclock baobab wicd unetbootin mc arbtt xdotool xsel nethogs arandr osdsh libxosd2
+sudo apt-get install -y vim-gtk  ack-grep htop  miredo cstocs testdisk git gitg gnupg  unrar n2n nmap debfoster qemu osdclock baobab wicd unetbootin mc arbtt xdotool xsel nethogs arandr osdsh libxosd2 libnotify-bin
 sudo apt-get install default-jre # default-jdk
 sudo apt-get install -y mtpfs mtp-tools gmtp 
 # if it does not help: libmtp-common mtp-tools libmtp-runtime libmtp9
@@ -129,5 +129,6 @@ echo 'In Paraview, one shall switch "Auto apply"'
 ## Experimental: middle-mouse pasting from keyboard; add this in the middle of  
 if [ -f ~/.config/openbox/lubuntu-rc.xml ]; then
 	sed -i ~/.config/openbox/lubuntu-rc.xml -e '/<keyboard>/r lubuntu-rc.append'
-	## add "" to the second command  ?
+	sed -i ~/.config/openbox/lubuntu-rc.xml -e '/<applications>/r lubuntu-rc.append2'
+
 fi
