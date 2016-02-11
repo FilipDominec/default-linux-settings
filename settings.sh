@@ -74,6 +74,9 @@ cp files/vimrc ~/.vimrc
 
 ## VIM modules (pathogen.vim required for semantic highlight)
 mkdir -p ~/.vim/autoload ~/.vim/bundle
+cd ~/.vim/bundle 
+git clone git://github.com/godlygeek/tabular.git
+cd -
 curl -LSso ~/.vim/autoload/pathogen.vim https://tpo.pe/pathogen.vim
 cd ~/.vim/bundle/ && git clone https://github.com/jaxbot/semantic-highlight.vim.git
 
