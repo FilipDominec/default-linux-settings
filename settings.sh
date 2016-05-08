@@ -30,7 +30,7 @@ sudo apt-get install -y handbrake
 
 ## Programming, electronics and research
 sudo apt-get install -y avr-libc gcc-avr glade avrdude geda-utils  ## programming and technology
-sudo apt-get install -y ipython python-numpy python3-numpy python-sympy python-matplotlib doxygen cython  ## computing and plotting
+sudo apt-get install -y ipython python-numpy python3-numpy python-sympy python-matplotlib  ## computing and plotting
 sudo apt-get install -y mpb harminv python-h5py paraview		## electromagnetic computation (MEEP will be compiled from scratch, search for python-meep-install on github)
 
 ## === Remove unused default apps ===
@@ -38,6 +38,18 @@ sudo apt-get remove -y abiword gnumeric
 
 
 ## === Install non-repository software ===
+
+## LibOrigin for python
+sudo apt-get install cython-dev cython doxygen
+git clone https://github.com/Saluev/python-liborigin2.git
+cd python-liborigin2/
+mkdir build
+cd build
+cmake ../
+make
+doxygen Doxyfile
+cd ..
+sudo python setup.py install
 
 ## Esmska
 # echo "deb http://repo.palatinus.cz/stable / #Esmska" >> /etc/apt/sources.list
