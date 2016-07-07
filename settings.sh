@@ -1,3 +1,5 @@
+## NOTE: Run this script as the respective user, not root
+
 ## === Programs from the repository ===
 
 ## Accept the EULA by default
@@ -6,7 +8,7 @@ echo wicd-daemon wicd/users multiselect `whoami` | debconf-set-selections ## TES
 
 ## Basics
 sudo apt-get install -y vim-gtk  ack-grep htop  miredo cstocs testdisk git gitg gnupg  unrar n2n nmap debfoster qemu osdclock baobab wicd unetbootin mc arbtt xdotool xsel nethogs arandr osdsh libxosd2 libnotify-bin
-sudo apt-get install default-jre # default-jdk
+sudo apt-get install -y default-jre # default-jdk
 sudo apt-get install -y mtpfs mtp-tools gmtp 
 # if it does not help: libmtp-common mtp-tools libmtp-runtime libmtp9
 
@@ -19,14 +21,15 @@ sudo apt-get install -y pidgin linphone youtube-dl
 
 ## Graphics and writing
 sudo apt-get install -y libreoffice-calc libreoffice-writer libreoffice-impress myspell-dictionary-cs hyphen-cs libreoffice-grammarcheck-cs mythes-cs libreoffice-l10n-cs libreoffice-gtk3 libreoffice-style-tango libreoffice-pdfimport 
+#TODO E: Package 'libreoffice-grammarcheck-cs' has no installation candidate
+#TODO E: Package 'mythes-cs' has no installation candidate
 ## Do not forget to change saving to DOCX/XLSX
 sudo apt-get install -y gimp inkscape ibus-gtk ## ibus-gtk needed to prevent inkscape from freezing
 sudo apt-get install -y texlive-fonts-extra pdfposter biber texlive-bibtex-extra texlive-lang-czechslovak pdftk imagemagick pdfjam geeqie djvulibre-bin g3data
 sudo apt-get install -y texlive-latex-extra dvipng # for type1cm.sty to make latex+matplotlib work
 
 ## Multimedia 
-sudo apt-get install -y sound-juicer lame gstreamer0.10-plugins-ugly-multiverse smplayer vlc audacity ffmpeg
-sudo apt-get install -y handbrake
+sudo apt-get install -y sound-juicer lame smplayer vlc audacity ffmpeg handbrake
 
 ## Programming, electronics and research
 sudo apt-get install -y avr-libc gcc-avr glade avrdude geda-utils  ## programming and technology
@@ -40,7 +43,8 @@ sudo apt-get remove -y abiword gnumeric
 ## === Install non-repository software ===
 
 ## LibOrigin for python
-sudo apt-get install cython-dev cython doxygen
+sudo apt-get install -y python-pip cython doxygen cmake libboost-all-dev
+pip install Cython
 git clone https://github.com/Saluev/python-liborigin2.git
 cd python-liborigin2/
 mkdir build
@@ -50,6 +54,7 @@ make
 doxygen Doxyfile
 cd ..
 sudo python setup.py install
+cd ..
 
 ## Esmska
 # echo "deb http://repo.palatinus.cz/stable / #Esmska" >> /etc/apt/sources.list
@@ -68,21 +73,20 @@ echo -e "[Desktop Entry]\nType=Application\nExec=pidgin\n" > ~/.config/autostart
 echo -e "[Desktop Entry]\nType=Application\nExec=transmission-gtk\n" > ~/.config/autostart/transmission.desktop
 echo -e "[Desktop Entry]\nType=Application\nExec=osd_clock -s 0 -o -13 -c black -tr -f -misc-fixed-bold-r-semicondensed--*-*-*-*-c-*-*-* -F '%u  %y%m%d  %R           '" > ~/.config/autostart/osd_clock.desktop
 echo -e "[Desktop Entry]\nType=Application\nExec=osdsh -c red -d 1 -o 0 -a 2 -f -misc-fixed-bold-r-semicondensed--*-*-*-*-c-*-*-*" > ~/.config/autostart/osd.desktop 
-echo -e "#!/bin/bash\n while :\n do\n osdctl -s \"`echo $[100-$(vmstat 1 2|tail -1|awk '{print $15}')]`                              \"\;\n done" > ~/.config/autostart/osd_cpu.sh 
-chmod +x osd_cpu.sh
-echo -e "[Desktop Entry]\n Type=Application\n Exec=bash ~/.config/autostart/osd_cpu.sh" > ~/.config/autostart/osd_cpu.desktop
+cp	files/osd_cpu.sh ~/.config/autostart/osd_cpu.sh
+echo -e "[Desktop Entry]\nType=Application\nExec=bash ~/.config/autostart/osd_cpu.sh" > ~/.config/autostart/osd_cpu.desktop
 
 
 
 ## Install the automatic PDF cropping program
 wget http://sourceforge.net/projects/briss/files/latest/download -O /tmp/briss.gz
-cd ~/bin/
 tar xzf /tmp/briss.gz 
-
+mkdir -p ~/bin
+mv briss* ~/bin/
 
 ## === Custom settings ===
 cat ~/.bashrc files/bashrc.append > /tmp/bashrc; mv /tmp/bashrc ~/.bashrc
-cp files/vim ~/.vim -r 
+cp files/vim/ ~/.vim -r 
 cp files/vimrc ~/.vimrc
 
 ## VIM modules (pathogen.vim required for semantic highlight)
@@ -95,12 +99,12 @@ cd ~/.vim/bundle/ && git clone https://github.com/jaxbot/semantic-highlight.vim.
 
 ## HP Printer: connect the printer, use all default settings
 # Guide from: http://cd-rw.org/t/fix-the-broken-hp-printer-driver-installation-on-ubuntu-15-04-linux-mint-17-02-and-others/33
-wget https://www.openprinting.org/download/printdriver/auxfiles/HP/plugins/hplip-3.15.2-plugin.run.asc
-wget https://www.openprinting.org/download/printdriver/auxfiles/HP/plugins/hplip-3.15.2-plugin.run
-sudo apt-get install hplip hplip-gui ## For the HP printer
-sudo hp-setup -i
-sudo sed -i 's/#user_allow_other/user_allow_other/g' /etc/fuse.conf
-## If there are problems installed or complaining of wrong MD5 sum, install it by compilation http://hplipopensource.com/hplip-web/install/manual/distros/ubuntu.html (needs to run `hp-plugin' and install the binary blob, and THEN, add the printer in a common way?)
+# wget https://www.openprinting.org/download/printdriver/auxfiles/HP/plugins/hplip-3.15.2-plugin.run.asc
+# wget https://www.openprinting.org/download/printdriver/auxfiles/HP/plugins/hplip-3.15.2-plugin.run
+# sudo apt-get install hplip hplip-gui ## For the HP printer
+# sudo hp-setup -i
+# sudo sed -i 's/#user_allow_other/user_allow_other/g' /etc/fuse.conf
+## If there are problems with installation or complaining of wrong MD5 sum, install it by compilation http://hplipopensource.com/hplip-web/install/manual/distros/ubuntu.html (needs to run `hp-plugin' and install the binary blob, and THEN, add the printer in a common way?)
 
 
 ## === Notes to manual settings ===
@@ -142,7 +146,7 @@ echo 'In Paraview, one shall switch "Auto apply"'
 # sed -i /etc/default/acpi-support -e 's/LOCK_SCREEN=true/# LOCK_SCREEN=true/'
 
 
-## Experimental: middle-mouse pasting from keyboard; add this in the middle of  
+## Experimental: middle-mouse clipboard paste activated by keyboard; add this in the middle of  
 if [ -f ~/.config/openbox/lubuntu-rc.xml ]; then
 	sed -i ~/.config/openbox/lubuntu-rc.xml -e '/<keyboard>/r lubuntu-rc.append'
 	sed -i ~/.config/openbox/lubuntu-rc.xml -e '/<applications>/r lubuntu-rc.append2'
