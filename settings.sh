@@ -156,3 +156,7 @@ if [ -f ~/.config/openbox/lubuntu-rc.xml ]; then
 	sed -i ~/.config/openbox/lubuntu-rc.xml -e '/<applications>/r lubuntu-rc.append2'
 fi
 
+## Lower the default threshold for scientific notation in ipython
+echo "c = get_config()" >> ~/.ipython/profile_default/ipython_config.py
+echo "c.InteractiveShellApp.exec_lines = ['%precision %.6g']" >> ~/.ipython/profile_default/ipython_config.py
+
