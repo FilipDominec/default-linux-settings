@@ -146,9 +146,13 @@ echo 'In Paraview, one shall switch "Auto apply"'
 # sed -i /etc/default/acpi-support -e 's/LOCK_SCREEN=true/# LOCK_SCREEN=true/'
 
 
-## Experimental: middle-mouse clipboard paste activated by keyboard; add this in the middle of  
+## Desktop manager settings
 if [ -f ~/.config/openbox/lubuntu-rc.xml ]; then
+	## More desktops
+	sed -i ~/.config/openbox/lubuntu-rc.xml -e 's;ber>2</num;ber>6</num;' 
+
+	## Experimental: middle-mouse clipboard paste activated by keyboard; add this in the middle of  
 	sed -i ~/.config/openbox/lubuntu-rc.xml -e '/<keyboard>/r lubuntu-rc.append'
 	sed -i ~/.config/openbox/lubuntu-rc.xml -e '/<applications>/r lubuntu-rc.append2'
-
 fi
+
