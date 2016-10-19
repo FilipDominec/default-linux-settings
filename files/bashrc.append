@@ -81,8 +81,6 @@ ggs() { git status; }
 ggh() { git push; }
 ggl() { git pull; }
 gglum() { git pull upstream master; }
-alias idle="while [ $(cat /proc/loadavg | sed 's/ .*//g') > 0.5 ]; do sleep 10; done"
-alias idlesleep="while [ $(cat /proc/loadavg | sed 's/ .*//g') > 0.5 ]; do sleep 10; done; /etc/acpi/sleep.sh"
 
 #p() { python3 -ic 'import sys; from numpy import *; sys.ps1 = sys.ps2 = ""; sys.displayhook = lambda x: x is None or print("\033[92m", x, "\033[0m", sep="")'; }
 p() {
