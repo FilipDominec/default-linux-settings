@@ -1,5 +1,5 @@
 #!/usr/bin/python3
 import psutil
-print('Waiting for total CPU load to drop below 150 %...')
+print('Waiting for summed CPU load to drop below 150 %...')
 while (psutil.cpu_percent(interval=1)*psutil.cpu_count()) > 150:
     print('.', end='')
