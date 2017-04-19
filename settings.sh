@@ -71,7 +71,7 @@ echo -e "[Desktop Entry]\nType=Application\nExec=arbtt-capture\n" > ~/.config/au
 echo -e "[Desktop Entry]\nType=Application\nExec=linphone\n" > ~/.config/autostart/linphone.desktop
 echo -e "[Desktop Entry]\nType=Application\nExec=pidgin\n" > ~/.config/autostart/pidgin.desktop
 echo -e "[Desktop Entry]\nType=Application\nExec=transmission-gtk\n" > ~/.config/autostart/transmission.desktop
-echo -e "[Desktop Entry]\nType=Application\nExec=osd_clock -s 0 -o -13 -c black -tr -f -misc-fixed-bold-r-semicondensed--*-*-*-*-c-*-*-* -F '%u  %y%m%d  %R           '" > ~/.config/autostart/osd_clock.desktop
+echo -e "[Desktop Entry]\nType=Application\nExec=osd_clock -s 0 -o -13 -c white -tr -f -misc-fixed-bold-r-semicondensed--*-*-*-*-c-*-*-* -F '%u  %y%m%d  %R           '" > ~/.config/autostart/osd_clock.desktop
 echo -e "[Desktop Entry]\nType=Application\nExec=osdsh -c red -d 1 -o 0 -a 2 -f -misc-fixed-bold-r-semicondensed--*-*-*-*-c-*-*-*" > ~/.config/autostart/osd.desktop 
 cp	files/osd_cpu.sh ~/.config/autostart/osd_cpu.sh
 echo -e "[Desktop Entry]\nType=Application\nExec=bash ~/.config/autostart/osd_cpu.sh" > ~/.config/autostart/osd_cpu.desktop
