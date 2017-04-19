@@ -17,7 +17,7 @@ sudo apt-get install -y mtpfs mtp-tools gmtp
 xgamma -gamma .7
 
 ## Internet and communication
-sudo apt-get install -y pidgin linphone youtube-dl
+sudo apt-get install -y pidgin pidgin-bot-sentry linphone youtube-dl
 
 ## Graphics and writing
 sudo apt-get install -y libreoffice-calc libreoffice-writer libreoffice-impress myspell-dictionary-cs hyphen-cs libreoffice-l10n-cs libreoffice-gtk3 libreoffice-style-tango libreoffice-pdfimport 

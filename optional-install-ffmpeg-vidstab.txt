@@ -1,0 +1,39 @@
+## === INSTALLATION OF DIGITAL VIDEO STABILIZATION FOR FFMPEG ===
+##
+## This procedure follows the guide at 
+## https://scottlinux.com/2016/09/17/video-stabilization-using-vidstab-and-ffmpeg-on-linux/
+##
+## However, minor changes were required on Ubuntu 'Vivid'
+## * 
+
+
+## Manual step - enable sudo
+sudo whoami
+
+## Just copy and paste the following 
+git clone https://github.com/georgmartius/vid.stab.git
+cd vid.stab/
+cmake .
+make -j4
+
+## Choose the defaults
+sudo checkinstall
+
+## Copy and paste
+sudo dpkg -i vid.stab_*.deb
+cd ..
+sudo apt-get build-dep ffmpeg
+
+## This contains less options than the original guide, since following libs turned out to be missing on my system:
+## libebur128 librubberband libsnappy libx265 x11grab chromaprint 
+./configure --prefix=/usr/local --extra-version=1+b3 --toolchain=hardened --libdir=/usr/lib/x86_64-linux-gnu --incdir=/usr/include/x86_64-linux-gnu --shlibdir=/usr/lib/x86_64-linux-gnu --cc=cc --cxx=g++ --enable-gpl --disable-stripping --enable-shared --disable-decoder=libopenjpeg --disable-decoder=libschroedinger --enable-avresample --enable-avisynth --enable-gnutls --enable-ladspa --enable-libass --enable-libbluray --enable-libbs2b --enable-libcaca --enable-libcdio  --enable-libflite --enable-libfontconfig --enable-libfreetype --enable-libfribidi --enable-libgme --enable-libgsm --enable-libmodplug --enable-libmp3lame --enable-libopenjpeg --enable-libopus --enable-libpulse  --enable-librtmp --enable-libschroedinger --enable-libshine --enable-libsoxr --enable-libspeex --enable-libssh --enable-libtheora --enable-libtwolame --enable-libvorbis --enable-libvpx --enable-libwavpack --enable-libwebp  --enable-libxvid --enable-libzvbi --enable-openal --enable-opengl --enable-libdc1394 --enable-libiec61883 --enable-libzmq --enable-frei0r --enable-libopencv --enable-libx264 --enable-pic --enable-nonfree --enable-libvidstab 
+make -j4
+
+## Manual step - you will need to specify some number for the 'version'
+sudo checkinstall
+
+sudo dpkg -i vid.stab_*.deb 
+
+cd ..
+export LD_LIBRARY_PATH=/usr/local/lib/
+ffmpeg -i input.mp4 -vf vidstabdetect=shakiness=10:accuracy=15 -f null -  ;  ffmpeg -i input.mp4 -vf vidstabtransform=smoothing=30:input="transforms.trf" output-s10a15s30.mp4
