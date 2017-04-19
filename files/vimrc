@@ -132,6 +132,12 @@ autocmd BufEnter *.tex imap <F8> \sqrt{}<LEFT>
 autocmd BufEnter *.tex imap <S-F8> \sqrt[]{}<esc>3hi
 autocmd BufEnter *.tex imap <C-S-F8> \int_{}^{} \mbox{d}
 autocmd BufEnter *.tex imap <F9> \frac{\partial }{\partial }<esc>11hi
+
+autocmd BufEnter *.beamer.tex imap <F12>   \begin{frame}[plain]{} %{{{<CR>\end{frame}%}}}<esc>k7li
+autocmd BufEnter *.beamer.tex imap <S-M-F12> \usebackgroundtemplate{\includegraphics[width=\paperwidth, height=\paperheight]{}}  %{{{ Full-screen image<CR>\begin{frame}[plain]<CR>\end{frame}  <CR>\usebackgroundtemplate{} %}}}<esc>kkk51la
+autocmd BufEnter *.beamer.tex imap <C-F12> \begin{frame}[plain]{\tiny{\vspace{-1em}\vspace{-.5em}}} %{{{\end{frame} %}}}<esc>kk24la
+autocmd BufEnter *.beamer.tex imap <S-F12> \hspace{-3mm}\includegraphics[width=.95\paperwidth]{}<esc>i
+
 " nahrazeni mezery za bezslabicnymi predlozkami za pevnou mezeru (~)
 "autocmd BufWrite *.tex :%s/\(\s[vVkKzZsS]\)\ \+/\1\~/ge
 
@@ -194,13 +200,16 @@ autocmd BufEnter *.sh  map  <S-F3> V:s/^\([ \t]*\)/\1#/<CR>
 autocmd BufEnter *.sh  vmap <S-F3>  :s/^\([ \t]*\)/\1#/<CR>
 autocmd BufEnter *.py  map  <S-F3> V:s/^\([ \t]*\)/\1#/<CR>
 autocmd BufEnter *.py  vmap <S-F3>  :s/^\([ \t]*\)/\1#/<CR>
-
 autocmd BufEnter *.tex map  <F3> V:s/^\([ \t]*\)/\1%/<CR>gv:s/^\([ \t]*\)%%/\1/<CR>
 autocmd BufEnter *.tex vmap <F3>  :s/^\([ \t]*\)/\1%/<CR>gv:s/^\([ \t]*\)%%/\1/<CR>
 autocmd BufEnter *.sh  map  <F3> V:s/^\([ \t]*\)/\1#/<CR>gv:s/^\([ \t]*\)##/\1/<CR>
 autocmd BufEnter *.sh  vmap <F3>  :s/^\([ \t]*\)/\1#/<CR>gv:s/^\([ \t]*\)##/\1/<CR>
 autocmd BufEnter *.py  map  <F3> V:s/^\([ \t]*\)/\1#/<CR>gv:s/^\([ \t]*\)##/\1/<CR>
 autocmd BufEnter *.py  vmap <F3>  :s/^\([ \t]*\)/\1#/<CR>gv:s/^\([ \t]*\)##/\1/<CR>
+autocmd BufEnter *.in  map  <S-F3> V:s/^\([ \t]*\)/\1#/<CR>
+autocmd BufEnter *.in  vmap <S-F3>  :s/^\([ \t]*\)/\1#/<CR>
+autocmd BufEnter *.in  map  <F3> V:s/^\([ \t]*\)/\1#/<CR>gv:s/^\([ \t]*\)##/\1/<CR>
+autocmd BufEnter *.in  vmap <F3>  :s/^\([ \t]*\)/\1#/<CR>gv:s/^\([ \t]*\)##/\1/<CR>
 
 " python
 autocmd BufNewFile *[^l].py 0r ~/.vim/python-template.py
