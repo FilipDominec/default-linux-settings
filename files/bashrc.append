@@ -10,7 +10,7 @@ alias pym='ipython3 -i -c  "import os; import matplotlib.pyplot as plt; import n
 alias lxp='killall lxpanel; lxpanel --profile Lubuntu &'
 alias aa='ack-grep'
 #alias np='mpirun -np 2'
-alias xc='xclock & sleep 1; killall xclock'
+alias xc='xclock & sleep 1; killall xclock; aplay /usr/lib/libreoffice/share/gallery/sounds/glasses.wav'
 alias vi='gvim -p '
 alias vi_convertutf='vim +"argdo set ff=utf-8" +wqa '
 alias cal='cal -m'
@@ -37,8 +37,11 @@ attinyload() { sudo avrdude -p t26 -c usbasp -U flash:w:$1.hex; }
 attinycompile() { avr-gcc -g -Wall -O1 -mmcu=attiny26 -c $1.c -o $1.o && avr-gcc -g -Wall -O1 -mmcu=attiny26 $1.o    -o $1.elf && avr-objcopy -j .text -j .data -O ihex $1.elf $1.hex; }
 attinyfuseread() { sudo avrdude -p t26 -c usbasp -U lfuse:r:-:h -U hfuse:r:-:h $@; }
 
+avrcompile() { avr-gcc -g -Wall -O1 -mmcu=atmega328 -c $1.c -o $1.o && avr-gcc -g -Wall -O1 -mmcu=atmega328 $1.o    -o $1.elf && avr-objcopy -j .text -j .data -O ihex $1.elf $1.hex; }
+arduload() { sudo avrdude -p m8 -c usbasp -U flash:w:$1.hex; }
 
-ev()  { evince "$1" & }
+ev()  { evince "$@" & }
+ew()  { for f in "$@"; do tt=`mktemp`.pdf ; cp "$f" ${tt} ; echo WWWWWWWWWWWWWWWWWWWWWW "$f"  ${tt} ;  zathura ${tt} & pdfcrop "$f" $tt 2> /dev/null & done; }
 fddjvu() { DJVUS=""; for a in `ls *jpg`; do nice convert $a -threshold $1"%" $a.pbm;  nice cjb2 $a.pbm  -losslevel 150 $a.djvu; rm $a.pbm; DJVUS="$DJVUS $a.djvu"; echo -n _$a; done; nice djvm -create `pwd | sed -e "s;^.*[^\\]/;;g"`.djvu $DJVUS; rm $DJVUS; }
 fdtex() { pdflatex $1 && bibtex $1 && pdflatex $1 && pdflatex $1 && ev $1.pdf; }
 t() { export max_print_line=1048; time pdflatex -halt-on-error $1 | egrep "Warning|^! |^l\.|Overfull|Underfull" ; }
@@ -50,8 +53,6 @@ alias saptr="sudo apt-get remove -y"
 alias dush="sudo du * -shk | sort -nr"
 alias dtt="date  --rfc-3339\=date"
 alias dt="date --rfc-3339\=date | sed -e 's#20\([0-9][0-9]\)\-\([0-9][0-9]\)-#\1\2#'"
-alias ll="ls -lka"
-alias l="ls -lk"
 alias rsync='rsync --progress '
 alias josm2="export JAVACMD=/etc/alternatives/java; josm &"
 alias josm="java -jar /home/Kompilace/josm/josm-latest.jar -Xmx128m"
@@ -70,17 +71,23 @@ alias suspend='dbus-send --system --print-reply --dest="org.freedesktop.UPower" 
 alias rmh5="find . -name \*h5 -exec mv {} ~/k \;"
 alias rmvtk="find . -name \*vtk -exec mv {} ~/k \;"
 alias jpg2book="~/bin/jpg2book.d/jpg2book"
-briss() { java -jar ~/bin/briss-0.9/briss-0.9.jar -s $1 ; }
+briss() { java -jar ~/bin/briss-0.9/briss-0.9.jar -s "$1" ; }
 
-pv() { cp $* /tmp/x.vtk; paraview /tmp/x.vtk; }
+pv() { temp=`mktemp`-paraview; mkdir ${temp}; cp $* ${temp}/x.vtk; paraview ${temp}/x.vtk;   }
 ggc() { git commit -am "$*"; }
+ggcc() { git commit $1 -m "${*:2}"; }
 gga() { git commit --amend; }
 ggd() { git diff @; }
+ggdn() { git diff @ --name-only; }
 ggdd() { git diff @~ @; }
 ggs() { git status; }
 ggh() { git push; }
 ggl() { git pull; }
 gglum() { git pull upstream master; }
+
+ffmpeg5000() { ffmpeg -y -i $1  -c:v libx264 -preset medium -b:v 5000k  -pass 1 -c:a mp3 -b:a 256k -f mp4 /dev/null && ffmpeg -i $1  -c:v libx264 -preset medium -b:v 5000k  -pass 2 -c:a mp3 -b:a 256k ${1%.*}_5000kbps.mp4; }
+ffmpeg1200() { ffmpeg -y -i $1  -c:v libx264 -preset medium -b:v 1200k  -pass 1 -c:a mp3 -b:a 128k -f mp4 /dev/null && ffmpeg -i $1  -c:v libx264 -preset medium -b:v 1200k  -pass 2 -c:a mp3 -b:a 128k ${1%.*}_1200kbps.mp4; }
+ffmpegH265() { ffmpeg -i $1 -c:v hevc -b:v 60k -b:a 5k -c:a libopus ${1%.*}_h265.mp4; }
 
 #p() { python3 -ic 'import sys; from numpy import *; sys.ps1 = sys.ps2 = ""; sys.displayhook = lambda x: x is None or print("\033[92m", x, "\033[0m", sep="")'; }
 p() {
@@ -95,3 +102,4 @@ from() { python -ic "from $*"; }
 # With this you can see that the actual process running your VM is a kvm process.
 pskvm() { ps xa| grep "[b]in/kvm"; }
 alias qemu="qemu-system-x86_64 -m 3000 -smp cpus=2 -enable-kvm"
+pdfjoin() { /usr/bin/pdfjoin  --rotateoversize false $*; }
