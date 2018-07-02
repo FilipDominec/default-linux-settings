@@ -7,7 +7,7 @@ echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select tr
 echo wicd-daemon wicd/users multiselect `whoami` | debconf-set-selections ## TESTING
 
 ## Basics
-sudo apt-get install -y vim-gtk  ack-grep htop  miredo cstocs testdisk git gitg gnupg  unrar n2n nmap debfoster qemu osdclock baobab wicd unetbootin mc arbtt xdotool xsel nethogs arandr osdsh libxosd2 libnotify-bin network-manager-pptp
+sudo apt-get install -y vim-gtk  ack-grep htop  miredo cstocs testdisk git gitg gnupg  unrar n2n nmap debfoster qemu osdclock baobab wicd unetbootin mc arbtt xdotool xsel nethogs arandr osdsh libxosd2 libnotify-bin network-manager-pptp curl
 sudo apt-get install -y default-jre # default-jdk
 sudo apt-get install -y mtpfs mtp-tools gmtp 
 # if it does not help: libmtp-common mtp-tools libmtp-runtime libmtp9
@@ -33,7 +33,7 @@ sudo apt-get install -y sound-juicer lame smplayer vlc audacity ffmpeg handbrake
 
 ## Programming, electronics and research
 sudo apt-get install -y avr-libc gcc-avr glade avrdude geda-utils  ## programming and technology
-sudo apt-get install -y ipython3 python-numpy python3-numpy python-sympy python-matplotlib python3-matplotlib python3-pip python3-psutil
+sudo apt-get install -y ipython3 python-numpy python3-numpy python3-scipy python-matplotlib python3-matplotlib python3-pip python3-psutil
 sudo apt-get install -y mpb harminv python-h5py paraview		## electromagnetic computation (MEEP will be compiled from scratch, search for python-meep-install on github)
 
 ## === Remove unused default apps ===
