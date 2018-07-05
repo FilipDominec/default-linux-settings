@@ -7,9 +7,9 @@ echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select tr
 echo wicd-daemon wicd/users multiselect `whoami` | debconf-set-selections ## TESTING
 
 ## Basics
-sudo apt-get install -y vim-gtk  ack-grep htop  miredo cstocs testdisk git gitg gnupg  unrar n2n nmap debfoster qemu osdclock baobab wicd unetbootin mc arbtt xdotool xsel nethogs arandr osdsh libxosd2 libnotify-bin network-manager-pptp
+sudo apt-get install -y vim-gtk3  ack-grep htop  miredo cstocs testdisk git gitg gnupg  unrar n2n nmap debfoster qemu osdclock baobab wicd unetbootin mc arbtt xdotool xsel nethogs arandr osdsh libxosd2 libnotify-bin network-manager-pptp
 sudo apt-get install -y default-jre # default-jdk
-sudo apt-get install -y mtpfs mtp-tools gmtp 
+sudo apt-get install -y mtpfs mtp-tools gmtp curl
 # if it does not help: libmtp-common mtp-tools libmtp-runtime libmtp9
 
 #sudo apt-get install -y wine 
@@ -93,6 +93,7 @@ sudo apt-get update
 sudo apt-get install kaitai-struct-compiler  ## the compiler for parsers
 
 ## === Custom settings ===
+su dominecf
 cat ~/.bashrc files/bashrc.append > /tmp/bashrc; mv /tmp/bashrc ~/.bashrc
 cp files/vim/ ~/.vim -r 
 cp files/vimrc ~/.vimrc
@@ -102,7 +103,7 @@ mkdir -p ~/.vim/autoload ~/.vim/bundle
 cd ~/.vim/bundle 
 git clone git://github.com/godlygeek/tabular.git
 cd -
-curl -LSso ~/.vim/autoload/pathogen.vim https://tpo.pe/pathogen.vim
+curl -LSso ~/.vim/autoload/pathogen.vim https://raw.githubusercontent.com/tpope/vim-pathogen/master/autoload/pathogen.vim
 cd ~/.vim/bundle/ && git clone https://github.com/jaxbot/semantic-highlight.vim.git
 
 ## HP Printer: connect the printer, use all default settings
