@@ -7,7 +7,8 @@ echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select tr
 echo wicd-daemon wicd/users multiselect `whoami` | debconf-set-selections ## TESTING
 
 ## Basics
-sudo apt-get install -y vim-gtk silversearcher-ag htop  miredo cstocs testdisk git gitg gnupg  unrar n2n nmap debfoster qemu osdclock baobab wicd unetbootin mc arbtt xdotool xsel nethogs arandr osdsh libxosd2 libnotify-bin network-manager-pptp curl
+sudo apt-get install -y vim-gtk silversearcher-ag htop  miredo cstocs testdisk git gitg gnupg  unrar n2n nmap debfoster qemu osdclock baobab wicd  mc arbtt xdotool xsel nethogs arandr osdsh libxosd2 libnotify-bin network-manager-pptp curl gparted
+# TODO install unetbootin or similar?
 sudo apt-get install -y default-jre # default-jdk
 sudo apt-get install -y mtpfs mtp-tools gmtp 
 # if it does not help: libmtp-common mtp-tools libmtp-runtime libmtp9
