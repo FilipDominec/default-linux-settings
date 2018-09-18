@@ -155,6 +155,7 @@ echo 'In Paraview, one shall switch "Auto apply"'
 # Something like this may be needed to disable screen locking
 # sed -i /etc/default/acpi-support -e 's/LOCK_SCREEN=true/# LOCK_SCREEN=true/'
 
+## Experiment: bluetooth autoconnect:  In /etc/bluetooth/network.conf uncomment #DisableSecurity=true
 
 ## Desktop manager settings
 if [ -f ~/.config/openbox/lubuntu-rc.xml ]; then
