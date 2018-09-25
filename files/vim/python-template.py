@@ -1,8 +1,10 @@
-#!/usr/bin/env python
+#!/usr/bin/python3
 #-*- coding: utf-8 -*-
 
 ## Import common moduli
 import matplotlib, sys, os, time
+from pathlib import Path
+
 import matplotlib.pyplot as plt
 import numpy as np
 from scipy.constants import c, hbar, pi
