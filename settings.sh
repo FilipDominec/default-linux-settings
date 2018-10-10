@@ -12,6 +12,8 @@ sudo apt-get install -y default-jre # default-jdk
 sudo apt-get install -y mtpfs mtp-tools gmtp 
 # if it does not help: libmtp-common mtp-tools libmtp-runtime libmtp9
 
+
+
 #echo wicd-daemon wicd/users multiselect `whoami` | debconf-set-selections ## TESTING
 #sudo apt-get install -y wicd 
 
@@ -94,6 +96,14 @@ echo "deb https://dl.bintray.com/kaitai-io/debian jessie main" | sudo tee /etc/a
 sudo apt-key adv --keyserver hkp://pool.sks-keyservers.net --recv 379CE192D401AB61
 sudo apt-get update
 sudo apt-get install kaitai-struct-compiler  ## the compiler for parsers
+
+## Unetbootin no more oficially supported, yet no good replacement found
+sudo add-apt-repository ppa:gezakovacs/ppa
+sudo apt-get update
+sudo apt-get -y install unetbootin
+
+
+
 
 ## === Custom settings ===
 su dominecf
