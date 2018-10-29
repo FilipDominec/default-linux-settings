@@ -104,12 +104,17 @@ sudo apt-get -y install unetbootin
 
 
 
+## === System-wide settings (run as root) ===
+## Prevent the (purely software-related) error with qemu: Could not access KVM kernel module: Permission denied
+chmod o+rw /dev/kvm		# I guess this is safe
+
 
 ## === Custom settings ===
 su dominecf
 cat ~/.bashrc files/bashrc.append > /tmp/bashrc; mv /tmp/bashrc ~/.bashrc
 cp files/vim/ ~/.vim -r 
 cp files/vimrc ~/.vimrc
+
 
 ## Enable imagemagick to export to PDF, solving the "convert-im6.q16: not authorized" error
 sudo mv /etc/ImageMagick-6/policy.xml /etc/ImageMagick-6/policy.xmlout
