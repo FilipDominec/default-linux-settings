@@ -29,7 +29,7 @@ sudo apt-get install -y libreoffice-calc libreoffice-writer libreoffice-impress 
 #TODO E: Package 'libreoffice-grammarcheck-cs' has no installation candidate
 #TODO E: Package 'mythes-cs' has no installation candidate
 ## Do not forget to change saving to DOCX/XLSX
-sudo apt-get install -y gimp inkscape ibus-gtk rawtherapee ## ibus-gtk needed to prevent inkscape from freezing
+sudo apt-get install -y gimp inkscape ibus-gtk rawtherapee hugin ## ibus-gtk needed to prevent inkscape from freezing
 sudo apt-get install -y texlive-fonts-extra pdfposter biber texlive-bibtex-extra texlive-lang-czechslovak pdftk imagemagick pdfjam geeqie djvulibre-bin g3data
 sudo apt-get install -y texlive-latex-extra dvipng # for type1cm.sty to make latex+matplotlib work
 
