@@ -89,13 +89,15 @@ tar xzf /tmp/briss.gz
 mkdir -p ~/bin
 mv briss* ~/bin/
 
-## Kaitai compiler is useful for parsing binary formats (scientific instrumentation etc.)
+## Kaitai compiler is useful for parsing binary formats 
+### 1. the module for parsing (for users of scientific instrumentation etc.)
 sudo pip  install kaitaistruct
-sudo pip3 install kaitaistruct	## the module for parsing
+sudo pip3 install kaitaistruct	
+### 2. the compiler for parsers (for developers)
 echo "deb https://dl.bintray.com/kaitai-io/debian jessie main" | sudo tee /etc/apt/sources.list.d/kaitai.list
 sudo apt-key adv --keyserver hkp://pool.sks-keyservers.net --recv 379CE192D401AB61
 sudo apt-get update
-sudo apt-get install kaitai-struct-compiler  ## the compiler for parsers
+sudo apt-get install kaitai-struct-compiler  
 
 ## Unetbootin no more oficially supported, yet no good replacement found
 sudo add-apt-repository ppa:gezakovacs/ppa
