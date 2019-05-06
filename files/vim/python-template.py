@@ -14,6 +14,8 @@ matplotlib.rc('text', usetex=True)
 matplotlib.rc('font', size=8)
 matplotlib.rc('text.latex', preamble = '\usepackage{amsmath}, \usepackage{yfonts}, \usepackage{txfonts}, \usepackage{lmodern},')
 
+# TODO use object model
+#fig.canvas.mpl_connect('close_event', handle_close)
 
 
 
