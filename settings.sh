@@ -112,6 +112,9 @@ chmod o+rw /dev/kvm		# I guess this is safe
 
 
 ## === Custom settings ===
+git config --global url.ssh://git@github.com/.insteadOf https://github.com/
+git config --global url.ssh://git@bitbucket.org/.insteadOf https://bitbucket.org/
+
 su dominecf
 cat ~/.bashrc files/bashrc.append > /tmp/bashrc; mv /tmp/bashrc ~/.bashrc
 cp files/vim/ ~/.vim -r 
