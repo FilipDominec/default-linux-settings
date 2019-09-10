@@ -9,10 +9,10 @@ import matplotlib.pyplot as plt
 import numpy as np
 from scipy.constants import c, hbar, pi
 
-## Use LaTeX
-matplotlib.rc('text', usetex=True)
-matplotlib.rc('font', size=8)
-matplotlib.rc('text.latex', preamble = '\usepackage{amsmath}, \usepackage{yfonts}, \usepackage{txfonts}, \usepackage{lmodern},')
+## Use LaTeX (optional)
+# matplotlib.rc('text', usetex=True)
+# matplotlib.rc('font', size=8)
+# matplotlib.rc('text.latex', preamble = r'\usepackage{amsmath}, \usepackage{yfonts}, \usepackage{txfonts}, \usepackage{lmodern},')
 
 
 # == Plotting with object model==

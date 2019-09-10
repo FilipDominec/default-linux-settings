@@ -196,3 +196,6 @@ fi
 echo "c = get_config()" >> ~/.ipython/profile_default/ipython_config.py
 echo "c.InteractiveShellApp.exec_lines = ['%precision %.6g']" >> ~/.ipython/profile_default/ipython_config.py
 
+
+
+# TODO https://www.vim.org/scripts/script.php?script_id=3282
