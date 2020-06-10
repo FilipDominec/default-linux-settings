@@ -5,12 +5,12 @@ PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[0
 alias fastmotion='mencoder mf://*.JPG -mf w=1024:h=768:fps=25:type=jpg -ovc lavc -lavcopts vcodec=mpeg4:mbd=2:trell:vbitrate=2152 -oac copy -o output.avi'
 # opt="vbitrate=2160000:mbd=2:keyint=132:v4mv:vqmin=3:lumi_mask=0.07:dark_mask=0.2:mpeg_quant:scplx_mask=0.1:tcplx_mask=0.1:naq" (..edges)
 alias py='python'
-alias pym='ipython3 -i -c  "import os; import matplotlib.pyplot as plt; import numpy as np; from scipy.constants import c, pi, h, e; a=np.array([1,2,3]); b=np.array([10,20,30]); aa=np.array([[1,2,3],[4,5,6],[7,8,9]]); l = [1,2,3]; di = {3:100, 4:200, 5:300}"'
+alias pym='ipython3 -i -c  "import os; import matplotlib.pyplot as plt; import numpy as np; import numpy.linalg as la; from scipy.constants import c, pi, h, e; a=np.array([3,1,2]); b=np.array([20,30,10]); aa=np.array([[1,2,3],[4,5,6],[7,8,9]]); l = [1,2,3]; di = {3:100, 4:200, 5:300}; ar=lambda *s: np.array(list(s))"'
 #alias py='python -i -c "import sys, os, atexit, rlcompleter, readline; sys.path.append(\"~/d/python\"); import physcon as pc; sys.ps1=\"\001\033[1;36m\002>>> \001\033[0m\002\"; readline.parse_and_bind(\"tab: complete\"); histfile=os.path.join(os.environ[\"HOME\"], \".python_history\"); readline.read_history_file(histfile), atexit.register(readline.write_history_file, histfile)"'
 alias lxp='killall lxpanel; lxpanel --profile Lubuntu &'
 alias aa='ack-grep'
 #alias np='mpirun -np 2'
-alias xc='xclock & sleep 1; killall xclock; aplay /usr/lib/libreoffice/share/gallery/sounds/glasses.wav'
+alias xc='xclock & sleep 1; killall xclock'
 alias vi='gvim -p '
 alias vi_convertutf='vim +"argdo set ff=utf-8" +wqa '
 alias cal='cal -m'
@@ -21,10 +21,14 @@ alias licqa='licq -b ~/.licqadam &'
 alias repltxt='sed s/\!:1/\!:2/g \!:3 > temp.txt; mv -f temp.txt \!:3'
 mkcd()  { mkdir "$1" -p && cd "$1"; }
 zz()  { nice zip -rq9 `echo $1 | sed 's/\///g'`.zip "$1"; }
+zz1()  { nice zip -rq9 `echo $1 | sed 's/\///g'`.zip "$1"; }
 uz()  { nice unzip -q $1; }
 cdd()    { if [ -z $1 ]; then cd ..;		else ls -d ../$1*/ ;		cd ../$1*/;			fi }
 cddd()   { if [ -z $1 ]; then cd ../..;		else ls -d ../../$1*/ ;		cd ../../$1*/;		fi }
 cdddd()  { if [ -z $1 ]; then cd ../../..;	else ls -d ../../../$1*/ ;	cd ../../../$1*/;	fi }
+cddddd()  { if [ -z $1 ]; then cd ../../../..;	else ls -d ../../../../$1*/ ;	cd ../../../../$1*/;	fi }
+cdddddd()  { if [ -z $1 ]; then cd ../../../../..;	else ls -d ../../../../../$1*/ ;	cd ../../../../../$1*/;	fi }
+cddddddd()  { if [ -z $1 ]; then cd ../../../../../..;	else ls -d ../../../../../../$1*/ ;	cd ../../../../../../$1*/;	fi }
 n2n1() { sudo edge -a 10.x.y.z -c dominec -k _password_ -l 88.86.108.50:82; }
 n2n2() { ssh 10.x.y.Z -Y; }
 avrload() { sudo avrdude -p m8 -c usbasp -U flash:w:$1.hex; }
@@ -41,7 +45,6 @@ avrcompile() { avr-gcc -g -Wall -O1 -mmcu=atmega328 -c $1.c -o $1.o && avr-gcc -
 arduload() { sudo avrdude -p m8 -c usbasp -U flash:w:$1.hex; }
 
 ev()  { evince "$@" & }
-ew()  { for f in "$@"; do tt=`mktemp`.pdf ; cp "$f" ${tt} ; echo WWWWWWWWWWWWWWWWWWWWWW "$f"  ${tt} ;  zathura ${tt} & pdfcrop "$f" $tt 2> /dev/null & done; }
 fddjvu() { DJVUS=""; for a in `ls *jpg`; do nice convert $a -threshold $1"%" $a.pbm;  nice cjb2 $a.pbm  -losslevel 150 $a.djvu; rm $a.pbm; DJVUS="$DJVUS $a.djvu"; echo -n _$a; done; nice djvm -create `pwd | sed -e "s;^.*[^\\]/;;g"`.djvu $DJVUS; rm $DJVUS; }
 fdtex() { pdflatex $1 && bibtex $1 && pdflatex $1 && pdflatex $1 && ev $1.pdf; }
 t() { export max_print_line=1048; time pdflatex -halt-on-error $1 | egrep "Warning|^! |^l\.|Overfull|Underfull" ; }
@@ -50,9 +53,12 @@ alias zal="rsync --progress -a /home/filip/ /media/Ext_disk_500G/Filip/zalohy/ -
 alias sapti="sudo apt-get install -y"
 alias saptu="sudo apt-get update"
 alias saptr="sudo apt-get remove -y"
+alias sapts="apt-cache search"
 alias dush="sudo du * -shk | sort -nr"
 alias dtt="date  --rfc-3339\=date"
 alias dt="date --rfc-3339\=date | sed -e 's#20\([0-9][0-9]\)\-\([0-9][0-9]\)-#\1\2#'"
+alias ll="ls -lka"
+alias l="ls -lk"
 alias rsync='rsync --progress '
 alias josm2="export JAVACMD=/etc/alternatives/java; josm &"
 alias josm="java -jar /home/Kompilace/josm/josm-latest.jar -Xmx128m"
@@ -61,7 +67,6 @@ fdgsch2pcb() { gsch2pcb -f -d ../pcb/newlib/fp *.sch; }
 alias wgetrec="wget --recursive --page-requisites --adjust-extension --convert-links --domains developer.gnome.org --no-parent "
 
 
-## -- to be synchronized` --
 alias swapescape="setxkbmap -option caps:swapescape"
 alias hibernate="sudo /usr/sbin/pm-hibernate"
 alias pkg="wine /home/filip/bin/PKGraph/PKGRAPH.exe"
@@ -74,6 +79,8 @@ alias jpg2book="~/bin/jpg2book.d/jpg2book"
 briss() { java -jar ~/bin/briss-0.9/briss-0.9.jar -s "$1" ; }
 
 pv() { temp=`mktemp`-paraview; mkdir ${temp}; cp $* ${temp}/x.vtk; paraview ${temp}/x.vtk;   }
+#pv() { cp $* /tmp/x.vtk; paraview /tmp/x.vtk; }
+ov() { wine ~/bin/origin_viewer_96/OrgView96.exe Z:`pwd | tr / \\`"$1"; }   ## https://www.originlab.com/viewer/dl.aspx
 ggc() { git commit -am "$*"; }
 ggcc() { git commit $1 -m "${*:2}"; }
 gga() { git commit --amend; }
@@ -84,7 +91,7 @@ ggs() { git status; }
 ggh() { git push; }
 ggl() { git pull; }
 gglum() { git pull upstream master; }
-
+alias idlesleep="while [ $(cat /proc/loadavg | sed 's/ .*//g') > 0.5 ]; do sleep 10; done; /etc/acpi/sleep.sh"
 ffmpeg5000() { ffmpeg -y -i $1  -c:v libx264 -preset medium -b:v 5000k  -pass 1 -c:a mp3 -b:a 256k -f mp4 /dev/null && ffmpeg -i $1  -c:v libx264 -preset medium -b:v 5000k  -pass 2 -c:a mp3 -b:a 256k ${1%.*}_5000kbps.mp4; }
 ffmpeg1200() { ffmpeg -y -i $1  -c:v libx264 -preset medium -b:v 1200k  -pass 1 -c:a mp3 -b:a 128k -f mp4 /dev/null && ffmpeg -i $1  -c:v libx264 -preset medium -b:v 1200k  -pass 2 -c:a mp3 -b:a 128k ${1%.*}_1200kbps.mp4; }
 ffmpegH265() { ffmpeg -i $1 -c:v hevc -b:v 60k -b:a 5k -c:a libopus ${1%.*}_h265.mp4; }
@@ -103,3 +110,11 @@ from() { python -ic "from $*"; }
 pskvm() { ps xa| grep "[b]in/kvm"; }
 alias qemu="qemu-system-x86_64 -m 3000 -smp cpus=2 -enable-kvm"
 pdfjoin() { /usr/bin/pdfjoin  --rotateoversize false $*; }
+plc() { ~/p/plotcommander/plotcommander.py "${@}"; }
+stack() { align_image_stack -v -m -a TMP "${@}" && enfuse  --exposure-weight=0 --saturation-weight=0 --contrast-weight=1 --hard-mask --output=depth_composed.tif TMP*tif && rm TMP*tif; }
+heightstack() { align_image_stack -v -m -a TMP "${@}" && enfuse  --save-masks --exposure-weight=0 --saturation-weight=0 --contrast-weight=1 --hard-mask --output=depth_composed.tif TMP*tif && rm TMP*tif; mogrify -format JPG *mask*tif; }
+date_to_iso() { for x in 1* ; do mv $x `echo $x | sed 's/\([0-9][0-9]\)\([0-9][0-9]\)\([0-9][0-9]\)/20\1-\2-\3/g' `; done; }
+cropjoin() { for x in * ; do briss "$x" ; done; pdfjoin *cropp*; mv *-joined* ALL-crop-join.pdf ; }
+tiffize() { for x in *tif; do convert "$x" `echo ${x%.tif} | tr ' ' '_'`.jpg ; done; mkdir TIFF;  mv *tif *TIF *hdr TIFF;  }
+renamer() { ls -1 | sed 's/\(.*\)/mv \1    \1/g' | vi - ; }
+# set -o vi   # could not find equivalent for Alt-. etc.
