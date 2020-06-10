@@ -30,7 +30,7 @@ hi NonText	guifg=LightBlue guibg=grey30
 hi Question	guifg=springgreen
 hi Search	guifg=black guibg=orange
 hi SpecialKey	guifg=yellowgreen
-hi Title	guifg=indianred
+hi Title	guifg=yellow
 hi Visual	gui=none guifg=white guibg=#4466aa
 "hi VisualNOS
 hi WarningMsg	guifg=salmon

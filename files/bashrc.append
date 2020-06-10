@@ -5,8 +5,7 @@ PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[0
 alias fastmotion='mencoder mf://*.JPG -mf w=1024:h=768:fps=25:type=jpg -ovc lavc -lavcopts vcodec=mpeg4:mbd=2:trell:vbitrate=2152 -oac copy -o output.avi'
 # opt="vbitrate=2160000:mbd=2:keyint=132:v4mv:vqmin=3:lumi_mask=0.07:dark_mask=0.2:mpeg_quant:scplx_mask=0.1:tcplx_mask=0.1:naq" (..edges)
 alias py='python'
-alias pym='ipython3 -i -c  "import os; import matplotlib.pyplot as plt; import numpy as np; import numpy.linalg as la; from scipy.constants import c, pi, h, e; a=np.array([3,1,2]); b=np.array([20,30,10]); aa=np.array([[1,2,3],[4,5,6],[7,8,9]]); l = [1,2,3]; di = {3:100, 4:200, 5:300}; ar=lambda *s: np.array(list(s))"'
-#alias py='python -i -c "import sys, os, atexit, rlcompleter, readline; sys.path.append(\"~/d/python\"); import physcon as pc; sys.ps1=\"\001\033[1;36m\002>>> \001\033[0m\002\"; readline.parse_and_bind(\"tab: complete\"); histfile=os.path.join(os.environ[\"HOME\"], \".python_history\"); readline.read_history_file(histfile), atexit.register(readline.write_history_file, histfile)"'
+alias pym='ipython3 -i -c  "import os, pathlib; import matplotlib.pyplot as plt; import numpy as np; import numpy.linalg as la; from scipy.constants import c, pi, h, e; a=np.array([1,2,3]); b=np.array([10,20,30]); aa=np.array([[1,2,3],[4,5,6],[7,8,9]]); l = [1,2,3]; di = {3:100, 4:200, 5:300}; ar=lambda *s: np.array(list(s))"'
 alias lxp='killall lxpanel; lxpanel --profile Lubuntu &'
 alias aa='ack-grep'
 #alias np='mpirun -np 2'

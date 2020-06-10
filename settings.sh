@@ -4,13 +4,18 @@
 
 ## Accept the EULA by default
 echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | sudo debconf-set-selections
-echo wicd-daemon wicd/users multiselect `whoami` | debconf-set-selections ## TESTING
 
 ## Basics
-sudo apt-get install -y vim-gtk  silversearcher-ag htop  miredo cstocs testdisk git gitg gnupg  unrar n2n nmap debfoster qemu osdclock baobab wicd unetbootin mc arbtt xdotool xsel nethogs arandr osdsh libxosd2 libnotify-bin network-manager-pptp
+sudo apt-get install -y vim-gtk silversearcher-ag htop  miredo cstocs testdisk git gitg gnupg  unrar n2n nmap debfoster qemu qemu-kvm osdclock baobab  mc arbtt xdotool xsel nethogs arandr osdsh libxosd2 libnotify-bin network-manager-pptp curl gparted rename meld
+# TODO install unetbootin or similar?
 sudo apt-get install -y default-jre # default-jdk
 sudo apt-get install -y mtpfs mtp-tools gmtp 
 # if it does not help: libmtp-common mtp-tools libmtp-runtime libmtp9
+
+
+
+#echo wicd-daemon wicd/users multiselect `whoami` | debconf-set-selections ## TESTING
+#sudo apt-get install -y wicd 
 
 #sudo apt-get install -y wine 
 
@@ -24,7 +29,7 @@ sudo apt-get install -y libreoffice-calc libreoffice-writer libreoffice-impress 
 #TODO E: Package 'libreoffice-grammarcheck-cs' has no installation candidate
 #TODO E: Package 'mythes-cs' has no installation candidate
 ## Do not forget to change saving to DOCX/XLSX
-sudo apt-get install -y gimp inkscape ibus-gtk ## ibus-gtk needed to prevent inkscape from freezing
+sudo apt-get install -y gimp inkscape ibus-gtk rawtherapee hugin ## ibus-gtk needed to prevent inkscape from freezing
 sudo apt-get install -y texlive-fonts-extra pdfposter biber texlive-bibtex-extra texlive-lang-czechslovak pdftk imagemagick pdfjam geeqie djvulibre-bin g3data
 sudo apt-get install -y texlive-latex-extra dvipng # for type1cm.sty to make latex+matplotlib work
 
@@ -84,25 +89,47 @@ tar xzf /tmp/briss.gz
 mkdir -p ~/bin
 mv briss* ~/bin/
 
-## Kaitai compiler is useful for parsing binary formats (scientific instrumentation etc.)
+## Kaitai compiler is useful for parsing binary formats 
+### 1. the module for parsing (for users of scientific instrumentation etc.)
 sudo pip  install kaitaistruct
-sudo pip3 install kaitaistruct	## the module for parsing
+sudo pip3 install kaitaistruct	
+### 2. the compiler for parsers (for developers)
 echo "deb https://dl.bintray.com/kaitai-io/debian jessie main" | sudo tee /etc/apt/sources.list.d/kaitai.list
 sudo apt-key adv --keyserver hkp://pool.sks-keyservers.net --recv 379CE192D401AB61
 sudo apt-get update
-sudo apt-get install kaitai-struct-compiler  ## the compiler for parsers
+sudo apt-get install kaitai-struct-compiler  
+
+## Unetbootin no more oficially supported, yet no good replacement found
+sudo add-apt-repository ppa:gezakovacs/ppa
+sudo apt-get update
+sudo apt-get -y install unetbootin
+
+
+
+## === System-wide settings (run as root) ===
+## Prevent the (purely software-related) error with qemu: Could not access KVM kernel module: Permission denied
+chmod o+rw /dev/kvm		# I guess this is safe
+
 
 ## === Custom settings ===
+git config --global url.ssh://git@github.com/.insteadOf https://github.com/
+git config --global url.ssh://git@bitbucket.org/.insteadOf https://bitbucket.org/
+
+su dominecf
 cat ~/.bashrc files/bashrc.append > /tmp/bashrc; mv /tmp/bashrc ~/.bashrc
 cp files/vim/ ~/.vim -r 
 cp files/vimrc ~/.vimrc
+
+
+## Enable imagemagick to export to PDF, solving the "convert-im6.q16: not authorized" error
+sudo mv /etc/ImageMagick-6/policy.xml /etc/ImageMagick-6/policy.xmlout
 
 ## VIM modules (pathogen.vim required for semantic highlight)
 mkdir -p ~/.vim/autoload ~/.vim/bundle
 cd ~/.vim/bundle 
 git clone git://github.com/godlygeek/tabular.git
 cd -
-curl -LSso ~/.vim/autoload/pathogen.vim https://tpo.pe/pathogen.vim
+curl -LSso ~/.vim/autoload/pathogen.vim https://raw.githubusercontent.com/tpope/vim-pathogen/master/autoload/pathogen.vim
 cd ~/.vim/bundle/ && git clone https://github.com/jaxbot/semantic-highlight.vim.git
 
 ## HP Printer: connect the printer, use all default settings
@@ -153,6 +180,7 @@ echo 'In Paraview, one shall switch "Auto apply"'
 # Something like this may be needed to disable screen locking
 # sed -i /etc/default/acpi-support -e 's/LOCK_SCREEN=true/# LOCK_SCREEN=true/'
 
+## Experiment: bluetooth autoconnect:  In /etc/bluetooth/network.conf uncomment #DisableSecurity=true
 
 ## Desktop manager settings
 if [ -f ~/.config/openbox/lubuntu-rc.xml ]; then
@@ -168,3 +196,6 @@ fi
 echo "c = get_config()" >> ~/.ipython/profile_default/ipython_config.py
 echo "c.InteractiveShellApp.exec_lines = ['%precision %.6g']" >> ~/.ipython/profile_default/ipython_config.py
 
+
+
+# TODO https://www.vim.org/scripts/script.php?script_id=3282
