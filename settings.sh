@@ -6,7 +6,7 @@
 echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | sudo debconf-set-selections
 
 ## Basics
-sudo apt-get install -y vim-gtk silversearcher-ag htop  miredo cstocs testdisk git gitg gnupg  unrar n2n nmap debfoster qemu qemu-kvm osdclock baobab  mc arbtt xdotool xsel nethogs arandr osdsh libxosd2 libnotify-bin network-manager-pptp curl gparted rename meld sshfs
+sudo apt-get install -y vim-gtk silversearcher-ag htop  miredo cstocs testdisk git gitg gnupg  unrar n2n nmap debfoster qemu qemu-kvm osdclock baobab  mc arbtt xdotool xsel nethogs arandr osdsh libxosd2 libnotify-bin network-manager-pptp curl gparted rename meld sshfs mlocate
 
 
 
