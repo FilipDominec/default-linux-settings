@@ -6,13 +6,13 @@
 echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | sudo debconf-set-selections
 
 ## Basics
-sudo apt-get install -y vim-gtk silversearcher-ag htop  miredo cstocs testdisk git gitg gnupg  unrar n2n nmap debfoster qemu qemu-kvm osdclock baobab  mc arbtt xdotool xsel nethogs arandr osdsh libxosd2 libnotify-bin network-manager-pptp curl gparted rename meld
+sudo apt-get install -y vim-gtk silversearcher-ag htop  miredo cstocs testdisk git gitg gnupg  unrar n2n nmap debfoster qemu qemu-kvm osdclock baobab  mc arbtt xdotool xsel nethogs arandr osdsh libxosd2 libnotify-bin network-manager-pptp curl gparted rename meld sshfs
 # TODO install unetbootin or similar?
 sudo apt-get install -y default-jre # default-jdk
 sudo apt-get install -y mtpfs mtp-tools gmtp 
 # if it does not help: libmtp-common mtp-tools libmtp-runtime libmtp9
 
-
+sudo sed -i s/user_allow_other
 
 #echo wicd-daemon wicd/users multiselect `whoami` | debconf-set-selections ## TESTING
 #sudo apt-get install -y wicd 
@@ -29,7 +29,7 @@ sudo apt-get install -y libreoffice-calc libreoffice-writer libreoffice-impress 
 #TODO E: Package 'libreoffice-grammarcheck-cs' has no installation candidate
 #TODO E: Package 'mythes-cs' has no installation candidate
 ## Do not forget to change saving to DOCX/XLSX
-sudo apt-get install -y gimp inkscape ibus-gtk rawtherapee hugin ## ibus-gtk needed to prevent inkscape from freezing
+sudo apt-get install -y gimp inkscape rawtherapee # ibus-gtk hugin ## ibus-gtk needed to prevent inkscape from freezing
 sudo apt-get install -y texlive-fonts-extra pdfposter biber texlive-bibtex-extra texlive-lang-czechslovak pdftk imagemagick pdfjam geeqie djvulibre-bin g3data
 sudo apt-get install -y texlive-latex-extra dvipng # for type1cm.sty to make latex+matplotlib work
 
@@ -37,8 +37,8 @@ sudo apt-get install -y texlive-latex-extra dvipng # for type1cm.sty to make lat
 sudo apt-get install -y sound-juicer lame smplayer vlc audacity ffmpeg handbrake
 
 ## Programming, electronics and research
-sudo apt-get install -y avr-libc gcc-avr glade avrdude geda-utils  ## programming and technology
-sudo apt-get install -y ipython3 python3-numpy python3-numpy python3-matplotlib python3-pip python3-psutil python3-serial
+sudo apt-get install -y avr-libc gcc-avr glade avrdude kicad  ## programming and technology
+sudo apt-get install -y ipython3 python3-numpy python3-scipy python3-matplotlib python3-pip python3-psutil python3-serial python3-imageio
 sudo apt-get install -y mpb harminv python-h5py paraview		## electromagnetic computation (MEEP will be compiled from scratch, search for python-meep-install on github)
 
 ## === Remove unused default apps ===
@@ -48,8 +48,8 @@ sudo apt-get remove -y abiword gnumeric
 ## === Install non-repository software ===
 
 ## LibOrigin for python
-sudo apt-get install -y python-pip cython doxygen cmake libboost-all-dev
-pip install Cython
+sudo apt-get install -y python3-pip cython doxygen cmake libboost-all-dev
+pip3 install Cython
 git clone https://github.com/Saluev/python-liborigin2.git
 cd python-liborigin2/
 mkdir build
@@ -85,13 +85,13 @@ echo -e "[Desktop Entry]\nType=Application\nExec=bash ~/.config/autostart/osd_cp
 
 ## Install the automatic PDF cropping program
 wget http://sourceforge.net/projects/briss/files/latest/download -O /tmp/briss.gz
-tar xzf /tmp/briss.gz 
+unzip -q /tmp/briss.gz 
 mkdir -p ~/bin
 mv briss* ~/bin/
 
 ## Kaitai compiler is useful for parsing binary formats 
 ### 1. the module for parsing (for users of scientific instrumentation etc.)
-sudo pip  install kaitaistruct
+#sudo pip  install kaitaistruct
 sudo pip3 install kaitaistruct	
 ### 2. the compiler for parsers (for developers)
 echo "deb https://dl.bintray.com/kaitai-io/debian jessie main" | sudo tee /etc/apt/sources.list.d/kaitai.list
@@ -108,7 +108,7 @@ sudo apt-get -y install unetbootin
 
 ## === System-wide settings (run as root) ===
 ## Prevent the (purely software-related) error with qemu: Could not access KVM kernel module: Permission denied
-chmod o+rw /dev/kvm		# I guess this is safe
+#??? chmod o+rw /dev/kvm		# I guess this is safe
 
 
 ## === Custom settings ===
