@@ -7,22 +7,14 @@ echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select tr
 
 ## Basics
 sudo apt-get install -y vim-gtk silversearcher-ag htop  miredo cstocs testdisk git gitg gnupg  unrar n2n nmap debfoster qemu qemu-kvm osdclock baobab  mc arbtt xdotool xsel nethogs arandr osdsh libxosd2 libnotify-bin network-manager-pptp curl gparted rename meld sshfs
-# TODO install unetbootin or similar?
-sudo apt-get install -y default-jre # default-jdk
-sudo apt-get install -y mtpfs mtp-tools gmtp 
-# if it does not help: libmtp-common mtp-tools libmtp-runtime libmtp9
 
-sudo sed -i s/user_allow_other
 
-#echo wicd-daemon wicd/users multiselect `whoami` | debconf-set-selections ## TESTING
-#sudo apt-get install -y wicd 
 
-#sudo apt-get install -y wine 
 
+## Settings
 xgamma -gamma .7
+#sudo sed s/#user_allow_other/user_allow_other/ -i /etc/ssh
 
-## Internet and communication
-sudo apt-get install -y pidgin pidgin-bot-sentry linphone youtube-dl
 
 ## Graphics and writing
 sudo apt-get install -y libreoffice-calc libreoffice-writer libreoffice-impress myspell-dictionary-cs hyphen-cs libreoffice-l10n-cs libreoffice-gtk3 libreoffice-style-tango libreoffice-pdfimport 
@@ -41,8 +33,6 @@ sudo apt-get install -y avr-libc gcc-avr glade avrdude kicad  ## programming and
 sudo apt-get install -y ipython3 python3-numpy python3-scipy python3-matplotlib python3-pip python3-psutil python3-serial python3-imageio
 sudo apt-get install -y mpb harminv python-h5py paraview		## electromagnetic computation (MEEP will be compiled from scratch, search for python-meep-install on github)
 
-## === Remove unused default apps ===
-sudo apt-get remove -y abiword gnumeric 
 
 
 ## === Install non-repository software ===
@@ -199,3 +189,20 @@ echo "c.InteractiveShellApp.exec_lines = ['%precision %.6g']" >> ~/.ipython/prof
 
 
 # TODO https://www.vim.org/scripts/script.php?script_id=3282
+
+
+
+
+# Unnecessary?
+# TODO install unetbootin or similar?
+#sudo apt-get install -y default-jre # default-jdk  
+#sudo apt-get install -y mtpfs mtp-tools gmtp  
+# if it does not help: libmtp-common mtp-tools libmtp-runtime libmtp9
+#echo wicd-daemon wicd/users multiselect `whoami` | debconf-set-selections ## TESTING
+#sudo apt-get install -y wicd 
+#sudo apt-get install -y wine 
+## === Remove unused default apps ===
+#sudo apt-get remove -y abiword gnumeric 
+## Internet and communication
+#sudo apt-get install -y pidgin pidgin-bot-sentry linphone youtube-dl
+
