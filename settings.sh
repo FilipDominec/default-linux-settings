@@ -13,6 +13,7 @@ sudo apt-get install -y vim-gtk silversearcher-ag htop  miredo cstocs testdisk g
 
 ## Settings
 xgamma -gamma .7
+sed s/allDesktops>yes<\/allDesktops/allDesktops>no<\/allDesktops/ -i ~/.config/openbox/lxqt-rc.xml
 #sudo sed s/#user_allow_other/user_allow_other/ -i /etc/ssh
 
 
@@ -79,7 +80,7 @@ unzip -q /tmp/briss.gz
 mkdir -p ~/bin
 mv briss* ~/bin/
 
-## Kaitai compiler is useful for parsing binary formats 
+## Kaitai compiler is useful for parsing binary formats  : TODO has problem with java version ?
 ### 1. the module for parsing (for users of scientific instrumentation etc.)
 #sudo pip  install kaitaistruct
 sudo pip3 install kaitaistruct	
@@ -93,6 +94,8 @@ sudo apt-get install kaitai-struct-compiler
 sudo add-apt-repository ppa:gezakovacs/ppa
 sudo apt-get update
 sudo apt-get -y install unetbootin
+
+
 
 
 
@@ -190,6 +193,10 @@ echo "c.InteractiveShellApp.exec_lines = ['%precision %.6g']" >> ~/.ipython/prof
 
 # TODO https://www.vim.org/scripts/script.php?script_id=3282
 
+## Origin viewer
+sudo apt-get install -y wine-devel #TODO test
+cp ~/p/default-linux-settings/files/wine/syswow64/mfc110u.dll ~/.wine/syswow64/
+## TODO get it from https://www.originlab.com/viewer/dl.aspx
 
 
 
@@ -200,7 +207,6 @@ echo "c.InteractiveShellApp.exec_lines = ['%precision %.6g']" >> ~/.ipython/prof
 # if it does not help: libmtp-common mtp-tools libmtp-runtime libmtp9
 #echo wicd-daemon wicd/users multiselect `whoami` | debconf-set-selections ## TESTING
 #sudo apt-get install -y wicd 
-#sudo apt-get install -y wine 
 ## === Remove unused default apps ===
 #sudo apt-get remove -y abiword gnumeric 
 ## Internet and communication
