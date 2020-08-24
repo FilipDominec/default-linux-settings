@@ -10,19 +10,9 @@ sudo apt-get install -y vim-gtk silversearcher-ag htop  miredo cstocs testdisk g
 
 
 
-
-## Settings
-xgamma -gamma .7
-sed s/allDesktops>yes<\/allDesktops/allDesktops>no<\/allDesktops/ -i ~/.config/openbox/lxqt-rc.xml
-#sudo sed s/#user_allow_other/user_allow_other/ -i /etc/ssh
-
-
 ## Graphics and writing
 sudo apt-get install -y libreoffice-calc libreoffice-writer libreoffice-impress myspell-dictionary-cs hyphen-cs libreoffice-l10n-cs libreoffice-gtk3 libreoffice-style-tango libreoffice-pdfimport 
-#TODO E: Package 'libreoffice-grammarcheck-cs' has no installation candidate
-#TODO E: Package 'mythes-cs' has no installation candidate
-## Do not forget to change saving to DOCX/XLSX
-sudo apt-get install -y gimp inkscape rawtherapee # ibus-gtk hugin ## ibus-gtk needed to prevent inkscape from freezing
+sudo apt-get install -y gimp inkscape rawtherapee gwyddion # ibus-gtk hugin ## ibus-gtk needed to prevent inkscape from freezing
 sudo apt-get install -y texlive-fonts-extra pdfposter biber texlive-bibtex-extra texlive-lang-czechslovak pdftk imagemagick pdfjam geeqie djvulibre-bin g3data
 sudo apt-get install -y texlive-latex-extra dvipng # for type1cm.sty to make latex+matplotlib work
 
@@ -105,13 +95,18 @@ sudo apt-get -y install unetbootin
 
 
 ## === Custom settings ===
+su dominecf
 git config --global url.ssh://git@github.com/.insteadOf https://github.com/
 git config --global url.ssh://git@bitbucket.org/.insteadOf https://bitbucket.org/
 
-su dominecf
 cat ~/.bashrc files/bashrc.append > /tmp/bashrc; mv /tmp/bashrc ~/.bashrc
-cp files/vim/ ~/.vim -r 
+cp files/ssh/ ~/.ssh/ -r 
+cp files/vim/ ~/.vim/ -r 
 cp files/vimrc ~/.vimrc
+
+xgamma -gamma .7
+sed s/allDesktops>yes<\/allDesktops/allDesktops>no<\/allDesktops/ -i ~/.config/openbox/lxqt-rc.xml
+#sudo sed s/#user_allow_other/user_allow_other/ -i /etc/ssh ##???
 
 
 ## Enable imagemagick to export to PDF, solving the "convert-im6.q16: not authorized" error
@@ -124,15 +119,6 @@ git clone git://github.com/godlygeek/tabular.git
 cd -
 curl -LSso ~/.vim/autoload/pathogen.vim https://raw.githubusercontent.com/tpope/vim-pathogen/master/autoload/pathogen.vim
 cd ~/.vim/bundle/ && git clone https://github.com/jaxbot/semantic-highlight.vim.git
-
-## HP Printer: connect the printer, use all default settings
-# Guide from: http://cd-rw.org/t/fix-the-broken-hp-printer-driver-installation-on-ubuntu-15-04-linux-mint-17-02-and-others/33
-# wget https://www.openprinting.org/download/printdriver/auxfiles/HP/plugins/hplip-3.15.2-plugin.run.asc
-# wget https://www.openprinting.org/download/printdriver/auxfiles/HP/plugins/hplip-3.15.2-plugin.run
-# sudo apt-get install hplip hplip-gui ## For the HP printer
-# sudo hp-setup -i
-# sudo sed -i 's/#user_allow_other/user_allow_other/g' /etc/fuse.conf
-## If there are problems with installation or complaining of wrong MD5 sum, install it by compilation http://hplipopensource.com/hplip-web/install/manual/distros/ubuntu.html (needs to run `hp-plugin' and install the binary blob, and THEN, add the printer in a common way?)
 
 
 ## === Notes to manual settings ===
@@ -150,6 +136,45 @@ echo '  cp ${OLDHOME}/.linphonerc ${NEWHOME}/'
 
 echo 
 echo 'In Paraview, one shall switch "Auto apply"'
+
+## Desktop manager settings
+if [ -f ~/.config/openbox/lubuntu-rc.xml ]; then
+	## More desktops
+	sed -i ~/.config/openbox/lubuntu-rc.xml -e 's;ber>2</num;ber>6</num;' 
+
+	## Experimental: middle-mouse clipboard paste activated by keyboard; add this in the middle of  
+	sed -i ~/.config/openbox/lubuntu-rc.xml -e '/<keyboard>/r lubuntu-rc.append'
+	sed -i ~/.config/openbox/lubuntu-rc.xml -e '/<applications>/r lubuntu-rc.append2'
+fi
+
+## Lower the default threshold for scientific notation in ipython
+echo "c = get_config()" >> ~/.ipython/profile_default/ipython_config.py
+echo "c.InteractiveShellApp.exec_lines = ['%precision %.6g']" >> ~/.ipython/profile_default/ipython_config.py
+
+
+
+
+## Origin viewer
+sudo apt-get install -y wine-devel #TODO test
+cp ~/p/default-linux-settings/files/wine/syswow64/mfc110u.dll ~/.wine/syswow64/
+# get the DLL from https://wikidll.com/download/14122 (md5 = b8de851298e99a005bfd34aa906b3fe8)
+## TODO get it from https://www.originlab.com/viewer/dl.aspx 
+
+
+
+# Unnecessary?
+# todo https://www.vim.org/scripts/script.php?script_id=3282
+# todo install unetbootin or similar?
+#sudo apt-get install -y default-jre # default-jdk  
+#sudo apt-get install -y mtpfs mtp-tools gmtp  
+# if it does not help: libmtp-common mtp-tools libmtp-runtime libmtp9
+#echo wicd-daemon wicd/users multiselect `whoami` | debconf-set-selections ## TESTING
+#sudo apt-get install -y wicd 
+## === Remove unused default apps ===
+#sudo apt-get remove -y abiword gnumeric 
+## Internet and communication
+#sudo apt-get install -y pidgin pidgin-bot-sentry linphone youtube-dl
+
 
 ## REVTeX for publication in APS journals (PRA, PRB, PRX ...) [added 2014-09-02]
 ## TODO: store revtex4-1-tds.zip in the files/ dir
@@ -175,40 +200,13 @@ echo 'In Paraview, one shall switch "Auto apply"'
 
 ## Experiment: bluetooth autoconnect:  In /etc/bluetooth/network.conf uncomment #DisableSecurity=true
 
-## Desktop manager settings
-if [ -f ~/.config/openbox/lubuntu-rc.xml ]; then
-	## More desktops
-	sed -i ~/.config/openbox/lubuntu-rc.xml -e 's;ber>2</num;ber>6</num;' 
 
-	## Experimental: middle-mouse clipboard paste activated by keyboard; add this in the middle of  
-	sed -i ~/.config/openbox/lubuntu-rc.xml -e '/<keyboard>/r lubuntu-rc.append'
-	sed -i ~/.config/openbox/lubuntu-rc.xml -e '/<applications>/r lubuntu-rc.append2'
-fi
-
-## Lower the default threshold for scientific notation in ipython
-echo "c = get_config()" >> ~/.ipython/profile_default/ipython_config.py
-echo "c.InteractiveShellApp.exec_lines = ['%precision %.6g']" >> ~/.ipython/profile_default/ipython_config.py
-
-
-
-# TODO https://www.vim.org/scripts/script.php?script_id=3282
-
-## Origin viewer
-sudo apt-get install -y wine-devel #TODO test
-cp ~/p/default-linux-settings/files/wine/syswow64/mfc110u.dll ~/.wine/syswow64/
-## TODO get it from https://www.originlab.com/viewer/dl.aspx
-
-
-
-# Unnecessary?
-# TODO install unetbootin or similar?
-#sudo apt-get install -y default-jre # default-jdk  
-#sudo apt-get install -y mtpfs mtp-tools gmtp  
-# if it does not help: libmtp-common mtp-tools libmtp-runtime libmtp9
-#echo wicd-daemon wicd/users multiselect `whoami` | debconf-set-selections ## TESTING
-#sudo apt-get install -y wicd 
-## === Remove unused default apps ===
-#sudo apt-get remove -y abiword gnumeric 
-## Internet and communication
-#sudo apt-get install -y pidgin pidgin-bot-sentry linphone youtube-dl
+## HP Printer: connect the printer, use all default settings
+# Guide from: http://cd-rw.org/t/fix-the-broken-hp-printer-driver-installation-on-ubuntu-15-04-linux-mint-17-02-and-others/33
+# wget https://www.openprinting.org/download/printdriver/auxfiles/HP/plugins/hplip-3.15.2-plugin.run.asc
+# wget https://www.openprinting.org/download/printdriver/auxfiles/HP/plugins/hplip-3.15.2-plugin.run
+# sudo apt-get install hplip hplip-gui ## For the HP printer
+# sudo hp-setup -i
+# sudo sed -i 's/#user_allow_other/user_allow_other/g' /etc/fuse.conf
+## If there are problems with installation or complaining of wrong MD5 sum, install it by compilation http://hplipopensource.com/hplip-web/install/manual/distros/ubuntu.html (needs to run `hp-plugin' and install the binary blob, and THEN, add the printer in a common way?)
 
