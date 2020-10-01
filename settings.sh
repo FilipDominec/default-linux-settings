@@ -12,7 +12,7 @@ sudo apt-get install -y vim-gtk silversearcher-ag htop  miredo cstocs testdisk g
 
 ## Graphics and writing
 sudo apt-get install -y libreoffice-calc libreoffice-writer libreoffice-impress myspell-dictionary-cs hyphen-cs libreoffice-l10n-cs libreoffice-gtk3 libreoffice-style-tango libreoffice-pdfimport 
-sudo apt-get install -y gimp inkscape rawtherapee libimage-exiftool-perl gwyddion 
+sudo apt-get install -y gimp inkscape libimage-exiftool-perl rawtherapee ale gwyddion 
 sudo apt-get install -y texlive-fonts-extra pdfposter biber texlive-bibtex-extra texlive-lang-czechslovak pdftk imagemagick pdfjam geeqie djvulibre-bin g3data
 sudo apt-get install -y texlive-latex-extra dvipng # for type1cm.sty to make latex+matplotlib work
 
