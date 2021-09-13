@@ -97,8 +97,8 @@ autocmd BufEnter cmd BufNewFile *.bib 0r ~/.vim/bib-template.bib
 autocmd BufNewFile *[^r].tex 0r ~/.vim/tex-template.tex
 autocmd BufEnter *.tex set isk+=_			"will allow completion of whole_words_with_underscores
 
-autocmd BufEnter *.tex imap <F1> \begin{enumerate}<CR> \item{} <CR> \item{} <CR> \item{}<CR> \end{enumerate}<UP><UP><UP><LEFT><LEFT>
-autocmd BufEnter *.tex imap <S-F1> \begin{itemize}<CR> \item{} <CR> \item{} <CR> \item{}<CR> \end{itemize}<UP><UP><UP><LEFT><LEFT>
+autocmd BufEnter *.tex imap <F1> \begin{enumerate}<CR>\item{}<CR>\item{}<CR>\item{}<CR>\end{enumerate}<UP><UP><UP><LEFT>
+autocmd BufEnter *.tex imap <S-F1> \begin{itemize}<CR>\item{}<CR>\item{}<CR>\item{}<CR>\end{itemize}<UP><UP><UP><LEFT>
 
 autocmd BufEnter *.tex imap <F9> <ESC>yiwq:ih \<ESC>p<CR>
 
@@ -134,9 +134,13 @@ autocmd BufEnter *.tex imap <C-S-F8> \int_{}^{} \mbox{d}
 autocmd BufEnter *.tex imap <F9> \frac{\partial }{\partial }<esc>11hi
 
 autocmd BufEnter *.beamer.tex imap <F12>   \begin{frame}[plain]{} %{{{<CR>\end{frame}%}}}<esc>k7li
-autocmd BufEnter *.beamer.tex imap <S-M-F12> \usebackgroundtemplate{\includegraphics[width=\paperwidth, height=\paperheight]{}}  %{{{ Full-screen image<CR>\begin{frame}[plain]<CR>\end{frame}  <CR>\usebackgroundtemplate{} %}}}<esc>kkk51la
-autocmd BufEnter *.beamer.tex imap <C-F12> \begin{frame}[plain]{\tiny{\vspace{-1em}\vspace{-.5em}}} %{{{\end{frame} %}}}<esc>kk24la
 autocmd BufEnter *.beamer.tex imap <S-F12> \hspace{-3mm}\includegraphics[width=.95\paperwidth]{}<esc>i
+autocmd BufEnter *.beamer.tex imap <C-F12> \begin{frame}[plain]{\tiny{\vspace{-1em}\vspace{-.5em}}} %{{{\end{frame} %}}}<esc>kk24la
+autocmd BufEnter *.beamer.tex imap <S-M-F12> \usebackgroundtemplate{\includegraphics[width=\paperwidth, height=\paperheight]{}}  %{{{ Full-screen image<CR>\begin{frame}[plain]<CR>\end{frame}  <CR>\usebackgroundtemplate{} %}}}<esc>kkk51la
+
+autocmd BufEnter *.tex imap <C-F11> \begin{exampleblock}\centering  \end{exampleblock}<esc>19hi
+autocmd BufEnter *.tex imap <S-F11> \begin{columns}[T] <CR> \begin{column}{.5\textwidth}<CR><TAB><TAB>%\hfill\includegraphics[width=.9\textwidth]{../img/cdh_geometry.pdf}<CR> <TAB>\end{column}<CR> <TAB>\begin{column}{.5\textwidth}<CR> <TAB><TAB>\vspace{3mm}<CR> <TAB><TAB>\noindent % some text<CR> <TAB>\end{column}%<CR> \end{columns}<CR> \vspace{.2em}<CR>
+
 
 " nahrazeni mezery za bezslabicnymi predlozkami za pevnou mezeru (~)
 "autocmd BufWrite *.tex :%s/\(\s[vVkKzZsS]\)\ \+/\1\~/ge
@@ -194,12 +198,8 @@ autocmd BufNewFile *.mpl.py 0r ~/.vim/matplotlib.py
 autocmd BufNewFile *.mpl.py :3!echo 'input_file_name="data/'`echo "%" | sed s/.mpl.py//g | sed s/^.*[\/\\]//g `'.dat"; output_file_name="img/'`echo "%" | sed s/.mpl.py//g | sed s/^.*[\/\\]//g `'.pdf"'; 
 
 " python, bash or LaTeX comments toggle by <F3>
-autocmd BufEnter *.tex map  <S-F3> V:s/^\([ \t]*\)/\1%/<CR>
-autocmd BufEnter *.tex vmap <S-F3>  :s/^\([ \t]*\)/\1%/<CR>
-autocmd BufEnter *.sh  map  <S-F3> V:s/^\([ \t]*\)/\1#/<CR>
-autocmd BufEnter *.sh  vmap <S-F3>  :s/^\([ \t]*\)/\1#/<CR>
-autocmd BufEnter *.py  map  <S-F3> V:s/^\([ \t]*\)/\1#/<CR>
-autocmd BufEnter *.py  vmap <S-F3>  :s/^\([ \t]*\)/\1#/<CR>
+autocmd BufEnter script,*.in,*.py,*.sh  map  <F3> V:s/^\([ \t]*\)/\1#/<CR>gv:s/^\([ \t]*\)##/\1/<CR>
+autocmd BufEnter script,*.in,*.py,*.sh  vmap <F3>  :s/^\([ \t]*\)/\1#/<CR>gv:s/^\([ \t]*\)##/\1/<CR>
 autocmd BufEnter *.tex map  <F3> V:s/^\([ \t]*\)/\1%/<CR>gv:s/^\([ \t]*\)%%/\1/<CR>
 autocmd BufEnter *.tex vmap <F3>  :s/^\([ \t]*\)/\1%/<CR>gv:s/^\([ \t]*\)%%/\1/<CR>
 autocmd BufEnter *.sh  map  <F3> V:s/^\([ \t]*\)/\1#/<CR>gv:s/^\([ \t]*\)##/\1/<CR>
@@ -214,8 +214,10 @@ autocmd BufEnter *.in  vmap <F3>  :s/^\([ \t]*\)/\1#/<CR>gv:s/^\([ \t]*\)##/\1/<
 autocmd BufEnter *.md map  <F3> V:s/^\([ \t]*\)/\1[\/\/]: <CR>gv:s/^\([ \t]*\)\[\/\/]: \[\/\/]: \1/<CR>
 autocmd BufNewFile *beamer.md 0r ~/.vim/beamer-template.md
 
+
 " python
 autocmd BufNewFile *[^l].py 0r ~/.vim/python-template.py
+autocmd BufEnter *.py vmap <F9> yoprint('<esc>pa', <esc>pa)<esc>
 "uncomment line, selection - this did not work
 "au BufEnter *.py nnoremap  <F3>     mn:s/^\(\s*\)#\([^ ]\)/\1\2/ge<CR>:s/^#$//ge<CR>:noh<CR>`n
 "au BufEnter *.py inoremap  <F3>     <C-O>mn<C-O>:s/^\(\s*\)#\([^ ]\)/\1\2/ge<CR><C-O>:s/^#$//ge<CR><C-O>:noh<CR><C-O>`n

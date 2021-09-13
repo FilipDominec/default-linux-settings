@@ -6,30 +6,13 @@
 echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | sudo debconf-set-selections
 
 ## Basics
-sudo apt-get install -y vim-gtk silversearcher-ag htop  miredo cstocs testdisk git gitg gnupg  unrar n2n nmap debfoster qemu qemu-kvm osdclock baobab  mc arbtt xdotool xsel nethogs arandr osdsh libxosd2 libnotify-bin network-manager-pptp curl gparted rename meld
-# TODO install unetbootin or similar?
-sudo apt-get install -y default-jre # default-jdk
-sudo apt-get install -y mtpfs mtp-tools gmtp 
-# if it does not help: libmtp-common mtp-tools libmtp-runtime libmtp9
+sudo apt-get install -y vim-gtk silversearcher-ag htop  miredo cstocs testdisk git gitg gnupg  unrar n2n nmap debfoster qemu qemu-kvm osdclock baobab  mc arbtt xdotool xsel nethogs arandr osdsh libxosd2 libnotify-bin network-manager-pptp curl gparted rename meld sshfs mlocate
 
 
-
-#echo wicd-daemon wicd/users multiselect `whoami` | debconf-set-selections ## TESTING
-#sudo apt-get install -y wicd 
-
-#sudo apt-get install -y wine 
-
-xgamma -gamma .7
-
-## Internet and communication
-sudo apt-get install -y pidgin pidgin-bot-sentry linphone youtube-dl
 
 ## Graphics and writing
 sudo apt-get install -y libreoffice-calc libreoffice-writer libreoffice-impress myspell-dictionary-cs hyphen-cs libreoffice-l10n-cs libreoffice-gtk3 libreoffice-style-tango libreoffice-pdfimport 
-#TODO E: Package 'libreoffice-grammarcheck-cs' has no installation candidate
-#TODO E: Package 'mythes-cs' has no installation candidate
-## Do not forget to change saving to DOCX/XLSX
-sudo apt-get install -y gimp inkscape ibus-gtk rawtherapee hugin 
+sudo apt-get install -y gimp inkscape rawtherapee libimage-exiftool-perl gwyddion   rawtherapee hugin 
 sudo apt-get install -y texlive-fonts-extra pdfposter biber texlive-bibtex-extra texlive-lang-czechslovak pdftk imagemagick pdfjam geeqie djvulibre-bin g3data
 sudo apt-get install -y texlive-latex-extra dvipng # for type1cm.sty to make latex+matplotlib work
 
@@ -37,19 +20,17 @@ sudo apt-get install -y texlive-latex-extra dvipng # for type1cm.sty to make lat
 sudo apt-get install -y sound-juicer lame smplayer vlc audacity ffmpeg handbrake
 
 ## Programming, electronics and research
-sudo apt-get install -y avr-libc gcc-avr glade avrdude geda-utils  ## programming and technology
-sudo apt-get install -y ipython3 python-numpy python3-numpy python3-scipy python-matplotlib python3-matplotlib python3-pip python3-psutil python3-pint
-sudo apt-get install -y mpb harminv python-h5py paraview		## electromagnetic computation (MEEP will be compiled from scratch, search for python-meep-install on github)
+sudo apt-get install -y avr-libc gcc-avr glade avrdude kicad  ## programming and technology
+sudo apt-get install -y ipython3 python3-numpy python3-scipy python3-matplotlib python3-pip python3-psutil python3-serial python3-imageio
+# sudo apt-get install -y mpb harminv python-h5py paraview		## electromagnetic computation (MEEP will be compiled from scratch, search for python-meep-install on github)
 
-## === Remove unused default apps ===
-sudo apt-get remove -y abiword gnumeric 
 
 
 ## === Install non-repository software ===
 
 ## LibOrigin for python
-sudo apt-get install -y python-pip cython doxygen cmake libboost-all-dev
-pip install Cython
+sudo apt-get install -y python3-pip cython doxygen cmake libboost-all-dev
+pip3 install Cython
 git clone https://github.com/Saluev/python-liborigin2.git
 cd python-liborigin2/
 mkdir build
@@ -85,13 +66,13 @@ echo -e "[Desktop Entry]\nType=Application\nExec=bash ~/.config/autostart/osd_cp
 
 ## Install the automatic PDF cropping program
 wget http://sourceforge.net/projects/briss/files/latest/download -O /tmp/briss.gz
-tar xzf /tmp/briss.gz 
+unzip -q /tmp/briss.gz 
 mkdir -p ~/bin
 mv briss* ~/bin/
 
-## Kaitai compiler is useful for parsing binary formats 
+## Kaitai compiler is useful for parsing binary formats  : TODO has problem with java version ?
 ### 1. the module for parsing (for users of scientific instrumentation etc.)
-sudo pip  install kaitaistruct
+#sudo pip  install kaitaistruct
 sudo pip3 install kaitaistruct	
 ### 2. the compiler for parsers (for developers)
 echo "deb https://dl.bintray.com/kaitai-io/debian jessie main" | sudo tee /etc/apt/sources.list.d/kaitai.list
@@ -106,19 +87,26 @@ sudo apt-get -y install unetbootin
 
 
 
+
+
 ## === System-wide settings (run as root) ===
 ## Prevent the (purely software-related) error with qemu: Could not access KVM kernel module: Permission denied
-chmod o+rw /dev/kvm		# I guess this is safe
+#??? chmod o+rw /dev/kvm		# I guess this is safe
 
 
 ## === Custom settings ===
+su dominecf
 git config --global url.ssh://git@github.com/.insteadOf https://github.com/
 git config --global url.ssh://git@bitbucket.org/.insteadOf https://bitbucket.org/
 
-su dominecf
 cat ~/.bashrc files/bashrc.append > /tmp/bashrc; mv /tmp/bashrc ~/.bashrc
-cp files/vim/ ~/.vim -r 
+cp files/ssh/ ~/.ssh/ -r 
+cp files/vim/ ~/.vim/ -r 
 cp files/vimrc ~/.vimrc
+
+xgamma -gamma .7
+sed s/allDesktops>yes<\/allDesktops/allDesktops>no<\/allDesktops/ -i ~/.config/openbox/lxqt-rc.xml
+#sudo sed s/#user_allow_other/user_allow_other/ -i /etc/ssh ##???
 
 
 ## Enable imagemagick to export to PDF, solving the "convert-im6.q16: not authorized" error
@@ -134,15 +122,6 @@ git clone https://github.com/jaxbot/semantic-highlight.vim.git
 popd
 #curl -LSso ~/.vim/autoload/pathogen.vim https://raw.githubusercontent.com/tpope/vim-pathogen/master/autoload/pathogen.vim
 #?? cd ~/.vim/bundle/ && git clone https://github.com/jaxbot/semantic-highlight.vim.git
-
-## HP Printer: connect the printer, use all default settings
-# Guide from: http://cd-rw.org/t/fix-the-broken-hp-printer-driver-installation-on-ubuntu-15-04-linux-mint-17-02-and-others/33
-# wget https://www.openprinting.org/download/printdriver/auxfiles/HP/plugins/hplip-3.15.2-plugin.run.asc
-# wget https://www.openprinting.org/download/printdriver/auxfiles/HP/plugins/hplip-3.15.2-plugin.run
-# sudo apt-get install hplip hplip-gui ## For the HP printer
-# sudo hp-setup -i
-# sudo sed -i 's/#user_allow_other/user_allow_other/g' /etc/fuse.conf
-## If there are problems with installation or complaining of wrong MD5 sum, install it by compilation http://hplipopensource.com/hplip-web/install/manual/distros/ubuntu.html (needs to run `hp-plugin' and install the binary blob, and THEN, add the printer in a common way?)
 
 
 ## === Notes to manual settings ===
@@ -160,6 +139,45 @@ echo '  cp ${OLDHOME}/.linphonerc ${NEWHOME}/'
 
 echo 
 echo 'In Paraview, one shall switch "Auto apply"'
+
+## Desktop manager settings
+if [ -f ~/.config/openbox/lubuntu-rc.xml ]; then
+	## More desktops
+	sed -i ~/.config/openbox/lubuntu-rc.xml -e 's;ber>2</num;ber>6</num;' 
+
+	## Experimental: middle-mouse clipboard paste activated by keyboard; add this in the middle of  
+	sed -i ~/.config/openbox/lubuntu-rc.xml -e '/<keyboard>/r lubuntu-rc.append'
+	sed -i ~/.config/openbox/lubuntu-rc.xml -e '/<applications>/r lubuntu-rc.append2'
+fi
+
+## Lower the default threshold for scientific notation in ipython
+echo "c = get_config()" >> ~/.ipython/profile_default/ipython_config.py
+echo "c.InteractiveShellApp.exec_lines = ['%precision %.6g']" >> ~/.ipython/profile_default/ipython_config.py
+
+
+
+
+## Origin viewer
+sudo apt-get install -y wine-devel #TODO test
+cp ~/p/default-linux-settings/files/wine/syswow64/mfc110u.dll ~/.wine/syswow64/
+# get the DLL from https://wikidll.com/download/14122 (md5 = b8de851298e99a005bfd34aa906b3fe8)
+## TODO get it from https://www.originlab.com/viewer/dl.aspx 
+
+
+
+# Unnecessary?
+# todo https://www.vim.org/scripts/script.php?script_id=3282
+# todo install unetbootin or similar?
+#sudo apt-get install -y default-jre # default-jdk  
+#sudo apt-get install -y mtpfs mtp-tools gmtp  
+# if it does not help: libmtp-common mtp-tools libmtp-runtime libmtp9
+#echo wicd-daemon wicd/users multiselect `whoami` | debconf-set-selections ## TESTING
+#sudo apt-get install -y wicd 
+## === Remove unused default apps ===
+#sudo apt-get remove -y abiword gnumeric 
+## Internet and communication
+#sudo apt-get install -y pidgin pidgin-bot-sentry linphone youtube-dl
+
 
 ## REVTeX for publication in APS journals (PRA, PRB, PRX ...) [added 2014-09-02]
 ## TODO: store revtex4-1-tds.zip in the files/ dir
@@ -185,20 +203,13 @@ echo 'In Paraview, one shall switch "Auto apply"'
 
 ## Experiment: bluetooth autoconnect:  In /etc/bluetooth/network.conf uncomment #DisableSecurity=true
 
-## Desktop manager settings
-if [ -f ~/.config/openbox/lubuntu-rc.xml ]; then
-	## More desktops
-	sed -i ~/.config/openbox/lubuntu-rc.xml -e 's;ber>2</num;ber>6</num;' 
 
-	## Experimental: middle-mouse clipboard paste activated by keyboard; add this in the middle of  
-	sed -i ~/.config/openbox/lubuntu-rc.xml -e '/<keyboard>/r lubuntu-rc.append'
-	sed -i ~/.config/openbox/lubuntu-rc.xml -e '/<applications>/r lubuntu-rc.append2'
-fi
+## HP Printer: connect the printer, use all default settings
+# Guide from: http://cd-rw.org/t/fix-the-broken-hp-printer-driver-installation-on-ubuntu-15-04-linux-mint-17-02-and-others/33
+# wget https://www.openprinting.org/download/printdriver/auxfiles/HP/plugins/hplip-3.15.2-plugin.run.asc
+# wget https://www.openprinting.org/download/printdriver/auxfiles/HP/plugins/hplip-3.15.2-plugin.run
+# sudo apt-get install hplip hplip-gui ## For the HP printer
+# sudo hp-setup -i
+# sudo sed -i 's/#user_allow_other/user_allow_other/g' /etc/fuse.conf
+## If there are problems with installation or complaining of wrong MD5 sum, install it by compilation http://hplipopensource.com/hplip-web/install/manual/distros/ubuntu.html (needs to run `hp-plugin' and install the binary blob, and THEN, add the printer in a common way?)
 
-## Lower the default threshold for scientific notation in ipython
-echo "c = get_config()" >> ~/.ipython/profile_default/ipython_config.py
-echo "c.InteractiveShellApp.exec_lines = ['%precision %.6g']" >> ~/.ipython/profile_default/ipython_config.py
-
-
-
-# TODO https://www.vim.org/scripts/script.php?script_id=3282
