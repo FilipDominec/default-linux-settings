@@ -211,6 +211,9 @@ autocmd BufEnter *.in  vmap <S-F3>  :s/^\([ \t]*\)/\1#/<CR>
 autocmd BufEnter *.in  map  <F3> V:s/^\([ \t]*\)/\1#/<CR>gv:s/^\([ \t]*\)##/\1/<CR>
 autocmd BufEnter *.in  vmap <F3>  :s/^\([ \t]*\)/\1#/<CR>gv:s/^\([ \t]*\)##/\1/<CR>
 
+autocmd BufEnter *.md map  <F3> V:s/^\([ \t]*\)/\1[\/\/]: <CR>gv:s/^\([ \t]*\)\[\/\/]: \[\/\/]: \1/<CR>
+autocmd BufNewFile *beamer.md 0r ~/.vim/beamer-template.md
+
 " python
 autocmd BufNewFile *[^l].py 0r ~/.vim/python-template.py
 "uncomment line, selection - this did not work
