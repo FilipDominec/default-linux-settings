@@ -202,9 +202,22 @@ autocmd BufEnter script,*.in,*.py,*.sh  map  <F3> V:s/^\([ \t]*\)/\1#/<CR>gv:s/^
 autocmd BufEnter script,*.in,*.py,*.sh  vmap <F3>  :s/^\([ \t]*\)/\1#/<CR>gv:s/^\([ \t]*\)##/\1/<CR>
 autocmd BufEnter *.tex map  <F3> V:s/^\([ \t]*\)/\1%/<CR>gv:s/^\([ \t]*\)%%/\1/<CR>
 autocmd BufEnter *.tex vmap <F3>  :s/^\([ \t]*\)/\1%/<CR>gv:s/^\([ \t]*\)%%/\1/<CR>
-autocmd BufEnter *.py vmap <F9> yoprint('<esc>pa', <esc>pa)<esc>
+autocmd BufEnter *.sh  map  <F3> V:s/^\([ \t]*\)/\1#/<CR>gv:s/^\([ \t]*\)##/\1/<CR>
+autocmd BufEnter *.sh  vmap <F3>  :s/^\([ \t]*\)/\1#/<CR>gv:s/^\([ \t]*\)##/\1/<CR>
+autocmd BufEnter *.py  map  <F3> V:s/^\([ \t]*\)/\1#/<CR>gv:s/^\([ \t]*\)##/\1/<CR>
+autocmd BufEnter *.py  vmap <F3>  :s/^\([ \t]*\)/\1#/<CR>gv:s/^\([ \t]*\)##/\1/<CR>
+autocmd BufEnter *.in  map  <S-F3> V:s/^\([ \t]*\)/\1#/<CR>
+autocmd BufEnter *.in  vmap <S-F3>  :s/^\([ \t]*\)/\1#/<CR>
+autocmd BufEnter *.in  map  <F3> V:s/^\([ \t]*\)/\1#/<CR>gv:s/^\([ \t]*\)##/\1/<CR>
+autocmd BufEnter *.in  vmap <F3>  :s/^\([ \t]*\)/\1#/<CR>gv:s/^\([ \t]*\)##/\1/<CR>
+
+autocmd BufEnter *.md map  <F3> V:s/^\([ \t]*\)/\1[\/\/]: <CR>gv:s/^\([ \t]*\)\[\/\/]: \[\/\/]: \1/<CR>
+autocmd BufNewFile *beamer.md 0r ~/.vim/beamer-template.md
+
+
 " python
 autocmd BufNewFile *[^l].py 0r ~/.vim/python-template.py
+autocmd BufEnter *.py vmap <F9> yoprint('<esc>pa', <esc>pa)<esc>
 "uncomment line, selection - this did not work
 "au BufEnter *.py nnoremap  <F3>     mn:s/^\(\s*\)#\([^ ]\)/\1\2/ge<CR>:s/^#$//ge<CR>:noh<CR>`n
 "au BufEnter *.py inoremap  <F3>     <C-O>mn<C-O>:s/^\(\s*\)#\([^ ]\)/\1\2/ge<CR><C-O>:s/^#$//ge<CR><C-O>:noh<CR><C-O>`n

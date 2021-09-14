@@ -12,7 +12,7 @@ sudo apt-get install -y vim-gtk silversearcher-ag htop  miredo cstocs testdisk g
 
 ## Graphics and writing
 sudo apt-get install -y libreoffice-calc libreoffice-writer libreoffice-impress myspell-dictionary-cs hyphen-cs libreoffice-l10n-cs libreoffice-gtk3 libreoffice-style-tango libreoffice-pdfimport 
-sudo apt-get install -y gimp inkscape libimage-exiftool-perl rawtherapee ale gwyddion 
+sudo apt-get install -y gimp inkscape libimage-exiftool-perl rawtherapee ale hugin gwyddion
 sudo apt-get install -y texlive-fonts-extra pdfposter biber texlive-bibtex-extra texlive-lang-czechslovak pdftk imagemagick pdfjam geeqie djvulibre-bin g3data
 sudo apt-get install -y texlive-latex-extra dvipng # for type1cm.sty to make latex+matplotlib work
 
@@ -22,7 +22,7 @@ sudo apt-get install -y sound-juicer lame smplayer vlc audacity ffmpeg handbrake
 ## Programming, electronics and research
 sudo apt-get install -y avr-libc gcc-avr glade avrdude kicad  ## programming and technology
 sudo apt-get install -y ipython3 python3-numpy python3-scipy python3-matplotlib python3-pip python3-psutil python3-serial python3-imageio
-sudo apt-get install -y mpb harminv python-h5py paraview		## electromagnetic computation (MEEP will be compiled from scratch, search for python-meep-install on github)
+# sudo apt-get install -y mpb harminv python-h5py paraview		## electromagnetic computation (MEEP will be compiled from scratch, search for python-meep-install on github)
 
 
 
@@ -112,13 +112,16 @@ sed s/allDesktops>yes<\/allDesktops/allDesktops>no<\/allDesktops/ -i ~/.config/o
 ## Enable imagemagick to export to PDF, solving the "convert-im6.q16: not authorized" error
 sudo mv /etc/ImageMagick-6/policy.xml /etc/ImageMagick-6/policy.xmlout
 
-## VIM modules (pathogen.vim required for semantic highlight)
+## VIM modules (pathogen.vim required for semantic highlight, multicursor etc.)
 mkdir -p ~/.vim/autoload ~/.vim/bundle
-cd ~/.vim/bundle 
-git clone git://github.com/godlygeek/tabular.git
-cd -
 curl -LSso ~/.vim/autoload/pathogen.vim https://raw.githubusercontent.com/tpope/vim-pathogen/master/autoload/pathogen.vim
-cd ~/.vim/bundle/ && git clone https://github.com/jaxbot/semantic-highlight.vim.git
+pushd ~/.vim/bundle 
+git clone git://github.com/godlygeek/tabular.git
+git clone https://gitlab.famillewallon.com/ines/custom-vim.git
+git clone https://github.com/jaxbot/semantic-highlight.vim.git
+popd
+#curl -LSso ~/.vim/autoload/pathogen.vim https://raw.githubusercontent.com/tpope/vim-pathogen/master/autoload/pathogen.vim
+#?? cd ~/.vim/bundle/ && git clone https://github.com/jaxbot/semantic-highlight.vim.git
 
 
 ## === Notes to manual settings ===
