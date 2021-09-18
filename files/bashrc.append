@@ -46,7 +46,7 @@ arduload() { sudo avrdude -p m8 -c usbasp -U flash:w:$1.hex; }
 ev()  { evince "$@" & }
 fddjvu() { DJVUS=""; for a in `ls *jpg`; do nice convert $a -threshold $1"%" $a.pbm;  nice cjb2 $a.pbm  -losslevel 150 $a.djvu; rm $a.pbm; DJVUS="$DJVUS $a.djvu"; echo -n _$a; done; nice djvm -create `pwd | sed -e "s;^.*[^\\]/;;g"`.djvu $DJVUS; rm $DJVUS; }
 fdtex() { pdflatex $1 && bibtex $1 && pdflatex $1 && pdflatex $1 && ev $1.pdf; }
-t() { export max_print_line=1048; time pdflatex -halt-on-error $1 | egrep "Warning|^! |^l\.|Overfull|Underfull" ; }
+t() { export max_print_line=1048; time pdflatex --shell-escape -halt-on-error $1 | egrep "Warning|^! |^l\.|Overfull|Underfull" ; }
 
 alias zal="rsync --progress -a /home/filip/ /media/Ext_disk_500G/Filip/zalohy/ --exclude=k --exclude=Stažené --exclude=.local/share/Trash/ --exclude=tmp --exclude=.thumbnails --exclude=.opera/ --exclude=.cache  --exclude=.mozilla"
 alias sapti="sudo apt-get install -y"
@@ -68,8 +68,6 @@ alias wgetrec="wget --recursive --page-requisites --adjust-extension --convert-l
 
 alias swapescape="setxkbmap -option caps:swapescape"
 alias hibernate="sudo /usr/sbin/pm-hibernate"
-alias pkg="wine /home/filip/bin/PKGraph/PKGRAPH.exe"
-alias xg="xgsch2pcb"
 alias h5p="nice h5topng -ZRc hcbluered "
 alias suspend='dbus-send --system --print-reply --dest="org.freedesktop.UPower" /org/freedesktop/UPower org.freedesktop.UPower.Suspend'
 alias rmh5="find . -name \*h5 -exec mv {} ~/k \;"
@@ -91,10 +89,21 @@ ggh() { git push; }
 ggl() { git pull; }
 gglum() { git pull upstream master; }
 alias idlesleep="while [ $(cat /proc/loadavg | sed 's/ .*//g') > 0.5 ]; do sleep 10; done; /etc/acpi/sleep.sh"
-ffmpeg5000() { ffmpeg -y -i $1  -c:v libx264 -preset medium -b:v 5000k  -pass 1 -c:a mp3 -b:a 256k -f mp4 /dev/null && ffmpeg -i $1  -c:v libx264 -preset medium -b:v 5000k  -pass 2 -c:a mp3 -b:a 256k ${1%.*}_5000kbps.mp4; }
-ffmpeg1200() { ffmpeg -y -i $1  -c:v libx264 -preset medium -b:v 1200k  -pass 1 -c:a mp3 -b:a 128k -f mp4 /dev/null && ffmpeg -i $1  -c:v libx264 -preset medium -b:v 1200k  -pass 2 -c:a mp3 -b:a 128k ${1%.*}_1200kbps.mp4; }
-ffmpegH265() { ffmpeg -i $1 -c:v hevc -b:v 60k -b:a 5k -c:a libopus ${1%.*}_h265.mp4; }
+rec() { timeout $2 cvlc v4l2:///dev/video1 :v4l2-standard= :input-slave=pulseaudio:// --sout "#transcode{vcodec=mp2v,vb=5008,scale=Auto,acodec=mpga,ab=128,channels=2,samplerate=22050,scodec=none,deinterlace,vfilter={adjust{brightness=.8,contrast=.8,saturation=.9},croppadd{croptop=16,cropleft=12,cropbottom=2,cropright=2}}}:std{access=file{overwrite},mux=ts,dst=$1.ts}" ; }
 
+
+ffmpeg5000() { nice ffmpeg -y -i $1  -c:v libx264 -preset medium -b:v 5000k  -pass 1 -c:a mp3 -b:a 256k -f mp4 /dev/null && nice ffmpeg -i $1  -c:v libx264 -preset medium -b:v 5000k  -pass 2 -c:a mp3 -b:a 256k ${1%.*}_5000kbps.mp4; }
+ffmpeg1200() { nice ffmpeg -y -i $1  -c:v libx264 -preset medium -b:v 1200k  -pass 1 -c:a mp3 -b:a 128k -f mp4 /dev/null && nice ffmpeg -i $1  -c:v libx264 -preset medium -b:v 1200k  -pass 2 -c:a mp3 -b:a 128k ${1%.*}_1200kbps.mp4; }
+ffmpeg2000() { nice ffmpeg -y -i $1  -c:v libx264 -preset medium -b:v 2000k  -pass 1 -c:a mp3 -b:a 128k -f mp4 /dev/null && nice ffmpeg -i $1  -c:v libx264 -preset medium -b:v 2000k  -pass 2 -c:a mp3 -b:a 128k ${1%.*}_2000kbps.mp4; }
+#ffmpeg1200xvid() { nice ffmpeg -y -i $1  -c:v libxvid -preset medium -b:v 1200k  -pass 1 -c:a mp3 -b:a 128k -f mp4 /dev/null && nice ffmpeg -i $1  -c:v libxvid -preset medium -b:v 1200k  -pass 2 -c:a mp3 -b:a 128k ${1%.*}_1200kbps_xvid.mp4; }
+#ffmpeg1200st() { nice ffmpeg -y -i $1 -ss $2 -t $3 -c:v libx264 -preset medium -b:v 1200k  -pass 1 -c:a mp3 -b:a 128k -f mp4 /dev/null && nice ffmpeg -i $1  -ss $2 -t $3 -c:v libx264 -preset medium -b:v 1200k  -pass 2 -c:a mp3 -b:a 128k ${1%.*}_1200kbps.mp4; echo FINISHED; date; }
+#ffmpeg1200stc() { nice ffmpeg -y -i $1 -ss $2 -t $3 -c:v libx264 -preset medium -b:v 1200k  -pass 1 -c:a mp3 -b:a 128k -f mp4 /dev/null  && nice ffmpeg -i $1  -ss $2 -t $3 -c:v libx264 -preset medium -b:v 1200k  -pass 2 -c:a mp3 -b:a 128k   ${1%.*}_1200kbps.mp4; echo FINISHED; date; }
+ffmpeg2000stc() { nice ffmpeg -y -i $1 -ss $2 -t $3 -c:v libx264 -preset medium -b:v 2000k  -pass 1 -c:a mp3 -b:a 128k -f mp4 /dev/null -filter:v "crop=in_w-14:in_h-18:12:16" && nice ffmpeg -i $1  -ss $2 -t $3 -c:v libx264 -preset medium -b:v 2000k  -pass 2 -c:a mp3 -b:a 128k  -filter:v "crop=in_w-14:in_h-18:12:16" ${1%.*}_2000kbps.mp4; echo FINISHED; date; }
+ffmpeg1200stc() { nice ffmpeg -y -i $1 -ss $2 -t $3 -c:v libx264 -preset medium -b:v 1200k  -pass 1 -c:a mp3 -b:a 128k -f mp4 /dev/null -filter:v "crop=in_w-14:in_h-18:12:16" && nice ffmpeg -i $1  -ss $2 -t $3 -c:v libx264 -preset medium -b:v 1200k  -pass 2 -c:a mp3 -b:a 128k  -filter:v "crop=in_w-14:in_h-18:12:16" ${1%.*}_1200kbps.mp4; echo FINISHED; date; }
+ffmpegH265() { nice ffmpeg -i $1 -c:v hevc -b:v 60k -b:a 5k -c:a libopus ${1%.*}_h265.mp4; }
+ffrec() { ffmpeg -f v4l2 -standard PAL -thread_queue_size 512 -i /dev/video1 -f alsa -thread_queue_size 512 -i hw:1,0   -vf w3fdif -filter:v "crop=in_w-14:in_h-10:3:7" -vcodec libx264 -preset medium -crf 30 -s 706x566 -r 25 -acodec libmp3lame -b:a 128k -channels 2 -ar 24000 -t $1 $2.avi; }
+# yadif or w3fdif?
+ffconcat() { ffmpeg -f concat -safe 0 -i <(for f in $@; do echo "file '$PWD/$f'"; done) -c copy concatenated.mp4; }
 #p() { python3 -ic 'import sys; from numpy import *; sys.ps1 = sys.ps2 = ""; sys.displayhook = lambda x: x is None or print("\033[92m", x, "\033[0m", sep="")'; }
 p() {
  python3 -ic 'import sys; sys.ps1 = sys.ps2 = "";
@@ -109,7 +118,7 @@ from() { python -ic "from $*"; }
 pskvm() { ps xa| grep "[b]in/kvm"; }
 alias qemu="qemu-system-x86_64 -m 3000 -smp cpus=2 -enable-kvm"
 pdfjoin() { /usr/bin/pdfjoin  --rotateoversize false $*; }
-plc() { ~/p/plotcommander/plotcommander.py "${@}"; }
+nin() { ~/p/nihilnovi/nihilnovi.py "${@}"; }
 stack() { align_image_stack -v -m -a TMP "${@}" && enfuse  --exposure-weight=0 --saturation-weight=0 --contrast-weight=1 --hard-mask --output=depth_composed.tif TMP*tif && rm TMP*tif; }
 heightstack() { align_image_stack -v -m -a TMP "${@}" && enfuse  --save-masks --exposure-weight=0 --saturation-weight=0 --contrast-weight=1 --hard-mask --output=depth_composed.tif TMP*tif && rm TMP*tif; mogrify -format JPG *mask*tif; }
 date_to_iso() { for x in 1* ; do mv $x `echo $x | sed 's/\([0-9][0-9]\)\([0-9][0-9]\)\([0-9][0-9]\)/20\1-\2-\3/g' `; done; }
@@ -117,3 +126,32 @@ cropjoin() { for x in * ; do briss "$x" ; done; pdfjoin *cropp*; mv *-joined* AL
 tiffize() { for x in *tif; do convert "$x" `echo ${x%.tif} | tr ' ' '_'`.jpg ; done; mkdir TIFF;  mv *tif *TIF *hdr TIFF;  }
 renamer() { ls -1 | sed 's/\(.*\)/mv \1    \1/g' | vi - ; }
 # set -o vi   # could not find equivalent for Alt-. etc.
+jpg2pdf() { mogrify -format pdf *[jJ][pP][gG]; pdfjoin *pdf; }
+jpg2m() { mkdir m; for x in *jpg *JPG ; do convert $x -resize 50% m/$x ; echo $x; done; }
+# export NEXTNANO=/home/dominecf/bin/nextnano/2017_01_19/
+#alias xc='xclock & sleep 1; killall xclock; aplay /usr/lib/libreoffice/share/gallery/sounds/glasses.wav'
+alias xc='notify-send "Command finished" "`date`" -t 3000 --icon="/usr/share/icons/gnome/32x32/actions/player_record.png" '
+#bt_receive() { cd ~; cat yyy; bt-obex -s ~/BT_downloads; }
+bt_receive() { cd ~; yes | bt-obex -s ~/BT_downloads; }
+mo50q80() { mogrify -resize 50% -quality 80 $*; }
+mmo50q80() { for x in $* ; do convert $x -resize 50% -quality 80 ${x%%.*}.jpg ; done; }
+pan() { pandoc -f markdown+tex_math_single_backslash -t beamer   --latex-engine=pdflatex -o ${1%.md}.pdf ${1%.md}.md; }
+limba() { sshfs  -F /home/dominecf/.ssh/my_config dominecf@limba.fzu.cz:/home/share/epimovpe LIMBA/ ; } 
+pdf2pdf() { convert -density 300 "$1"  -background "rgb(255,255,255)" -flatten  -rotate .2  -compress jpeg -quality 50 ${1%.pdf}_scan.pdf ; }
+dvorak() { setxkbmap cz -variant dvorak-ucw ; }
+
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+###      __conda_setup="$('/home/dominecf/bin/conda/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
+###      if [ $? -eq 0 ]; then
+###      	eval "$__conda_setup"
+###      else
+###      	if [ -f "/home/dominecf/bin/conda/etc/profile.d/conda.sh" ]; then
+###      		. "/home/dominecf/bin/conda/etc/profile.d/conda.sh"
+###      	else
+###      		export PATH="/home/dominecf/bin/conda/bin:$PATH"
+###      	fi
+###      fi
+###      unset __conda_setup
+# <<< conda initialize <<<
+
