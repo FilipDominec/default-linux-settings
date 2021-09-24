@@ -104,8 +104,8 @@ git config --global url.ssh://git@github.com/.insteadOf https://github.com/
 git config --global url.ssh://git@bitbucket.org/.insteadOf https://bitbucket.org/
 
 cat ~/.bashrc files/bashrc.append > /tmp/bashrc; mv /tmp/bashrc ~/.bashrc
-cp files/ssh/ ~/.ssh/ -r 
-cp files/vim/ ~/.vim/ -r 
+cp files/ssh/* ~/.ssh/ -r
+cp files/vim/* ~/.vim/ -r
 cp files/vimrc ~/.vimrc
 
 xgamma -gamma .7
