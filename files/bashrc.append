@@ -4,7 +4,7 @@ PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[0
 # source ~/bin/bash-git-prompt/gitprompt.sh
 alias fastmotion='mencoder mf://*.JPG -mf w=1024:h=768:fps=25:type=jpg -ovc lavc -lavcopts vcodec=mpeg4:mbd=2:trell:vbitrate=2152 -oac copy -o output.avi'
 # opt="vbitrate=2160000:mbd=2:keyint=132:v4mv:vqmin=3:lumi_mask=0.07:dark_mask=0.2:mpeg_quant:scplx_mask=0.1:tcplx_mask=0.1:naq" (..edges)
-alias py='python'
+alias py='python3'
 alias pym='ipython3 -i -c  "import os, pathlib; import matplotlib.pyplot as plt; import numpy as np; import numpy.linalg as la; from scipy.constants import c, pi, h, e; a=np.array([1,2,3]); b=np.array([10,20,30]); aa=np.array([[1,2,3],[4,5,6],[7,8,9]]); l = [1,2,3]; di = {3:100, 4:200, 5:300}; ar=lambda *s: np.array(list(s))"'
 alias lxp='killall lxpanel; lxpanel --profile Lubuntu &'
 alias aa='ack-grep'
@@ -13,7 +13,7 @@ alias xc='xclock & sleep 1; killall xclock'
 alias vi='gvim -p '
 alias vi_convertutf='vim +"argdo set ff=utf-8" +wqa '
 alias cal='cal -m'
-alias gq='geeqie &'
+alias gq='geeqie . &'
 alias df="df -h"
 alias ls='ls --color=auto'
 alias licqa='licq -b ~/.licqadam &'
@@ -41,7 +41,8 @@ attinycompile() { avr-gcc -g -Wall -O1 -mmcu=attiny26 -c $1.c -o $1.o && avr-gcc
 attinyfuseread() { sudo avrdude -p t26 -c usbasp -U lfuse:r:-:h -U hfuse:r:-:h $@; }
 
 avrcompile() { avr-gcc -g -Wall -O1 -mmcu=atmega328 -c $1.c -o $1.o && avr-gcc -g -Wall -O1 -mmcu=atmega328 $1.o    -o $1.elf && avr-objcopy -j .text -j .data -O ihex $1.elf $1.hex; }
-arduload() { sudo avrdude -p m8 -c usbasp -U flash:w:$1.hex; }
+#arduload() { sudo avrdude -p m8 -c usbasp -U flash:w:$1.hex; }
+arduino() { ~/bin/arduino-1.8.15/arduino *ino; }
 
 ev()  { evince "$@" & }
 fddjvu() { DJVUS=""; for a in `ls *jpg`; do nice convert $a -threshold $1"%" $a.pbm;  nice cjb2 $a.pbm  -losslevel 150 $a.djvu; rm $a.pbm; DJVUS="$DJVUS $a.djvu"; echo -n _$a; done; nice djvm -create `pwd | sed -e "s;^.*[^\\]/;;g"`.djvu $DJVUS; rm $DJVUS; }
@@ -133,12 +134,19 @@ jpg2m() { mkdir m; for x in *jpg *JPG ; do convert $x -resize 50% m/$x ; echo $x
 alias xc='notify-send "Command finished" "`date`" -t 3000 --icon="/usr/share/icons/gnome/32x32/actions/player_record.png" '
 #bt_receive() { cd ~; cat yyy; bt-obex -s ~/BT_downloads; }
 bt_receive() { cd ~; yes | bt-obex -s ~/BT_downloads; }
-mo50q80() { mogrify -resize 50% -quality 80 $*; }
+#mo50q80() { mogrify -resize 50% -quality 80 $*; }
 mmo50q80() { for x in $* ; do convert $x -resize 50% -quality 80 ${x%%.*}.jpg ; done; }
-pan() { pandoc -f markdown+tex_math_single_backslash -t beamer   --latex-engine=pdflatex -o ${1%.md}.pdf ${1%.md}.md; }
+pan() { pandoc -f markdown+tex_math_single_backslash -t beamer   --pdf-engine=pdflatex -o ${1%.md}.pdf ${1%.md}.md; }
 limba() { sshfs  -F /home/dominecf/.ssh/my_config dominecf@limba.fzu.cz:/home/share/epimovpe LIMBA/ ; } 
 pdf2pdf() { convert -density 300 "$1"  -background "rgb(255,255,255)" -flatten  -rotate .2  -compress jpeg -quality 50 ${1%.pdf}_scan.pdf ; }
 dvorak() { setxkbmap cz -variant dvorak-ucw ; }
+fix_txt() { sed -e 's/\;.*\;/ /g' -e 's/,/./g' -i "${@}" ; }
+
+
+charactermap() { python3 -c "u' '.join((chr(j) if len(repr(chr(j)))==3 else 'X') for j in range(0x00, 0x3700))"; }
+slimba() { sshfs -F /home/dominecf/.ssh/my_config dominecf@limba.fzu.cz:/home/share/epimovpe LIMBA/ ; }
+sln3() { cd ~/LIMBA; find . -newermt $(date +%Y-%m-%d -d '3 day ago') -type f -printf "%Tm-%Td %p\n" ; }
+sln7() { cd ~/LIMBA; find . -newermt $(date +%Y-%m-%d -d '7 day ago') -type f -printf "%Tm-%Td %p\n" ; }
 
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
