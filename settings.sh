@@ -12,9 +12,10 @@ sudo apt-get install -y vim-gtk silversearcher-ag htop  miredo cstocs testdisk g
 
 ## Graphics and writing
 sudo apt-get install -y libreoffice-calc libreoffice-writer libreoffice-impress myspell-dictionary-cs hyphen-cs libreoffice-l10n-cs libreoffice-gtk3 libreoffice-style-tango libreoffice-pdfimport 
-sudo apt-get install -y gimp inkscape rawtherapee libimage-exiftool-perl gwyddion   rawtherapee hugin 
+sudo add-apt-repository ppa:gwyddion-spm/ppa
+sudo apt-get install -y evince gimp inkscape rawtherapee libimage-exiftool-perl gwyddion   rawtherapee hugin 
 sudo apt-get install -y texlive-fonts-extra pdfposter biber texlive-bibtex-extra texlive-lang-czechslovak pdftk imagemagick geeqie djvulibre-bin g3data  #?? pdfjam 
-sudo apt-get install -y texlive-latex-extra dvipng # for type1cm.sty to make latex+matplotlib work
+sudo apt-get install -y texlive-latex-extra dvipng pandoc # for type1cm.sty to make latex+matplotlib work
 
 ## Multimedia 
 sudo apt-get install -y sound-juicer lame smplayer vlc audacity ffmpeg handbrake
@@ -27,6 +28,9 @@ sudo apt-get install -y ipython3 python3-numpy python3-scipy python3-matplotlib 
 
 
 ## === Install non-repository software ===
+
+
+
 
 ## LibOrigin for python
 sudo apt-get install -y python3-pip cython doxygen cmake libboost-all-dev
