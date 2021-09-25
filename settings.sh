@@ -162,8 +162,8 @@ echo "c.InteractiveShellApp.exec_lines = ['%precision %.6g']" >> ~/.ipython/prof
 
 
 ## Origin viewer
-sudo apt-get install -y wine-devel #TODO test
-cp ~/p/default-linux-settings/files/wine/syswow64/mfc110u.dll ~/.wine/syswow64/
+sudo apt-get install -y wine-development #TODO test
+cp ./files/wine/syswow64/mfc110u.dll ~/.wine/syswow64/
 # get the DLL from https://wikidll.com/download/14122 (md5 = b8de851298e99a005bfd34aa906b3fe8)
 ## TODO get it from https://www.originlab.com/viewer/dl.aspx 
 
