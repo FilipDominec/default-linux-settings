@@ -9,10 +9,10 @@ echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select tr
 sudo apt-get install -y vim-gtk silversearcher-ag htop  miredo cstocs testdisk git gitg gnupg  unrar n2n nmap debfoster qemu qemu-kvm osdclock baobab  mc arbtt xdotool xsel nethogs arandr osdsh libxosd2 libnotify-bin network-manager-pptp curl gparted rename meld sshfs mlocate
 
 
-
 ## Graphics and writing
 sudo apt-get install -y libreoffice-calc libreoffice-writer libreoffice-impress myspell-dictionary-cs hyphen-cs libreoffice-l10n-cs libreoffice-gtk3 libreoffice-style-tango libreoffice-pdfimport 
-sudo add-apt-repository ppa:gwyddion-spm/ppa
+sudo add-apt-repository -y ppa:gwyddion-spm/ppa
+sudo add-apt-repository -y ppa:inkscape.dev/stable
 sudo apt-get install -y evince gimp inkscape rawtherapee libimage-exiftool-perl gwyddion   rawtherapee hugin 
 sudo apt-get install -y texlive-fonts-extra pdfposter biber texlive-bibtex-extra texlive-lang-czechslovak pdftk imagemagick geeqie djvulibre-bin g3data  #?? pdfjam 
 sudo apt-get install -y texlive-latex-extra dvipng pandoc # for type1cm.sty to make latex+matplotlib work
@@ -85,7 +85,7 @@ sudo apt-get update
 sudo apt-get install kaitai-struct-compiler  
 
 ## Unetbootin no more oficially supported, yet no good replacement found
-sudo add-apt-repository ppa:gezakovacs/ppa
+sudo add-apt-repository -y ppa:gezakovacs/ppa
 sudo apt-get update
 sudo apt-get -y install unetbootin
 
@@ -189,7 +189,7 @@ cp ~/p/default-linux-settings/files/wine/syswow64/mfc110u.dll ~/.wine/syswow64/
 ## there are wrong hints in the README file, the supposed directory does not exist. However the following works:
 # sudo unzip revtex4-1-tds.zip -d /usr/share/texmf-texlive/; sudo mktexlsr /usr/share/texmf-texlive/
 
-#sudo add-apt-repository ppa:finalterm/daily
+#sudo add-apt-repository -y ppa:finalterm/daily
 #sudo apt-get update
 #sudo apt-get install finalterm
 
