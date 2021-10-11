@@ -1,4 +1,5 @@
 ## NOTE: Run this script as the respective user, not root
+## NOTE: on notebook, fix for the powerbutton may be needed: sudo vi /etc/systemd/logind.conf
 
 ## === Programs from the repository ===
 
@@ -29,12 +30,9 @@ sudo apt-get install -y ipython3 python3-numpy python3-scipy python3-matplotlib 
 
 ## === Install non-repository software ===
 
-
-
-
 ## LibOrigin for python
 sudo apt-get install -y python3-pip cython doxygen cmake libboost-all-dev
-pip3 install Cython
+sudo pip3 install Cython
 git clone https://github.com/Saluev/python-liborigin2.git
 cd python-liborigin2/
 mkdir build
@@ -43,7 +41,8 @@ cmake ../
 make
 doxygen Doxyfile
 cd ..
-sudo python setup.py install
+# sudo python setup.py install
+python3 setup.py install
 cd ..
 
 ## Esmska
