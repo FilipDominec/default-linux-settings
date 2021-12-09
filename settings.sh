@@ -23,7 +23,9 @@ sudo apt-get install -y sound-juicer lame smplayer vlc audacity ffmpeg handbrake
 
 ## Programming, electronics and research
 sudo apt-get install -y avr-libc gcc-avr glade avrdude kicad  ## programming and technology
-sudo apt-get install -y ipython3 python3-numpy python3-scipy python3-matplotlib python3-pip python3-psutil python3-serial python3-imageio
+sudo apt-get install -y ipython3 python3-numpy python3-scipy python3-pip python3-psutil python3-serial python3-imageio #  python3-matplotlib
+
+sudo pip install -e git+git://github.com/matplotlib/matplotlib.git#egg=matplotlib
 # sudo apt-get install -y mpb harminv python-h5py paraview		## electromagnetic computation (MEEP will be compiled from scratch, search for python-meep-install on github)
 
 
