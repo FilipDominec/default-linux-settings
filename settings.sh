@@ -28,6 +28,7 @@ sudo apt-get install -y avr-libc gcc-avr glade avrdude kicad  ## programming and
 sudo apt-get install -y ipython3 python3-numpy python3-scipy python3-pip python3-psutil python3-serial python3-imageio #  python3-matplotlib
 
 sudo pip install -e git+git://github.com/matplotlib/matplotlib.git#egg=matplotlib
+# alternate:  git clone --depth 1 git@github.com:matplotlib/matplotlib.git  &&  cd matplotlib  &&  python -m pip install -e .
 pip install kiwisolver cycler python-dateutil # pip dependencies of matplotlib
 # sudo apt-get install -y mpb harminv python-h5py paraview		## electromagnetic computation (MEEP will be compiled from scratch, search for python-meep-install on github)
 
