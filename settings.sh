@@ -19,6 +19,7 @@ sudo add-apt-repository -y ppa:inkscape.dev/stable
 sudo apt-get install -y evince gimp inkscape rawtherapee libimage-exiftool-perl gwyddion   rawtherapee hugin 
 sudo apt-get install -y texlive-fonts-extra pdfposter biber texlive-bibtex-extra texlive-lang-czechslovak pdftk imagemagick geeqie djvulibre-bin g3data  #?? pdfjam 
 sudo apt-get install -y texlive-latex-extra dvipng pandoc # for type1cm.sty to make latex+matplotlib work
+# TODO try https://github.com/nichtich/pandoc-filter-arrows
 
 ## Multimedia 
 sudo apt-get install -y sound-juicer lame smplayer vlc audacity ffmpeg handbrake
