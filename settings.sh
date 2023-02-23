@@ -7,8 +7,10 @@
 echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | sudo debconf-set-selections
 
 ## Basics
-sudo apt-get install -y vim-gtk silversearcher-ag htop  miredo cstocs testdisk git gitg gnupg  unrar n2n nmap debfoster qemu qemu-kvm osdclock baobab  mc arbtt xdotool xsel nethogs arandr osdsh libxosd2 libnotify-bin network-manager-pptp curl gparted rename meld sshfs mlocate
+sudo apt-get install -y vim-gtk silversearcher-ag htop  miredo cstocs testdisk git gitg gnupg  unrar n2n nmap debfoster qemu qemu-kvm osdclock baobab  mc arbtt xdotool xsel nethogs arandr osdsh libxosd2 libnotify-bin network-manager-pptp curl gparted rename meld sshfs mlocate fslint
 
+#snap install czkawka? ## test this
+#sudo snap connect czkawka:removable-media
 
 ## Graphics and writing
 sudo apt-get install -y libreoffice-calc libreoffice-writer libreoffice-impress myspell-dictionary-cs hyphen-cs libreoffice-l10n-cs libreoffice-gtk3 libreoffice-style-tango libreoffice-pdfimport 
@@ -18,13 +20,18 @@ sudo apt-get install -y evince gimp inkscape rawtherapee libimage-exiftool-perl 
 sudo apt-get install -y texlive-fonts-extra pdfposter biber texlive-bibtex-extra texlive-lang-czechslovak pdftk imagemagick geeqie djvulibre-bin g3data  #?? pdfjam 
 sudo apt-get install -y texlive-latex-extra dvipng pandoc # for type1cm.sty to make latex+matplotlib work
 #note https://ask.libreoffice.org/t/export-directly-to-pdf-only-produces-a-blank-page/56400 may fix empty PDF problem
+# TODO try https://github.com/nichtich/pandoc-filter-arrows
 
 ## Multimedia 
 sudo apt-get install -y sound-juicer lame smplayer vlc audacity ffmpeg handbrake
 
 ## Programming, electronics and research
 sudo apt-get install -y avr-libc gcc-avr glade avrdude kicad  ## programming and technology
-sudo apt-get install -y ipython3 python3-numpy python3-scipy python3-matplotlib python3-pip python3-psutil python3-serial python3-imageio
+sudo apt-get install -y ipython3 python3-numpy python3-scipy python3-pip python3-psutil python3-serial python3-imageio #  python3-matplotlib
+
+sudo pip install -e git+git://github.com/matplotlib/matplotlib.git#egg=matplotlib
+# alternate:  git clone --depth 1 git@github.com:matplotlib/matplotlib.git  &&  cd matplotlib  &&  python -m pip install -e .
+pip install kiwisolver cycler python-dateutil # pip dependencies of matplotlib
 # sudo apt-get install -y mpb harminv python-h5py paraview		## electromagnetic computation (MEEP will be compiled from scratch, search for python-meep-install on github)
 
 

@@ -142,6 +142,39 @@ autocmd BufEnter *.tex imap <C-F11> \begin{exampleblock}\centering  \end{example
 autocmd BufEnter *.tex imap <S-F11> \begin{columns}[T] <CR> \begin{column}{.5\textwidth}<CR><TAB><TAB>%\hfill\includegraphics[width=.9\textwidth]{../img/cdh_geometry.pdf}<CR> <TAB>\end{column}<CR> <TAB>\begin{column}{.5\textwidth}<CR> <TAB><TAB>\vspace{3mm}<CR> <TAB><TAB>\noindent % some text<CR> <TAB>\end{column}%<CR> \end{columns}<CR> \vspace{.2em}<CR>
 
 
+
+" two equal columns
+autocmd BufEnter *.md imap  <F2> \cb<CR>\col <CR><CR>\col <CR><CR><CR>\ce<ESC>5<UP>A
+autocmd BufEnter *.md nmap  <F2> i\cb<CR>\col <CR><CR>\col <CR><CR><CR>\ce<esc>5<UP>$
+" two columns, the left one is 60% wide
+autocmd BufEnter *.md imap  <S-F2> \cb<CR>\colw <CR><CR>\coln <CR><CR><CR>\ce<ESC>5<UP>A
+autocmd BufEnter *.md nmap  <S-F2> i\cb<CR>\colw <CR><CR>\coln <CR><CR><CR>\ce<esc>5<UP>$
+" three equal columns
+autocmd BufEnter *.md imap  <C-F2> \cb<CR><CR>\colnn <CR><CR>\colnn <CR><CR>\colnn<CR><CR>\ce<ESC>7<UP>A
+autocmd BufEnter *.md nmap  <C-F2> i\cb<CR>\colnn <CR><CR>\colnn <CR><CR>\colnn<CR><CR>\ce<esc>7<UP>$
+
+" pandoc's comments
+autocmd BufEnter *.md nmap  <F3> V:s/^\(.*\)/[\/\/]: (\1) <CR>gv:s/^\[\/\/]: (\[\/\/]: (\(.*\)) ) $/\1<CR>
+autocmd BufEnter *.md vmap  <F3> :s/^\(.*\)/[\/\/]: (\1) <CR>gv:s/^\[\/\/]: (\[\/\/]: (\(.*\)) ) $/\1<CR>
+
+" filename to image
+autocmd BufEnter *.md nmap <F4> I![](Ea)j
+autocmd BufEnter *.md imap <F4> I![](img/)T)a
+" filename to image with fixed height
+autocmd BufEnter *.md nmap <S-F4> I![](Ea){height=30%}j
+autocmd BufEnter *.md imap <S-F4> I![](img/){height=30%}T)a
+
+" pick all PNGs & JPGs, and move the files into a new folder (with a name the
+" cursor is on)
+autocmd BufEnter *.md map <S-F12> <ESC>lB"ryE<ESC>V:'<,'>!mkdir -p img_r &&  find *.png *.jpg *.pdf   -exec echo img_r/{} \;    -exec mv {} img_r/  \;  2>/dev/null <CR>
+autocmd BufEnter *.md map <F12> <ESC>lB"ryE<ESC>V:!mkdir -p img_r &&  find *.png *.jpg *.pdf   -exec echo img_r/{} \;    -exec mv {} img_r/  \;  2>/dev/null <CR>
+
+
+autocmd BufNewFile *.md 0r ~/.vim/beamer-template.md
+
+
+
+
 " nahrazeni mezery za bezslabicnymi predlozkami za pevnou mezeru (~)
 "autocmd BufWrite *.tex :%s/\(\s[vVkKzZsS]\)\ \+/\1\~/ge
 
@@ -211,8 +244,8 @@ autocmd BufEnter *.in  vmap <S-F3>  :s/^\([ \t]*\)/\1#/<CR>
 autocmd BufEnter *.in  map  <F3> V:s/^\([ \t]*\)/\1#/<CR>gv:s/^\([ \t]*\)##/\1/<CR>
 autocmd BufEnter *.in  vmap <F3>  :s/^\([ \t]*\)/\1#/<CR>gv:s/^\([ \t]*\)##/\1/<CR>
 
-autocmd BufEnter *.md map  <F3> V:s/^\([ \t]*\)/\1[\/\/]: <CR>gv:s/^\([ \t]*\)\[\/\/]: \[\/\/]: \1/<CR>
-autocmd BufNewFile *beamer.md 0r ~/.vim/beamer-template.md
+"autocmd BufEnter *.md map  <F3> V:s/^\([ \t]*\)/\1[\/\/]: <CR>gv:s/^\([ \t]*\)\[\/\/]: \[\/\/]: \1/<CR>
+"autocmd BufNewFile *beamer.md 0r ~/.vim/beamer-template.md
 
 
 " python
