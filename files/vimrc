@@ -2,7 +2,7 @@
 set guifont=monospace\ 11
 syntax enable			
 colorscheme moje		" vlastni nastaveni barev (v souboru ~/.vim/colors/moje.vim)
-autocmd BufWritePost,BufEnter *.cpp,*.hpp,*.c,*.h,*.py,*.ctl,*.sh SemanticHighlight  " use the https://github.com/jaxbot/semantic-highlight.vim module
+autocmd BufWritePost,BufEnter *.cpp,*.hpp,*.c,*.h,*.py,*.ctl,*.sh,*.html SemanticHighlight  " use the https://github.com/jaxbot/semantic-highlight.vim module
 
 set go-=m go-=T		" hide menu and toolbar
 " cursor color and shape
