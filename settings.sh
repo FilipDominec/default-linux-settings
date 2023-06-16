@@ -26,10 +26,6 @@ sudo apt-get install -y texlive-latex-extra dvipng pandoc # for type1cm.sty to m
 #note https://ask.libreoffice.org/t/export-directly-to-pdf-only-produces-a-blank-page/56400 may fix empty PDF problem
 # TODO try https://github.com/nichtich/pandoc-filter-arrows
 
-## OCR for documents
-sudo snap install jbig2enc --edge
-sudo apt-get install -y tesseract-ocr ocrmypdf
-
 ## Multimedia 
 sudo apt-get install -y sound-juicer lame smplayer vlc audacity ffmpeg handbrake
 
@@ -83,11 +79,7 @@ echo -e "[Desktop Entry]\nType=Application\nExec=bash ~/.config/autostart/osd_cp
 
 
 
-## Install the automatic PDF cropping program
-wget http://sourceforge.net/projects/briss/files/latest/download -O /tmp/briss.gz
-unzip -q /tmp/briss.gz 
-mkdir -p ~/bin
-mv briss* ~/bin/
+
 
 ## Kaitai compiler is useful for parsing binary formats  : TODO has problem with java version ?
 ### 1. the module for parsing (for users of scientific instrumentation etc.)
@@ -185,16 +177,27 @@ cp ./files/wine/syswow64/mfc110u.dll ~/.wine/syswow64/ ### FIXME missing?
 
 
 # Experimental: pdf tools, see  https://archive-pdf-tools.readthedocs.io/en/latest/index.html
-sudo apt install -y libleptonica-dev libopenjp2-tools libxml2-dev libxslt-dev python3-dev python3-pip
-git clone https://github.com/agl/jbig2enc
-cd jbig2enc
-./autogen.sh
-./configure && make
-sudo make install
+#  I would need to somehow generate a "hOCR" file from a PDF, not going to do it now
+#  reported my troubles here: https://github.com/internetarchive/archive-pdf-tools/issues/67
 
-pip3 install archive-pdf-tools
+# sudo apt install -y libleptonica-dev libopenjp2-tools libxml2-dev libxslt-dev python3-dev python3-pip
+# git clone https://github.com/agl/jbig2enc
+# cd jbig2enc
+# ./autogen.sh
+# ./configure && make
+# sudo make install
+# recode_pdf --version ## OK, this writes: internetarchivepdf 1.5.2
 
-recode_pdf --version ## just a test
+
+## Install the automatic PDF cropping program
+wget http://sourceforge.net/projects/briss/files/latest/download -O /tmp/briss.gz
+unzip -q /tmp/briss.gz 
+mkdir -p ~/bin
+mv briss* ~/bin/
+
+## OCR for documents
+sudo snap install jbig2enc --edge
+sudo apt-get install -y tesseract-ocr ocrmypdf
 
 
 
