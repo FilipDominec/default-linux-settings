@@ -4,7 +4,6 @@ PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[0
 # source ~/bin/bash-git-prompt/gitprompt.sh
 alias fastmotion='mencoder mf://*.JPG -mf w=1024:h=768:fps=25:type=jpg -ovc lavc -lavcopts vcodec=mpeg4:mbd=2:trell:vbitrate=2152 -oac copy -o output.avi'
 # opt="vbitrate=2160000:mbd=2:keyint=132:v4mv:vqmin=3:lumi_mask=0.07:dark_mask=0.2:mpeg_quant:scplx_mask=0.1:tcplx_mask=0.1:naq" (..edges)
-#alias py='python3'
 alias py='ipython3 -i -c  "import os, pathlib; import numpy as np; a=np.array([1,2,3]); b=np.array([10,30,20]); aa=np.array([[1,2,3],[4,5,6],[7,8,9]]); l = [1,2,3]; d = {3:100, 4:200, 5:300}; ar=lambda *s: np.array(list(s))"'
 alias pym='ipython3 -i -c  "import os, pathlib; import matplotlib.pyplot as plt; import numpy as np; import numpy.linalg as la; from scipy.constants import c, pi, h, e; a=np.array([1,2,3]); b=np.array([10,20,30]); aa=np.array([[1,2,3],[4,5,6],[7,8,9]]); l = [1,2,3]; di = {3:100, 4:200, 5:300}; ar=lambda *s: np.array(list(s))"'
 alias lxp='killall lxpanel; lxpanel --profile Lubuntu &'
@@ -19,7 +18,6 @@ alias df="df -h"
 alias ls='ls --color=auto'
 alias licqa='licq -b ~/.licqadam &'
 alias repltxt='sed s/\!:1/\!:2/g \!:3 > temp.txt; mv -f temp.txt \!:3'
-mkcd()  { mkdir "$1" -p && cd "$1"; }
 zz()  { nice zip -rq9 `echo $1 | sed 's/\///g'`.zip "$1"; }
 zz1()  { nice zip -rq9 `echo $1 | sed 's/\///g'`.zip "$1"; }
 uz()  { nice unzip -q "$1"; }
@@ -43,7 +41,7 @@ attinyfuseread() { sudo avrdude -p t26 -c usbasp -U lfuse:r:-:h -U hfuse:r:-:h $
 
 avrcompile() { avr-gcc -g -Wall -O1 -mmcu=atmega328 -c $1.c -o $1.o && avr-gcc -g -Wall -O1 -mmcu=atmega328 $1.o    -o $1.elf && avr-objcopy -j .text -j .data -O ihex $1.elf $1.hex; }
 #arduload() { sudo avrdude -p m8 -c usbasp -U flash:w:$1.hex; }
-arduino() { ~/bin/arduino-1.8.15/arduino *ino; }
+#arduino() { ~/bin/arduino-1.8.15/arduino *ino; }
 
 ev()  { evince "$@" & }
 fddjvu() { DJVUS=""; for a in `ls *jpg`; do nice convert $a -threshold $1"%" $a.pbm;  nice cjb2 $a.pbm  -losslevel 150 $a.djvu; rm $a.pbm; DJVUS="$DJVUS $a.djvu"; echo -n _$a; done; nice djvm -create `pwd | sed -e "s;^.*[^\\]/;;g"`.djvu $DJVUS; rm $DJVUS; }
@@ -152,11 +150,15 @@ pdf2pdf() { convert -density 180 "$1"  -background "rgb(255,255,255)" -flatten  
 dvorak() { setxkbmap cz -variant dvorak-ucw ; }
 fix_comma_in_datafiles() { sed -e 's/\;.*\;/ /g' -e 's/,/./g' -i "${@}" ; }
 
+yt() { youtube-dl -x "$1"; }
 
 charactermap() { python3 -c "u' '.join((chr(j) if len(repr(chr(j)))==3 else 'X') for j in range(0x00, 0x3700))"; }
 slimba() { sshfs -F /home/dominecf/.ssh/my_config dominecf@limba.fzu.cz:/home/share/epimovpe LIMBA/ ; }
 sln3() { cd ~/LIMBA; find . -newermt $(date +%Y-%m-%d -d '3 day ago') -type f -printf "%Tm-%Td %p\n" ; }
 sln7() { cd ~/LIMBA; find . -newermt $(date +%Y-%m-%d -d '7 day ago') -type f -printf "%Tm-%Td %p\n" ; }
+
+maia_SEM_crop() { convert  "$1" \( +clone -crop 768x768+0+0  -contrast-stretch .01% \)  \( -clone 0 -crop 600x60+768+768 -trim -threshold 80% -transparent black \) -delete 0 -gravity SouthWest -geometry +10  -composite  "${1%.tif}_crop.png"   ;}
+maia_SEM_cropmore() { convert  "$1" \( +clone -crop 468x468+150+150  -contrast-stretch .01% \)  \( -clone 0 -crop 600x60+768+768 -trim -threshold 80% -transparent black \) -delete 0 -gravity SouthWest -geometry +10  -composite  "${1%.tif}_morecrop.png"   ;}
 
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
@@ -187,12 +189,14 @@ function wait_cpu_low() {
     fi
   done
 }
-export PICO_SDK_PATH
-export PICO_SDK_PATH=/home/dominecf/pico/pico-sdk
-export PICO_EXAMPLES_PATH=/home/dominecf/pico/pico-examples
-export PICO_EXTRAS_PATH=/home/dominecf/pico/pico-extras
-export PICO_PLAYGROUND_PATH=/home/dominecf/pico/pico-playground
+export PICO_SDK_PATH=/home/dominecf/bin/pico-sdk
+export PICO_EXAMPLES_PATH=/home/dominecf/bin/pico-examples
+export PICO_EXTRAS_PATH=/home/dominecf/bin/pico-extras
+export PICO_PLAYGROUND_PATH=/home/dominecf/bin/pico-playground
 
 # this is to prevent incorrectly set up SSHFS forbidding directory access to group
+#mkdir() { /usr/bin/mkdir -p "${@}" ; chmod ug+w "${@}" ; }  
+#mkcd() { /usr/bin/mkdir -p "${@}" ; chmod ug+w "${@}" ; cd  "${@}" ; }  
 mkdir() { /usr/bin/mkdir -m770 "$@" ; }
+mkcd()  { mkdir "$1" -p && cd "$1"; }
 
