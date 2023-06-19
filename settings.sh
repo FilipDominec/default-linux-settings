@@ -168,6 +168,9 @@ echo "c.InteractiveShellApp.exec_lines = ['%precision %.6g']" >> ~/.ipython/prof
 
 
 
+# Can evince pdf reader be setup to do larger zoom than 400%?
+gsettings set org.gnome.Evince page-cache-size 2014
+
 ## Origin viewer
 sudo apt-get install -y wine-development #TODO test
 cp ./files/wine/syswow64/mfc110u.dll ~/.wine/syswow64/
@@ -223,4 +226,5 @@ cp ./files/wine/syswow64/mfc110u.dll ~/.wine/syswow64/
 # sudo hp-setup -i
 # sudo sed -i 's/#user_allow_other/user_allow_other/g' /etc/fuse.conf
 ## If there are problems with installation or complaining of wrong MD5 sum, install it by compilation http://hplipopensource.com/hplip-web/install/manual/distros/ubuntu.html (needs to run `hp-plugin' and install the binary blob, and THEN, add the printer in a common way?)
+
 
