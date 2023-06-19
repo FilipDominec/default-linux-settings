@@ -42,6 +42,8 @@ attinycompile() { avr-gcc -g -Wall -O1 -mmcu=attiny26 -c $1.c -o $1.o && avr-gcc
 attinyfuseread() { sudo avrdude -p t26 -c usbasp -U lfuse:r:-:h -U hfuse:r:-:h $@; }
 
 avrcompile() { avr-gcc -g -Wall -O1 -mmcu=atmega328 -c $1.c -o $1.o && avr-gcc -g -Wall -O1 -mmcu=atmega328 $1.o    -o $1.elf && avr-objcopy -j .text -j .data -O ihex $1.elf $1.hex; }
+#arduload() { sudo avrdude -p m8 -c usbasp -U flash:w:$1.hex; }
+arduino() { ~/bin/arduino-1.8.15/arduino *ino; }
 
 ev()  { evince "$@" & }
 fddjvu() { DJVUS=""; for a in `ls *jpg`; do nice convert $a -threshold $1"%" $a.pbm;  nice cjb2 $a.pbm  -losslevel 150 $a.djvu; rm $a.pbm; DJVUS="$DJVUS $a.djvu"; echo -n _$a; done; nice djvm -create `pwd | sed -e "s;^.*[^\\]/;;g"`.djvu $DJVUS; rm $DJVUS; }
@@ -74,10 +76,11 @@ alias rmh5="find . -name \*h5 -exec mv {} ~/k \;"
 alias rmvtk="find . -name \*vtk -exec mv {} ~/k \;"
 alias jpg2book="~/bin/jpg2book.d/jpg2book"
 briss() { java -jar ~/bin/briss-0.9/briss-0.9.jar -s "$1" ; }
+gscompress() { gs -dQUIET -dBATCH -dNOPAUSE -dNOGC -dPDFSETTINGS=/screen -sDEVICE=pdfwrite -sOutputFile="$1"_compressed.pdf "$1" ;  } 
 
 pv() { temp=`mktemp`-paraview; mkdir ${temp}; cp $* ${temp}/x.vtk; paraview ${temp}/x.vtk;   }
 #pv() { cp $* /tmp/x.vtk; paraview /tmp/x.vtk; }
-ov() { wine ~/bin/origin_viewer_96/OrgView96.exe Z:`pwd | tr / \\`\\"$1"; }   ## https://www.originlab.com/viewer/dl.aspx
+ov() { wine ~/bin/origin_viewer_96/OrgView96.exe Z:`pwd | sed 's#/#\\\\#g' `\\"$1"; }   
 ggi() { git init; git branch -m master main ; }
 ggc() { git commit -am "$*"; }
 ggcc() { git commit $1 -m "${*:2}"; }
@@ -144,7 +147,8 @@ pan() { mkdir output ; pandoc -f markdown+yaml_metadata_block+tex_math_single_ba
 
 limba() { sshfs  -F /home/dominecf/.ssh/my_config dominecf@limba.fzu.cz:/home/share/epimovpe LIMBA/ ; } 
 unlimba() { fusermount -uz LIMBA/ ; }
-pdf2pdf() { convert -density 300 "$1"  -background "rgb(255,255,255)" -flatten  -rotate .2  -compress jpeg -quality 50 ${1%.pdf}_scan.pdf ; }
+fdweb() { sshfs -F /home/dominecf/.ssh/my_config dominecf@limba.fzu.cz:/home/dominecf/WWW/ FDWEB/ ; }
+pdf2pdf() { convert -density 180 "$1"  -background "rgb(255,255,255)" -flatten  -rotate .2  -compress jpeg -quality 50 ${1%.pdf}_scan.pdf ; }
 dvorak() { setxkbmap cz -variant dvorak-ucw ; }
 fix_comma_in_datafiles() { sed -e 's/\;.*\;/ /g' -e 's/,/./g' -i "${@}" ; }
 
@@ -168,4 +172,27 @@ sln7() { cd ~/LIMBA; find . -newermt $(date +%Y-%m-%d -d '7 day ago') -type f -p
 ###      fi
 ###      unset __conda_setup
 # <<< conda initialize <<<
+#conda activate mp	#manually added by fd
+
+function wait_cpu_low() {
+  sleep 60
+  threshold=50
+  while true; do
+    current=$(uptime | awk '{ gsub(/,/, ""); print $11 * 100; }')
+    if [ $current -lt $threshold ]; then
+      break;
+    else
+      echo `date` avg load is  $current
+      sleep 5
+    fi
+  done
+}
+export PICO_SDK_PATH
+export PICO_SDK_PATH=/home/dominecf/pico/pico-sdk
+export PICO_EXAMPLES_PATH=/home/dominecf/pico/pico-examples
+export PICO_EXTRAS_PATH=/home/dominecf/pico/pico-extras
+export PICO_PLAYGROUND_PATH=/home/dominecf/pico/pico-playground
+
+# this is to prevent incorrectly set up SSHFS forbidding directory access to group
+mkdir() { /usr/bin/mkdir -m770 "$@" ; }
 
