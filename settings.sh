@@ -13,7 +13,11 @@ sudo apt-get install -y vim-gtk silversearcher-ag htop  miredo cstocs testdisk g
 #sudo snap connect czkawka:removable-media
 
 ## Graphics and writing
-sudo apt-get install -y libreoffice-calc libreoffice-writer libreoffice-impress myspell-dictionary-cs hyphen-cs libreoffice-l10n-cs libreoffice-gtk3 libreoffice-style-tango libreoffice-pdfimport 
+#sudo apt-get install -y libreoffice-calc libreoffice-writer libreoffice-impress myspell-dictionary-cs hyphen-cs libreoffice-l10n-cs libreoffice-gtk3 libreoffice-style-tango libreoffice-pdfimport 
+sudo add-apt-repository ppa:libreoffice # latest LO
+sudo apt update
+sudo apt install libreoffice hyphen-cs hyphen-en-us -y
+
 sudo add-apt-repository -y ppa:gwyddion-spm/ppa
 sudo add-apt-repository -y ppa:inkscape.dev/stable
 sudo apt-get install -y evince gimp inkscape rawtherapee libimage-exiftool-perl gwyddion   rawtherapee hugin 
@@ -75,11 +79,7 @@ echo -e "[Desktop Entry]\nType=Application\nExec=bash ~/.config/autostart/osd_cp
 
 
 
-## Install the automatic PDF cropping program
-wget http://sourceforge.net/projects/briss/files/latest/download -O /tmp/briss.gz
-unzip -q /tmp/briss.gz 
-mkdir -p ~/bin
-mv briss* ~/bin/
+
 
 ## Kaitai compiler is useful for parsing binary formats  : TODO has problem with java version ?
 ### 1. the module for parsing (for users of scientific instrumentation etc.)
@@ -172,10 +172,35 @@ echo "c.InteractiveShellApp.exec_lines = ['%precision %.6g']" >> ~/.ipython/prof
 gsettings set org.gnome.Evince page-cache-size 2014
 
 ## Origin viewer
-sudo apt-get install -y wine-development #TODO test
-cp ./files/wine/syswow64/mfc110u.dll ~/.wine/syswow64/
+sudo apt-get install -y wine-development #TODO test 
+cp ./files/wine/syswow64/mfc110u.dll ~/.wine/syswow64/ ### FIXME missing? 
 # get the DLL from https://wikidll.com/download/14122 (md5 = b8de851298e99a005bfd34aa906b3fe8)
 ## TODO get it from https://www.originlab.com/viewer/dl.aspx 
+
+
+
+# Experimental: pdf tools, see  https://archive-pdf-tools.readthedocs.io/en/latest/index.html
+#  I would need to somehow generate a "hOCR" file from a PDF, not going to do it now
+#  reported my troubles here: https://github.com/internetarchive/archive-pdf-tools/issues/67
+
+# sudo apt install -y libleptonica-dev libopenjp2-tools libxml2-dev libxslt-dev python3-dev python3-pip
+# git clone https://github.com/agl/jbig2enc
+# cd jbig2enc
+# ./autogen.sh
+# ./configure && make
+# sudo make install
+# recode_pdf --version ## OK, this writes: internetarchivepdf 1.5.2
+
+
+## Install the automatic PDF cropping program
+wget http://sourceforge.net/projects/briss/files/latest/download -O /tmp/briss.gz
+unzip -q /tmp/briss.gz 
+mkdir -p ~/bin
+mv briss* ~/bin/
+
+## OCR for documents
+sudo snap install jbig2enc --edge
+sudo apt-get install -y tesseract-ocr ocrmypdf
 
 
 
