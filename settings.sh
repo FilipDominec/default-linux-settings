@@ -202,6 +202,13 @@ mv briss* ~/bin/
 sudo snap install jbig2enc --edge
 sudo apt-get install -y tesseract-ocr ocrmypdf
 
+## Re-flow of PDF for mobile/e-ink readers ### TODO test
+sudo apt-get install -y k2pdfopt
+pushd ~/bin/
+git clone https://github.com/pwang7/rebook --depth 1
+ln -s `which k2pdfopt` .
+popd
+
 
 
 # Unnecessary?
