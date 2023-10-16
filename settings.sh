@@ -33,6 +33,8 @@ sudo apt-get install -y sound-juicer lame smplayer vlc audacity ffmpeg handbrake
 sudo apt-get install -y avr-libc gcc-avr glade avrdude kicad  ## programming and technology
 sudo apt-get install -y ipython3 python3-numpy python3-scipy python3-pip python3-psutil python3-serial python3-imageio #  python3-matplotlib
 
+sudo pip install  yt-dlp # (upgraded fork of youtube-dl)
+
 sudo pip install -e git+git://github.com/matplotlib/matplotlib.git#egg=matplotlib
 # alternate:  git clone --depth 1 git@github.com:matplotlib/matplotlib.git  &&  cd matplotlib  &&  python -m pip install -e .
 pip install kiwisolver cycler python-dateutil # pip dependencies of matplotlib
