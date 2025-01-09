@@ -73,7 +73,7 @@ alias suspend='dbus-send --system --print-reply --dest="org.freedesktop.UPower" 
 alias rmh5="find . -name \*h5 -exec mv {} ~/k \;"
 alias rmvtk="find . -name \*vtk -exec mv {} ~/k \;"
 alias jpg2book="~/bin/jpg2book.d/jpg2book"
-briss() { java -jar ~/bin/briss-0.9/briss-0.9.jar -s "$1" ; }
+briss() { java -jar ~/bin/briss-0.9/briss-0.9.jar -s "$1" && evince "${1%.pdf}_cropped.pdf" ; }
 gscompress_hq() { gs -dQUIET -dBATCH -dNOPAUSE -dNOGC -dPDFSETTINGS=/printer -sDEVICE=pdfwrite -sOutputFile="${1%.pdf}_compressedHQ.pdf" "$1" ;  } 
 gscompress_mq() { gs -dQUIET -dBATCH -dNOPAUSE -dNOGC -dPDFSETTINGS=/ebook -sDEVICE=pdfwrite -sOutputFile="${1%.pdf}_compressedMQ.pdf" "$1" ;  } 
 gscompress_lq() { gs -dQUIET -dBATCH -dNOPAUSE -dNOGC -dPDFSETTINGS=/screen -sDEVICE=pdfwrite -sOutputFile="${1%.pdf}_compressedLQ.pdf" "$1" ;  } 
@@ -159,7 +159,7 @@ fix_comma_in_datafiles() { sed -e 's/\;.*\;/ /g' -e 's/,/./g' -i "${@}" ; }
 
 yt() { yt-dlp -x "$1"; }
 
-charactermap() { python3 -c "u' '.join((chr(j) if len(repr(chr(j)))==3 else 'X') for j in range(0x00, 0x3700))"; }
+charactermap() { python3 -c "print(u' '.join((chr(j) if len(repr(chr(j)))==3 else 'X') for j in range(0x00, 0x3700)))"; }
 slimba() { sshfs -F /home/dominecf/.ssh/my_config dominecf@limba.fzu.cz:/home/share/epimovpe LIMBA/ ; }
 sln3() { cd ~/LIMBA; find . -newermt $(date +%Y-%m-%d -d '3 day ago') -type f -printf "%Tm-%Td %p\n" ; }
 sln7() { cd ~/LIMBA; find . -newermt $(date +%Y-%m-%d -d '7 day ago') -type f -printf "%Tm-%Td %p\n" ; }
@@ -197,13 +197,11 @@ function wait_cpu_low() {
     fi
   done
 }
-
 # this is to prevent incorrectly set up SSHFS forbidding directory access to group
 #mkdir() { /usr/bin/mkdir -p "${@}" ; chmod ug+w "${@}" ; }  
 #mkcd() { /usr/bin/mkdir -p "${@}" ; chmod ug+w "${@}" ; cd  "${@}" ; }  
 mkdir() { /usr/bin/mkdir -m770 "$@" ; }
 mkcd()  { mkdir "$1" -p && cd "$1"; }
-
 pondeli() { cd /home/dominecf/LIMBA/ ; find  -newermt $(date +%Y-%m-%d -d '7 day ago') -type f -printf "%Tm-%Td %p\n" | sort | tee ~/LIMBA/dominecf/new_files_weekly/new_files_report_`date  --rfc-3339\=date`.txt ; }
 
 fix_dir_perm() { find . -type d ! -perm /g=w -exec ls -ld {} \; -exec chmod 770 {} \; ; }
