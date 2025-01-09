@@ -74,7 +74,9 @@ alias rmh5="find . -name \*h5 -exec mv {} ~/k \;"
 alias rmvtk="find . -name \*vtk -exec mv {} ~/k \;"
 alias jpg2book="~/bin/jpg2book.d/jpg2book"
 briss() { java -jar ~/bin/briss-0.9/briss-0.9.jar -s "$1" ; }
-gscompress() { gs -dQUIET -dBATCH -dNOPAUSE -dNOGC -dPDFSETTINGS=/screen -sDEVICE=pdfwrite -sOutputFile="$1"_compressed.pdf "$1" ;  } 
+gscompress_hq() { gs -dQUIET -dBATCH -dNOPAUSE -dNOGC -dPDFSETTINGS=/printer -sDEVICE=pdfwrite -sOutputFile="${1%.pdf}_compressedHQ.pdf" "$1" ;  } 
+gscompress_mq() { gs -dQUIET -dBATCH -dNOPAUSE -dNOGC -dPDFSETTINGS=/ebook -sDEVICE=pdfwrite -sOutputFile="${1%.pdf}_compressedMQ.pdf" "$1" ;  } 
+gscompress_lq() { gs -dQUIET -dBATCH -dNOPAUSE -dNOGC -dPDFSETTINGS=/screen -sDEVICE=pdfwrite -sOutputFile="${1%.pdf}_compressedLQ.pdf" "$1" ;  } 
 
 pv() { temp=`mktemp`-paraview; mkdir ${temp}; cp $* ${temp}/x.vtk; paraview ${temp}/x.vtk;   }
 #pv() { cp $* /tmp/x.vtk; paraview /tmp/x.vtk; }
@@ -90,6 +92,7 @@ ggs() { git status; }
 ggh() { git push; }
 ggl() { git pull; }
 ggrs() { git reset --soft HEAD^ ; }
+gg_undo() { git checkout @ -- "$@" ; } 
 gglum() { git pull upstream master; }
 alias idlesleep="while [ $(cat /proc/loadavg | sed 's/ .*//g') > 0.5 ]; do sleep 10; done; /etc/acpi/sleep.sh"
 rec() { timeout $2 cvlc v4l2:///dev/video1 :v4l2-standard= :input-slave=pulseaudio:// --sout "#transcode{vcodec=mp2v,vb=5008,scale=Auto,acodec=mpga,ab=128,channels=2,samplerate=22050,scodec=none,deinterlace,vfilter={adjust{brightness=.8,contrast=.8,saturation=.9},croppadd{croptop=16,cropleft=12,cropbottom=2,cropright=2}}}:std{access=file{overwrite},mux=ts,dst=$1.ts}" ; }
@@ -121,10 +124,12 @@ from() { python -ic "from $*"; }
 pskvm() { ps xa| grep "[b]in/kvm"; }
 alias qemu="qemu-system-x86_64 -m 3000 -smp cpus=2 -enable-kvm"
 # pdfjoin() { /usr/bin/pdfjoin  --rotateoversize false $*; }
-pdfjoin() { gs -dBATCH -dNOPAUSE -q -sDEVICE=pdfwrite -dAutoRotatePages=/None -sOutputFile=joined.pdf  "${@}" ; }
+pdfjoin() { gs -dBATCH -dNOPAUSE -q -sDEVICE=pdfwrite -dAutoRotatePages=/None -sOutputFile=joined.pdf  "${@}" ; } # preferable, does not overwrite
 nin() { ~/p/nihilnovi/nihilnovi.py "${@}"; }
 stack() { align_image_stack -v -m -a TMP "${@}" && enfuse  --exposure-weight=0 --saturation-weight=0 --contrast-weight=1 --hard-mask --output=depth_composed.tif TMP*tif && rm TMP*tif; }
-heightstack() { align_image_stack -v -m -a TMP "${@}" && enfuse  --save-masks --exposure-weight=0 --saturation-weight=0 --contrast-weight=1 --hard-mask --output=depth_composed.tif TMP*tif && rm TMP*tif; mogrify -format JPG *mask*tif; }
+stack_soft() { align_image_stack -v -m -a TMP "${@}" && enfuse  --exposure-weight=0 --saturation-weight=0 --contrast-weight=1 --soft-mask --output=depth_composed_softmask.tif TMP*tif && rm TMP*tif; }
+stack_hard2() { align_image_stack -v -m -a TMP "${@}" && enfuse  --exposure-weight=0 --saturation-weight=0 --contrast-weight=1 --hard-mask  --contrast-edge-scale=0.3 --contrast-min-curvature=0.5%  --contrast-window-size=7  --output=depth_composed_hardmask2.tif TMP*tif && rm TMP*tif; }
+heightstack() { align_image_stack -v -m -a TMP "${@}" && enfuse  --save-masks --exposure-weight=0 --saturation-weight=0 --contrast-weight=1 --hard-mask --output=depth_composed_height.tif TMP*tif && rm TMP*tif; mogrify -format JPG *mask*tif; }
 date_to_iso() { for x in 1* ; do mv $x `echo $x | sed 's/\([0-9][0-9]\)\([0-9][0-9]\)\([0-9][0-9]\)/20\1-\2-\3/g' `; done; }
 cropjoin() { for x in * ; do briss "$x" ; done; pdfjoin *cropp*; mv *-joined* ALL-crop-join.pdf ; }
 tiffize() { for x in *tif; do convert "$x" `echo ${x%.tif} | tr ' ' '_'`.jpg ; done; mkdir TIFF;  mv *tif *TIF *hdr TIFF;  }
@@ -138,24 +143,27 @@ alias xc='notify-send "Command finished" "`date`" -t 3000 --icon="/usr/share/ico
 #bt_receive() { cd ~; cat yyy; bt-obex -s ~/BT_downloads; }
 bt_receive() { cd ~; yes | bt-obex -s ~/BT_downloads; }
 mo50q80() { mogrify -resize 50% -quality 80 "$*"; }
-mmo50q80() { for x in $* ; do convert $x -resize 50% -quality 80 ${x%%.*}.jpg ; done; }
-mmo99q80() { for x in $* ; do convert $x -quality 80 ${x%%.*}.jpg ; done; }
-pan() { mkdir output ; pandoc -f markdown+yaml_metadata_block+tex_math_single_backslash+smart+lists_without_preceding_blankline -t beamer   --pdf-engine=pdflatex -o output/${1%.md}.pdf ${1%.md}.md  ;  evince output/${1%.md}.pdf & }
+mmo50q80() { for x in "$@" ; do convert "$x" -resize 50% -quality 80 "${x%%.*}.jpg" ; done; }
+mmo99q80() { for x in "$@" ; do convert "$x" -quality 80 "${x%%.*}.jpg" ; done; }
+pan() { mkdir -p output ; pandoc -f markdown+yaml_metadata_block+tex_math_single_backslash+smart+lists_without_preceding_blankline -t beamer   --pdf-engine=pdflatex -o output/${1%.md}.pdf ${1%.md}.md  ;  evince output/${1%.md}.pdf & }
 #pan() { pandoc -f markdown+backtick_code_blocks+auto_identifiers+strikeout+yaml_metadata_block+implicit_figures+all_symbols_escapable+link_attributes+smart+fenced_divs -t beamer   --pdf-engine=pdflatex -o ${1%.md}.pdf ${1%.md}.md  &&  evince ${1%.md}.pdf ; }
 
-limba() { sshfs  -F /home/dominecf/.ssh/my_config dominecf@limba.fzu.cz:/home/share/epimovpe LIMBA/ ; } 
+limba() { sshfs  -F /home/dominecf/.ssh/my_config  -o allow_other dominecf@limba.fzu.cz:/home/share/epimovpe LIMBA/ ;  ~/LIMBA/dominecf/vzkt_filler/input_growths.py modra ; ~/LIMBA/dominecf/vzkt_filler/input_growths.py bila ; } 
 unlimba() { fusermount -uz LIMBA/ ; }
 fdweb() { sshfs -F /home/dominecf/.ssh/my_config dominecf@limba.fzu.cz:/home/dominecf/WWW/ FDWEB/ ; }
 pdf2pdf() { convert -density 180 "$1"  -background "rgb(255,255,255)" -flatten  -rotate .2  -compress jpeg -quality 50 ${1%.pdf}_scan.pdf ; }
+pdf3pdf() { convert -density 180 "$1"  -background "rgb(255,255,255)" -flatten  -rotate -.2  -compress jpeg -quality 50 ${1%.pdf}_scan.pdf ; }
+pdf4pdf() { convert -density 180 "$1"  -background "rgb(255,255,255)" -flatten  -rotate .4  -compress jpeg -quality 50 ${1%.pdf}_scan.pdf ; }
 dvorak() { setxkbmap cz -variant dvorak-ucw ; }
 fix_comma_in_datafiles() { sed -e 's/\;.*\;/ /g' -e 's/,/./g' -i "${@}" ; }
 
-yt() { youtube-dl -x "$1"; }
+yt() { yt-dlp -x "$1"; }
 
 charactermap() { python3 -c "u' '.join((chr(j) if len(repr(chr(j)))==3 else 'X') for j in range(0x00, 0x3700))"; }
 slimba() { sshfs -F /home/dominecf/.ssh/my_config dominecf@limba.fzu.cz:/home/share/epimovpe LIMBA/ ; }
 sln3() { cd ~/LIMBA; find . -newermt $(date +%Y-%m-%d -d '3 day ago') -type f -printf "%Tm-%Td %p\n" ; }
 sln7() { cd ~/LIMBA; find . -newermt $(date +%Y-%m-%d -d '7 day ago') -type f -printf "%Tm-%Td %p\n" ; }
+#kobofix() { echo "SideloadedMode=true" >> /media/dominecf/KOBOeReader/.kobo/Kobo/
 
 maia_SEM_crop() { convert  "$1" \( +clone -crop 768x768+0+0  -contrast-stretch .01% \)  \( -clone 0 -crop 600x60+768+768 -trim -threshold 80% -transparent black \) -delete 0 -gravity SouthWest -geometry +10  -composite  "${1%.tif}_crop.png"   ;}
 maia_SEM_cropmore() { convert  "$1" \( +clone -crop 468x468+150+150  -contrast-stretch .01% \)  \( -clone 0 -crop 600x60+768+768 -trim -threshold 80% -transparent black \) -delete 0 -gravity SouthWest -geometry +10  -composite  "${1%.tif}_morecrop.png"   ;}
@@ -189,14 +197,19 @@ function wait_cpu_low() {
     fi
   done
 }
-export PICO_SDK_PATH=/home/dominecf/bin/pico-sdk
-export PICO_EXAMPLES_PATH=/home/dominecf/bin/pico-examples
-export PICO_EXTRAS_PATH=/home/dominecf/bin/pico-extras
-export PICO_PLAYGROUND_PATH=/home/dominecf/bin/pico-playground
 
 # this is to prevent incorrectly set up SSHFS forbidding directory access to group
 #mkdir() { /usr/bin/mkdir -p "${@}" ; chmod ug+w "${@}" ; }  
 #mkcd() { /usr/bin/mkdir -p "${@}" ; chmod ug+w "${@}" ; cd  "${@}" ; }  
 mkdir() { /usr/bin/mkdir -m770 "$@" ; }
 mkcd()  { mkdir "$1" -p && cd "$1"; }
+
+pondeli() { cd /home/dominecf/LIMBA/ ; find  -newermt $(date +%Y-%m-%d -d '7 day ago') -type f -printf "%Tm-%Td %p\n" | sort | tee ~/LIMBA/dominecf/new_files_weekly/new_files_report_`date  --rfc-3339\=date`.txt ; }
+
+fix_dir_perm() { find . -type d ! -perm /g=w -exec ls -ld {} \; -exec chmod 770 {} \; ; }
+
+export PICO_SDK_PATH=/home/dominecf/pico/pico-sdk
+export PICO_EXAMPLES_PATH=/home/dominecf/pico/pico-examples
+export PICO_EXTRAS_PATH=/home/dominecf/pico/pico-extras
+export PICO_PLAYGROUND_PATH=/home/dominecf/pico/pico-playground
 

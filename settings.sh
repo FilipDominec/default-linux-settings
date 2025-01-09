@@ -99,7 +99,9 @@ sudo apt-get update
 sudo apt-get -y install unetbootin
 
 
-
+# if Acrobat reader installed for interactive forms, set evince still as default
+# (not doing it here)
+xdg-mime default evince.desktop application/pdf
 
 
 ## === System-wide settings (run as root) ===
