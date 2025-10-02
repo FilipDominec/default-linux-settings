@@ -268,3 +268,8 @@ popd
 ## If there are problems with installation or complaining of wrong MD5 sum, install it by compilation http://hplipopensource.com/hplip-web/install/manual/distros/ubuntu.html (needs to run `hp-plugin' and install the binary blob, and THEN, add the printer in a common way?)
 
 
+## Secure Boot - sbctl, to be tested
+echo 'deb http://download.opensuse.org/repositories/home:/jloeser:/secureboot/xUbuntu_24.04/ /' | sudo tee /etc/apt/sources.list.d/home:jloeser:secureboot.list
+curl -fsSL https://download.opensuse.org/repositories/home:jloeser:secureboot/xUbuntu_24.04/Release.key | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/home_jloeser_secureboot.gpg > /dev/null
+sudo apt update
+sudo apt install sbctl
