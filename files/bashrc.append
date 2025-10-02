@@ -74,6 +74,7 @@ alias rmh5="find . -name \*h5 -exec mv {} ~/k \;"
 alias rmvtk="find . -name \*vtk -exec mv {} ~/k \;"
 alias jpg2book="~/bin/jpg2book.d/jpg2book"
 briss() { java -jar ~/bin/briss-0.9/briss-0.9.jar -s "$1" && evince "${1%.pdf}_cropped.pdf" ; }
+briss_manual() { java -jar ~/bin/briss-0.9/briss-0.9.jar  ; }
 gscompress_hq() { gs -dQUIET -dBATCH -dNOPAUSE -dNOGC -dPDFSETTINGS=/printer -sDEVICE=pdfwrite -sOutputFile="${1%.pdf}_compressedHQ.pdf" "$1" ;  } 
 gscompress_mq() { gs -dQUIET -dBATCH -dNOPAUSE -dNOGC -dPDFSETTINGS=/ebook -sDEVICE=pdfwrite -sOutputFile="${1%.pdf}_compressedMQ.pdf" "$1" ;  } 
 gscompress_lq() { gs -dQUIET -dBATCH -dNOPAUSE -dNOGC -dPDFSETTINGS=/screen -sDEVICE=pdfwrite -sOutputFile="${1%.pdf}_compressedLQ.pdf" "$1" ;  } 
@@ -144,16 +145,18 @@ alias xc='notify-send "Command finished" "`date`" -t 3000 --icon="/usr/share/ico
 bt_receive() { cd ~; yes | bt-obex -s ~/BT_downloads; }
 mo50q80() { mogrify -resize 50% -quality 80 "$*"; }
 mmo50q80() { for x in "$@" ; do convert "$x" -resize 50% -quality 80 "${x%%.*}.jpg" ; done; }
+mmo99q50() { for x in "$@" ; do convert "$x" -quality 50 "${x%%.*}.jpg" ; done; }
 mmo99q80() { for x in "$@" ; do convert "$x" -quality 80 "${x%%.*}.jpg" ; done; }
 pan() { mkdir -p output ; pandoc -f markdown+yaml_metadata_block+tex_math_single_backslash+smart+lists_without_preceding_blankline -t beamer   --pdf-engine=pdflatex -o output/${1%.md}.pdf ${1%.md}.md  ;  evince output/${1%.md}.pdf & }
 #pan() { pandoc -f markdown+backtick_code_blocks+auto_identifiers+strikeout+yaml_metadata_block+implicit_figures+all_symbols_escapable+link_attributes+smart+fenced_divs -t beamer   --pdf-engine=pdflatex -o ${1%.md}.pdf ${1%.md}.md  &&  evince ${1%.md}.pdf ; }
 
-limba() { sshfs  -F /home/dominecf/.ssh/my_config  -o allow_other dominecf@limba.fzu.cz:/home/share/epimovpe LIMBA/ ;  ~/LIMBA/dominecf/vzkt_filler/input_growths.py modra ; ~/LIMBA/dominecf/vzkt_filler/input_growths.py bila ; } 
+limba() { sshfs  -F /home/dominecf/.ssh/my_config  dominecf@limba.fzu.cz:/home/share/epimovpe LIMBA/ ;  ~/LIMBA/lide/dominecf/vzkt_filler/input_growths.py modra ; ~/LIMBA/lide/dominecf/vzkt_filler/input_growths.py bila ; } 
+llimba() { sshfs  -o idmap=user -F /home/dominecf/.ssh/my_config  dominecf@limba.fzu.cz:/home/share/epimovpe LIMBA/ ; } 
 unlimba() { fusermount -uz LIMBA/ ; }
 fdweb() { sshfs -F /home/dominecf/.ssh/my_config dominecf@limba.fzu.cz:/home/dominecf/WWW/ FDWEB/ ; }
-pdf2pdf() { convert -density 180 "$1"  -background "rgb(255,255,255)" -flatten  -rotate .2  -compress jpeg -quality 50 ${1%.pdf}_scan.pdf ; }
-pdf3pdf() { convert -density 180 "$1"  -background "rgb(255,255,255)" -flatten  -rotate -.2  -compress jpeg -quality 50 ${1%.pdf}_scan.pdf ; }
-pdf4pdf() { convert -density 180 "$1"  -background "rgb(255,255,255)" -flatten  -rotate .4  -compress jpeg -quality 50 ${1%.pdf}_scan.pdf ; }
+pdf2pdf() { convert -density 360 "$1"  -background "rgb(255,255,255)" -flatten -level 0,92% -rotate .2  -compress jpeg -quality 50 ${1%.pdf}_scan.pdf ; }
+pdf3pdf() { convert -density 360 "$1"  -background "rgb(255,255,255)" -flatten -level 0,92% -rotate -.2  -compress jpeg -quality 50 ${1%.pdf}_scan.pdf ; }
+pdf4pdf() { convert -density 360 "$1"  -background "rgb(255,255,255)" -flatten -level 0,92% -rotate .4  -compress jpeg -quality 50 ${1%.pdf}_scan.pdf ; }
 dvorak() { setxkbmap cz -variant dvorak-ucw ; }
 fix_comma_in_datafiles() { sed -e 's/\;.*\;/ /g' -e 's/,/./g' -i "${@}" ; }
 
@@ -202,12 +205,16 @@ function wait_cpu_low() {
 #mkcd() { /usr/bin/mkdir -p "${@}" ; chmod ug+w "${@}" ; cd  "${@}" ; }  
 mkdir() { /usr/bin/mkdir -m770 "$@" ; }
 mkcd()  { mkdir "$1" -p && cd "$1"; }
-pondeli() { cd /home/dominecf/LIMBA/ ; find  -newermt $(date +%Y-%m-%d -d '7 day ago') -type f -printf "%Tm-%Td %p\n" | sort | tee ~/LIMBA/dominecf/new_files_weekly/new_files_report_`date  --rfc-3339\=date`.txt ; }
+pondeli() { cd /home/dominecf/LIMBA/ ; find  -newermt $(date +%Y-%m-%d -d '7 day ago') -type f -printf "%Tm-%Td %p\n" | sort | tee ~/LIMBA/lide/dominecf/new_files_weekly/new_files_report_`date  --rfc-3339\=date`.txt ; }
 
+find_dir_perm() { find . -type d ! -perm /g=w -exec ls -ld {}  \; ; }
 fix_dir_perm() { find . -type d ! -perm /g=w -exec ls -ld {} \; -exec chmod 770 {} \; ; }
 
-export PICO_SDK_PATH=/home/dominecf/pico/pico-sdk
-export PICO_EXAMPLES_PATH=/home/dominecf/pico/pico-examples
-export PICO_EXTRAS_PATH=/home/dominecf/pico/pico-extras
-export PICO_PLAYGROUND_PATH=/home/dominecf/pico/pico-playground
+export PICO_SDK_PATH=/home/dominecf/bin/pico-sdk
+export PICO_EXAMPLES_PATH=/home/dominecf/bin/pico-examples
+export PICO_EXTRAS_PATH=/home/dominecf/bin/pico-extras
+export PICO_PLAYGROUND_PATH=/home/dominecf/bin/pico-playground
 
+posterconv() { convert -alpha remove -density 120 "$1"  "../${1%.pdf}_m.png" ; } 
+
+thumbnail_gallery_with_names() { for f in "${@}"; do  convert "$f" -resize 600x600 -gravity South -fill black  -splice 0x18 -pointsize 28 -annotate +0-6 "${f%%.*}" miff:- ; done |  montage -geometry +1+1 -tile x5 miff:- montage.pdf ; } # TODO test this
