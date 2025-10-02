@@ -1,4 +1,5 @@
 echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | sudo debconf-set-selections
+sudo apt-get --reinstall install ttf-mscorefonts-installer
 ## NOTE: Run this script as the respective user, not root
 ## NOTE: on notebook, fix for the powerbutton may be needed: sudo vi /etc/systemd/logind.conf
 
