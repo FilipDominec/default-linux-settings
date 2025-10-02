@@ -1,5 +1,5 @@
 """ Visual
-set guifont=monospace\ 11
+set guifont=monospace\ 13
 syntax enable			
 colorscheme moje		" vlastni nastaveni barev (v souboru ~/.vim/colors/moje.vim)
 autocmd BufWritePost,BufEnter *.cpp,*.hpp,*.c,*.h,*.py,*.ctl,*.sh,*.html SemanticHighlight  " use the https://github.com/jaxbot/semantic-highlight.vim module

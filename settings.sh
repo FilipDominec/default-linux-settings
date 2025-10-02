@@ -1,3 +1,4 @@
+echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | sudo debconf-set-selections
 ## NOTE: Run this script as the respective user, not root
 ## NOTE: on notebook, fix for the powerbutton may be needed: sudo vi /etc/systemd/logind.conf
 
@@ -7,9 +8,9 @@
 echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | sudo debconf-set-selections
 
 ## Basics
-sudo apt-get install -y vim-gtk silversearcher-ag htop  miredo cstocs testdisk git gitg gnupg  unrar n2n nmap debfoster qemu qemu-kvm osdclock baobab  mc arbtt xdotool xsel nethogs arandr osdsh libxosd2 libnotify-bin network-manager-pptp curl gparted rename meld sshfs mlocate fslint
+sudo apt-get install -y vim-gtk3 silversearcher-ag htop  cstocs testdisk git gitg gnupg  unrar n2n nmap debfoster osdclock baobab  mc xdotool xsel nethogs arandr osdsh libxosd2 libnotify-bin network-manager-pptp curl gparted rename meld sshfs 
 
-#snap install czkawka? ## test this
+snap install czkawka
 #sudo snap connect czkawka:removable-media
 
 ## Graphics and writing
@@ -20,9 +21,9 @@ sudo apt install libreoffice hyphen-cs hyphen-en-us -y
 
 sudo add-apt-repository -y ppa:gwyddion-spm/ppa
 sudo add-apt-repository -y ppa:inkscape.dev/stable
-sudo apt-get install -y evince gimp inkscape rawtherapee libimage-exiftool-perl gwyddion   rawtherapee hugin 
-sudo apt-get install -y texlive-fonts-extra pdfposter biber texlive-bibtex-extra texlive-lang-czechslovak pdftk imagemagick geeqie djvulibre-bin g3data  #?? pdfjam 
-sudo apt-get install -y texlive-latex-extra dvipng pandoc # for type1cm.sty to make latex+matplotlib work
+sudo apt-get install -y evince gimp inkscape libimage-exiftool-perl gwyddion rawtherapee hugin geeqie 
+#sudo apt-get install -y texlive-fonts-extra pdfposter biber texlive-bibtex-extra texlive-lang-czechslovak pdftk imagemagick djvulibre-bin  #?? pdfjam 
+#sudo apt-get install -y texlive-latex-extra dvipng pandoc # for type1cm.sty to make latex+matplotlib work
 #note https://ask.libreoffice.org/t/export-directly-to-pdf-only-produces-a-blank-page/56400 may fix empty PDF problem
 # TODO try https://github.com/nichtich/pandoc-filter-arrows
 
@@ -31,14 +32,15 @@ sudo apt-get install -y sound-juicer lame smplayer vlc audacity ffmpeg handbrake
 
 ## Programming, electronics and research
 sudo apt-get install -y avr-libc gcc-avr glade avrdude kicad  ## programming and technology
-sudo apt-get install -y ipython3 python3-numpy python3-scipy python3-pip python3-psutil python3-serial python3-imageio #  python3-matplotlib
-
-sudo pip install  yt-dlp # (upgraded fork of youtube-dl)
+sudo apt-get install -y ipython3 python3-numpy python3-scipy python3-pip python3-psutil python3-serial python3-imageio 
 
 sudo pip install -e git+git://github.com/matplotlib/matplotlib.git#egg=matplotlib
 # alternate:  git clone --depth 1 git@github.com:matplotlib/matplotlib.git  &&  cd matplotlib  &&  python -m pip install -e .
 pip install kiwisolver cycler python-dateutil # pip dependencies of matplotlib
 # sudo apt-get install -y mpb harminv python-h5py paraview		## electromagnetic computation (MEEP will be compiled from scratch, search for python-meep-install on github)
+
+
+#sudo pip install  yt-dlp # (upgraded fork of youtube-dl)
 
 
 
@@ -76,7 +78,7 @@ echo -e "[Desktop Entry]\nType=Application\nExec=pidgin\n" > ~/.config/autostart
 echo -e "[Desktop Entry]\nType=Application\nExec=transmission-gtk\n" > ~/.config/autostart/transmission.desktop
 echo -e "[Desktop Entry]\nType=Application\nExec=osd_clock -s 0 -o -13 -c white -tr -f -misc-fixed-bold-r-semicondensed--*-*-*-*-c-*-*-* -F '%u  %y%m%d  %R           '" > ~/.config/autostart/osd_clock.desktop
 echo -e "[Desktop Entry]\nType=Application\nExec=osdsh -c red -d 1 -o 0 -a 2 -f -misc-fixed-bold-r-semicondensed--*-*-*-*-c-*-*-*" > ~/.config/autostart/osd.desktop 
-cp	files/osd_cpu.sh ~/.config/autostart/osd_cpu.sh
+#cp	files/osd_cpu.sh ~/.config/autostart/osd_cpu.sh
 echo -e "[Desktop Entry]\nType=Application\nExec=bash ~/.config/autostart/osd_cpu.sh" > ~/.config/autostart/osd_cpu.desktop
 
 
@@ -114,9 +116,10 @@ su dominecf
 git config --global url.ssh://git@github.com/.insteadOf https://github.com/
 git config --global url.ssh://git@bitbucket.org/.insteadOf https://bitbucket.org/
 
+
 cat ~/.bashrc files/bashrc.append > /tmp/bashrc; mv /tmp/bashrc ~/.bashrc
 cp files/ssh/* ~/.ssh/ -r
-cp files/vim/* ~/.vim/ -r
+cp files/vim/ ~/.vim/ -r
 cp files/vimrc ~/.vimrc
 
 xgamma -gamma .7
@@ -131,9 +134,9 @@ sudo mv /etc/ImageMagick-6/policy.xml /etc/ImageMagick-6/policy.xmlout
 mkdir -p ~/.vim/autoload ~/.vim/bundle
 curl -LSso ~/.vim/autoload/pathogen.vim https://raw.githubusercontent.com/tpope/vim-pathogen/master/autoload/pathogen.vim
 pushd ~/.vim/bundle 
-git clone git://github.com/godlygeek/tabular.git
-git clone https://gitlab.famillewallon.com/ines/custom-vim.git
-git clone https://github.com/jaxbot/semantic-highlight.vim.git
+git clone --depth 1 git://github.com/godlygeek/tabular.git
+git clone --depth 1 https://gitlab.famillewallon.com/ines/custom-vim.git
+git clone --depth 1 https://github.com/jaxbot/semantic-highlight.vim.git
 popd
 #curl -LSso ~/.vim/autoload/pathogen.vim https://raw.githubusercontent.com/tpope/vim-pathogen/master/autoload/pathogen.vim
 #?? cd ~/.vim/bundle/ && git clone https://github.com/jaxbot/semantic-highlight.vim.git
@@ -177,7 +180,7 @@ gsettings set org.gnome.Evince page-cache-size 2014
 
 ## Origin viewer
 sudo apt-get install -y wine-development #TODO test 
-cp ./files/wine/syswow64/mfc110u.dll ~/.wine/syswow64/ ### FIXME missing? 
+# cp ./files/wine/syswow64/mfc110u.dll ~/.wine/syswow64/ ### FIXME missing? 
 # get the DLL from https://wikidll.com/download/14122 (md5 = b8de851298e99a005bfd34aa906b3fe8)
 ## TODO get it from https://www.originlab.com/viewer/dl.aspx 
 
