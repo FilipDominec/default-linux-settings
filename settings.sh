@@ -31,7 +31,7 @@ sudo apt-get install -y sound-juicer lame smplayer vlc audacity ffmpeg handbrake
 
 ## Programming, electronics and research
 sudo apt-get install -y avr-libc gcc-avr glade avrdude kicad  ## programming and technology
-sudo apt-get install -y ipython3 python3-numpy python3-scipy python3-pip python3-psutil python3-serial python3-imageio #  python3-matplotlib
+sudo apt-get install -y ipython3 python3-numpy python3-scipy python3-pip python3-psutil python3-serial python3-opencv python3-imageio python3-opencv #  python3-matplotlib
 
 sudo pip install  yt-dlp # (upgraded fork of youtube-dl)
 
@@ -213,6 +213,8 @@ git clone https://github.com/pwang7/rebook --depth 1
 ln -s `which k2pdfopt` .
 popd
 
+# persistent swapescape settings:
+dconf write "/org/gnome/desktop/input-sources/xkb-options" "['caps:swapescape']"
 
 
 # Unnecessary?
