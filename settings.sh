@@ -51,6 +51,7 @@ python3 -m venv .venv
 pip install scipy
 pip install ipython
 pip install yt-dlp # (upgraded fork of youtube-dl)
+pip install gspread oauth2client
 
 pip install -e git+https://github.com/matplotlib/matplotlib.git#egg=matplotlib
 # alternate:  git clone --depth 1 git@github.com:matplotlib/matplotlib.git  &&  cd matplotlib  &&  python -m pip install -e .
