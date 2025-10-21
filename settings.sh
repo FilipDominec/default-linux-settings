@@ -1,5 +1,3 @@
-echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | sudo debconf-set-selections
-sudo apt-get --reinstall install ttf-mscorefonts-installer
 ## NOTE: Run this script as the respective user, not root
 ## NOTE: on notebook, fix for the powerbutton may be needed: sudo vi /etc/systemd/logind.conf
 
@@ -7,12 +5,16 @@ sudo apt-get --reinstall install ttf-mscorefonts-installer
 
 ## Accept the EULA by default
 echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | sudo debconf-set-selections
+sudo apt-get --reinstall install ttf-mscorefonts-installer
 
 ## Basics
 sudo apt-get install -y vim-gtk3 silversearcher-ag htop plocate cstocs testdisk git gitg gnupg  unrar n2n nmap debfoster osdclock baobab  mc xdotool xsel nethogs arandr osdsh libxosd2 libnotify-bin network-manager-pptp curl gparted rename meld sshfs 
 
 snap install czkawka
 #sudo snap connect czkawka:removable-media
+
+
+
 
 ## Graphics and writing
 #sudo apt-get install -y libreoffice-calc libreoffice-writer libreoffice-impress myspell-dictionary-cs hyphen-cs libreoffice-l10n-cs libreoffice-gtk3 libreoffice-style-tango libreoffice-pdfimport 
@@ -34,37 +36,45 @@ sudo apt-get install -y sound-juicer lame smplayer vlc audacity ffmpeg handbrake
 sudo pip install  yt-dlp # (upgraded fork of youtube-dl)
 
 
+
+
 ## Programming, electronics and research
 sudo apt-get install -y avr-libc gcc-avr glade avrdude kicad  ## programming and technology
 
-sudo apt-get install -y ipython3 python3-full python3-numpy python3-scipy python3-pip python3-psutil python3-serial python3-opencv python3-imageio python3-opencv #  python3-matplotlib
+sudo apt-get install -y ipython3 python3-full python3-numpy python3-pip python3-psutil python3-serial python3-imageio python3-opencv
 
-sudo pip install -e git+git://github.com/matplotlib/matplotlib.git#egg=matplotlib
+## Create a default virtual environment for installing all user-space Python modules using pip3
+# (note that .bashrc will also be amended to enter this environment in every new terminal window) 
+python3 -m venv .venv
+
+# get many fresh packages from pip (or git repos)
+pip install scipy
+pip install ipython
+pip install yt-dlp # (upgraded fork of youtube-dl)
+
+pip install -e git+https://github.com/matplotlib/matplotlib.git#egg=matplotlib
 # alternate:  git clone --depth 1 git@github.com:matplotlib/matplotlib.git  &&  cd matplotlib  &&  python -m pip install -e .
-pip install kiwisolver cycler python-dateutil # pip dependencies of matplotlib
+# pip install kiwisolver cycler python-dateutil # are they necessary?  these are pip dependencies of matplotlib
 # sudo apt-get install -y mpb harminv python-h5py paraview		## electromagnetic computation (MEEP will be compiled from scratch, search for python-meep-install on github)
 
-
-#sudo pip install  yt-dlp # (upgraded fork of youtube-dl)
 
 
 
 ## === Install non-repository software ===
 
 ## LibOrigin for python
-sudo apt-get install -y python3-pip cython doxygen cmake libboost-all-dev
-sudo pip3 install Cython
-git clone https://github.com/Saluev/python-liborigin2.git
-cd python-liborigin2/
-mkdir build
-cd build
-cmake ../
-make
-doxygen Doxyfile
-cd ..
-# sudo python setup.py install
-python3 setup.py install
-cd ..
+	#sudo apt-get install -y python3-pip cython doxygen cmake libboost-all-dev
+	#sudo pip3 install Cython
+	#git clone https://github.com/Saluev/python-liborigin2.git
+	#cd python-liborigin2/
+	#mkdir build
+	#cd build
+	#cmake ../
+	#make
+	#doxygen Doxyfile
+	#cd ..
+	#python3 setup.py install
+	#cd ..
 
 ## Esmska
 # echo "deb http://repo.palatinus.cz/stable / #Esmska" >> /etc/apt/sources.list
@@ -279,3 +289,6 @@ echo 'deb http://download.opensuse.org/repositories/home:/jloeser:/secureboot/xU
 curl -fsSL https://download.opensuse.org/repositories/home:jloeser:secureboot/xUbuntu_24.04/Release.key | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/home_jloeser_secureboot.gpg > /dev/null
 sudo apt update
 sudo apt install sbctl
+
+
+
