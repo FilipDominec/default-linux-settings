@@ -8,11 +8,10 @@ echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select tr
 sudo apt --reinstall install ttf-mscorefonts-installer
 
 ## Basics
-sudo apt install -y vim-gtk3 silversearcher-ag htop plocate cstocs testdisk git gitg gnupg  unrar n2n nmap debfoster osdclock baobab  mc xdotool xsel nethogs arandr osdsh libxosd2 libnotify-bin network-manager-pptp curl gparted rename meld sshfs 
+sudo apt install -y vim-gtk3 silversearcher-ag htop plocate cstocs testdisk git gitg gnupg  unrar n2n nmap debfoster osdclock baobab  mc xdotool xsel nethogs arandr osdsh libxosd2 libnotify-bin network-manager-pptp curl gparted rename meld sshfs snapd
 
 snap install czkawka
 #sudo snap connect czkawka:removable-media
-
 
 
 
@@ -41,26 +40,25 @@ sudo pip install  yt-dlp # (upgraded fork of youtube-dl)
 ## Programming, electronics and research
 sudo apt install -y avr-libc gcc-avr glade avrdude kicad  ## programming and technology
 
+## TODO better get newest matplotlib etc. using pip, see below
 sudo apt install -y ipython3 python3-full python3-numpy python3-pip python3-psutil python3-serial python3-imageio python3-opencv
-sudo apt install libgirepository1.0-dev python3-gi
-
-## Create one default virtual environment for installing all user-space Python modules using pip3
-# (note that .bashrc will also be amended to enter this environment in every new terminal window) 
+sudo apt install -y libgirepository1.0-dev python3-gi
+## Create one default virtual environment for installing all user-space Python modules using pip3,
+## but also accept the system-wide packages installed by `apt`. And get freshest packages.
+## (Note that .bashrc will also have to be amended to enter this environment in every new terminal window. 
 python3 -m venv --system-site-packages .venv  # check this
-
-
-# get many fresh packages from pip (or git repos)
 pip install scipy
 pip install ipython
 pip install yt-dlp # (upgraded fork of youtube-dl)
 pip install gspread oauth2client
 
 pip install -e git+https://github.com/matplotlib/matplotlib.git#egg=matplotlib
-# alternate:  git clone --depth 1 git@github.com:matplotlib/matplotlib.git  &&  cd matplotlib  &&  python -m pip install -e .
+# alternate approach:  git clone --depth 1 git@github.com:matplotlib/matplotlib.git  &&  cd matplotlib  &&  python -m pip install -e .
 # pip install kiwisolver cycler python-dateutil # are they necessary?  these are pip dependencies of matplotlib
 # sudo apt install -y mpb harminv python-h5py paraview		## electromagnetic computation (MEEP will be compiled from scratch, search for python-meep-install on github)
 
 
+pip install mayavi2 --no-build-isolation  # but the command is `mayavi2`
 
 
 ## === Install non-repository software ===
@@ -112,11 +110,6 @@ echo "deb https://dl.bintray.com/kaitai-io/debian jessie main" | sudo tee /etc/a
 sudo apt-key adv --keyserver hkp://pool.sks-keyservers.net --recv 379CE192D401AB61
 sudo apt update
 sudo apt install kaitai-struct-compiler  
-
-## Unetbootin no more oficially supported, yet no good replacement found
-sudo add-apt-repository -y ppa:gezakovacs/ppa
-sudo apt update
-sudo apt -y install unetbootin
 
 
 # if Acrobat reader installed for interactive forms, set evince still as default
@@ -294,4 +287,14 @@ sudo apt update
 sudo apt install sbctl
 
 
+# Option 1: put 
+# dconf write /org/gnome/desktop/input-sources/xkb-options "['caps:swapescape']" # AOEUaoeuAEOU # AOUE
 
+# Option 2: put 
+#Section "InputClass"
+        #MatchIsKeyboard "on"
+        #Option "XkbOptions" "caps:escape"
+#EndSection
+# ... into:  sudo vi /etc/X11/xorg.conf.d/00-keyboard.conf
+# 
+#

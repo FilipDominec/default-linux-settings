@@ -132,7 +132,7 @@ stack_soft() { align_image_stack -v -m -a TMP "${@}" && enfuse  --exposure-weigh
 stack_hard2() { align_image_stack -v -m -a TMP "${@}" && enfuse  --exposure-weight=0 --saturation-weight=0 --contrast-weight=1 --hard-mask  --contrast-edge-scale=0.3 --contrast-min-curvature=0.5%  --contrast-window-size=7  --output=depth_composed_hardmask2.tif TMP*tif && rm TMP*tif; }
 heightstack() { align_image_stack -v -m -a TMP "${@}" && enfuse  --save-masks --exposure-weight=0 --saturation-weight=0 --contrast-weight=1 --hard-mask --output=depth_composed_height.tif TMP*tif && rm TMP*tif; mogrify -format JPG *mask*tif; }
 date_to_iso() { for x in 1* ; do mv $x `echo $x | sed 's/\([0-9][0-9]\)\([0-9][0-9]\)\([0-9][0-9]\)/20\1-\2-\3/g' `; done; }
-cropjoin() { for x in * ; do briss "$x" ; done; pdfjoin *cropp*; mv *-joined* ALL-crop-join.pdf ; }
+# cropjoin() { for x in * ; do briss "$x" ; done; pdfjoin *cropp*; mv *-joined* ALL-crop-join.pdf ; }
 tiffize() { for x in *tif; do convert "$x" `echo ${x%.tif} | tr ' ' '_'`.jpg ; done; mkdir TIFF;  mv *tif *TIF *hdr TIFF;  }
 renamer() { ls -1 | sed 's/\(.*\)/mv "\1"    "\1"/g' | vi - ; }
 # set -o vi   # could not find equivalent for Alt-. etc.
@@ -142,7 +142,7 @@ jpg2m() { mkdir m; for x in *jpg *JPG ; do convert $x -resize 50% m/$x ; echo $x
 #alias xc='xclock & sleep 1; killall xclock; aplay /usr/lib/libreoffice/share/gallery/sounds/glasses.wav'
 alias xc='notify-send "Command finished" "`date`" -t 3000 --icon="/usr/share/icons/gnome/32x32/actions/player_record.png" '
 #bt_receive() { cd ~; cat yyy; bt-obex -s ~/BT_downloads; }
-bt_receive() { cd ~; yes | bt-obex -s ~/BT_downloads; }
+bt_receive() { cd ~; yes | bt-obex -s ~/i/BT_received/; }
 mo50q80() { mogrify -resize 50% -quality 80 "$*"; }
 mmo50q80() { for x in "$@" ; do convert "$x" -resize 50% -quality 80 "${x%%.*}.jpg" ; done; }
 mmo99q50() { for x in "$@" ; do convert "$x" -quality 50 "${x%%.*}.jpg" ; done; }
@@ -217,4 +217,12 @@ export PICO_PLAYGROUND_PATH=/home/dominecf/bin/pico-playground
 
 posterconv() { convert -alpha remove -density 120 "$1"  "../${1%.pdf}_m.png" ; } 
 
-thumbnail_gallery_with_names() { for f in "${@}"; do  convert "$f" -resize 600x600 -gravity South -fill black  -splice 0x18 -pointsize 28 -annotate +0-6 "${f%%.*}" miff:- ; done |  montage -geometry +1+1 -tile x5 miff:- montage.pdf ; } # TODO test this
+
+# { for f in "${@}"; do  convert "$f" -auto-orient  -resize 600x600 -gravity South -fill black  -splice 0x18 -pointsize 28 -annotate +0-6 "${f%%.*}" miff:- ; done |  montage -geometry +1+1 -tile x5 miff:- montage.pdf ; } # TODO test this
+thumbnail_gallery_with_names() { for f in "${@}"; do  convert "$f" -auto-orient  -resize 600x600 -gravity South -fill black  -splice 0x28 -pointsize 28 -annotate +0-6 "${f%%.*}" miff:- ; done |  montage -geometry +3+1 -tile x5 miff:- montage.pdf ; evince montage.pdf ; }
+ 
+# Here I automatically set up my default userspace virtual environment in ~/.venv/... for Python & PIP not to complain
+if [[ -f ~/.venv/bin/activate ]] ; then
+	export VIRTUAL_ENV_DISABLE_PROMPT=1
+    source ~/.venv/bin/activate
+fi 
