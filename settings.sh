@@ -19,11 +19,17 @@ snap install czkawka
 #sudo apt install -y libreoffice-calc libreoffice-writer libreoffice-impress myspell-dictionary-cs hyphen-cs libreoffice-l10n-cs libreoffice-gtk3 libreoffice-style-tango libreoffice-pdfimport 
 sudo add-apt-repository ppa:libreoffice # latest LO
 sudo apt update
-sudo apt install libreoffice hyphen-cs hyphen-en-us -y
 
 sudo add-apt-repository -y ppa:gwyddion-spm/ppa
-sudo add-apt-repository -y ppa:inkscape.dev/stable
-sudo apt install -y evince gimp inkscape libimage-exiftool-perl gwyddion rawtherapee hugin geeqie 
+
+#sudo add-apt-repository -y ppa:inkscape.dev/stable
+sudo add-apt-repository -y ppa:inkscape.dev/trunk
+
+sudo apt update
+sudo apt install libreoffice hyphen-cs hyphen-en-us -y
+sudo apt install gwyddion inkscape -y
+
+sudo apt install -y evince gimp inkscape libimage-exiftool-perl rawtherapee hugin geeqie 
 #sudo apt install -y texlive-fonts-extra pdfposter biber texlive-bibtex-extra texlive-lang-czechslovak pdftk imagemagick djvulibre-bin  #?? pdfjam 
 #sudo apt install -y texlive-latex-extra dvipng pandoc # for type1cm.sty to make latex+matplotlib work
 #note https://ask.libreoffice.org/t/export-directly-to-pdf-only-produces-a-blank-page/56400 may fix empty PDF problem
@@ -42,7 +48,8 @@ sudo apt install -y avr-libc gcc-avr glade avrdude kicad  ## programming and tec
 
 ## TODO better get newest matplotlib etc. using pip, see below
 sudo apt install -y ipython3 python3-full python3-numpy python3-pip python3-psutil python3-serial python3-imageio python3-opencv
-sudo apt install -y libgirepository1.0-dev python3-gi
+sudo apt install -y libgirepository1.0-dev python3-gi #  ?needed --system-site-packages
+
 ## Create one default virtual environment for installing all user-space Python modules using pip3,
 ## but also accept the system-wide packages installed by `apt`. And get freshest packages.
 ## (Note that .bashrc will also have to be amended to enter this environment in every new terminal window. 
@@ -58,7 +65,7 @@ pip install -e git+https://github.com/matplotlib/matplotlib.git#egg=matplotlib
 # sudo apt install -y mpb harminv python-h5py paraview		## electromagnetic computation (MEEP will be compiled from scratch, search for python-meep-install on github)
 
 
-pip install mayavi2 --no-build-isolation  # but the command is `mayavi2`
+pip install mayavi2 --no-build-isolation  # also see https://github.com/enthought/mayavi/issues/1230; launching command is `mayavi2` 
 
 
 ## === Install non-repository software ===
@@ -133,7 +140,6 @@ cp files/ssh/* ~/.ssh/ -r
 cp files/vim/ ~/.vim/ -r
 cp files/vimrc ~/.vimrc
 
-xgamma -gamma .7
 sed s/allDesktops>yes<\/allDesktops/allDesktops>no<\/allDesktops/ -i ~/.config/openbox/lxqt-rc.xml
 #sudo sed s/#user_allow_other/user_allow_other/ -i /etc/ssh ##???
 
@@ -190,7 +196,7 @@ echo "c.InteractiveShellApp.exec_lines = ['%precision %.6g']" >> ~/.ipython/prof
 gsettings set org.gnome.Evince page-cache-size 2014
 
 ## Origin viewer
-sudo apt install -y wine-development #TODO test 
+#sudo apt install -y wine-development #TODO test 
 # cp ./files/wine/syswow64/mfc110u.dll ~/.wine/syswow64/ ### FIXME missing? 
 # get the DLL from https://wikidll.com/download/14122 (md5 = b8de851298e99a005bfd34aa906b3fe8)
 ## TODO get it from https://www.originlab.com/viewer/dl.aspx 
@@ -217,8 +223,8 @@ mkdir -p ~/bin
 mv briss* ~/bin/
 
 ## OCR for documents
-sudo snap install jbig2enc --edge
-sudo apt install -y tesseract-ocr ocrmypdf
+#sudo snap install jbig2enc --edge
+#sudo apt install -y tesseract-ocr ocrmypdf
 
 ## Re-flow of PDF for mobile/e-ink readers ### TODO test
 sudo apt install -y k2pdfopt
