@@ -30,8 +30,8 @@ sudo apt install libreoffice hyphen-cs hyphen-en-us -y
 sudo apt install gwyddion inkscape -y
 
 sudo apt install -y evince gimp inkscape libimage-exiftool-perl rawtherapee hugin geeqie 
-#sudo apt install -y texlive-fonts-extra pdfposter biber texlive-bibtex-extra texlive-lang-czechslovak pdftk imagemagick djvulibre-bin  #?? pdfjam 
-#sudo apt install -y texlive-latex-extra dvipng pandoc # for type1cm.sty to make latex+matplotlib work
+sudo apt install -y texlive-fonts-extra pdfposter biber texlive-bibtex-extra texlive-lang-czechslovak pdftk imagemagick # djvulibre-bin  #?? pdfjam 
+sudo apt install -y texlive-latex-extra dvipng pandoc # for type1cm.sty to make latex+matplotlib work
 #note https://ask.libreoffice.org/t/export-directly-to-pdf-only-produces-a-blank-page/56400 may fix empty PDF problem
 # TODO try https://github.com/nichtich/pandoc-filter-arrows
 
@@ -48,7 +48,7 @@ sudo apt install -y avr-libc gcc-avr glade avrdude kicad  ## programming and tec
 
 ## TODO better get newest matplotlib etc. using pip, see below
 sudo apt install -y ipython3 python3-full python3-numpy python3-pip python3-psutil python3-serial python3-imageio python3-opencv
-sudo apt install -y libgirepository1.0-dev python3-gi #  ?needed --system-site-packages
+sudo apt install -y libgirepository1.0-dev python3-gi # fixed some error by using: --system-site-packages
 
 ## Create one default virtual environment for installing all user-space Python modules using pip3,
 ## but also accept the system-wide packages installed by `apt`. And get freshest packages.
@@ -65,10 +65,27 @@ pip install -e git+https://github.com/matplotlib/matplotlib.git#egg=matplotlib
 # sudo apt install -y mpb harminv python-h5py paraview		## electromagnetic computation (MEEP will be compiled from scratch, search for python-meep-install on github)
 
 
-pip install mayavi2 --no-build-isolation  # also see https://github.com/enthought/mayavi/issues/1230; launching command is `mayavi2` 
+## TODO Mayavi2 not working as of 2026
+# git clone https://github.com/enthought/mayavi.git
+# cd mayavi
+# pip install -r requirements.txt
+# pip install PyQt5  # replace this with any supported toolkit
+# python setup.py install  # or develop
+# sudo apt install python3-pyqt5.qtsvg     ## this helped
+ 
+## Alternate approach, also see https://github.com/enthought/mayavi/issues/1230; launching command is `mayavi2` 
+#pip install mayavi2 --no-build-isolation  
 
 
 ## === Install non-repository software ===
+
+
+## LunarVim experiment https://www.lunarvim.org/docs/installation
+#sapti neovim npm nodejs cargo ripgrep    # lazygit??
+#TODO
+
+
+
 
 ## LibOrigin for python
 	#sudo apt install -y python3-pip cython doxygen cmake libboost-all-dev
@@ -110,13 +127,12 @@ echo -e "[Desktop Entry]\nType=Application\nExec=bash ~/.config/autostart/osd_cp
 
 ## Kaitai compiler is useful for parsing binary formats  : TODO has problem with java version ?
 ### 1. the module for parsing (for users of scientific instrumentation etc.)
-#sudo pip  install kaitaistruct
 sudo pip3 install kaitaistruct	
-### 2. the compiler for parsers (for developers)
-echo "deb https://dl.bintray.com/kaitai-io/debian jessie main" | sudo tee /etc/apt/sources.list.d/kaitai.list
-sudo apt-key adv --keyserver hkp://pool.sks-keyservers.net --recv 379CE192D401AB61
-sudo apt update
-sudo apt install kaitai-struct-compiler  
+### 2. the compiler for parsers (for developers) - didn't work as of 2026
+#echo "deb https://dl.bintray.com/kaitai-io/debian jessie main" | sudo tee /etc/apt/sources.list.d/kaitai.list
+#sudo apt-key adv --keyserver hkp://pool.sks-keyservers.net --recv 379CE192D401AB61
+#sudo apt update
+#sudo apt install kaitai-struct-compiler  
 
 
 # if Acrobat reader installed for interactive forms, set evince still as default
@@ -183,6 +199,9 @@ if [ -f ~/.config/openbox/lubuntu-rc.xml ]; then
 	## Experimental: middle-mouse clipboard paste activated by keyboard; add this in the middle of  
 	sed -i ~/.config/openbox/lubuntu-rc.xml -e '/<keyboard>/r lubuntu-rc.append'
 	sed -i ~/.config/openbox/lubuntu-rc.xml -e '/<applications>/r lubuntu-rc.append2'
+
+	## Note: change AllDesktops to 'false' to disable Alt-Tab switching windows over all desktops
+	# vi  ~/.config/openbox/rc.xml
 fi
 
 ## Lower the default threshold for scientific notation in ipython
