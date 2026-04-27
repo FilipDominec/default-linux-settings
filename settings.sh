@@ -25,15 +25,25 @@ sudo add-apt-repository -y ppa:gwyddion-spm/ppa
 #sudo add-apt-repository -y ppa:inkscape.dev/stable
 sudo add-apt-repository -y ppa:inkscape.dev/trunk
 
+
+sudo add-apt-repository ppa:deadsnakes/ppa # latest Python 
+sudo apt update
+sudo apt install python3.14 python3.14-venv python3.14-dev python3.14-tk
+# should also check out python3.14-nogil - will it perform faster?
+
 sudo apt update
 sudo apt install libreoffice hyphen-cs hyphen-en-us -y
 sudo apt install gwyddion inkscape -y
 
-sudo apt install -y evince gimp inkscape libimage-exiftool-perl rawtherapee hugin geeqie 
+sudo apt install -y evince gimp inkscape libimage-exiftool-perl rawtherapee hugin #  geeqie 
 sudo apt install -y texlive-fonts-extra pdfposter biber texlive-bibtex-extra texlive-lang-czechslovak pdftk imagemagick # djvulibre-bin  #?? pdfjam 
 sudo apt install -y texlive-latex-extra dvipng pandoc # for type1cm.sty to make latex+matplotlib work
 #note https://ask.libreoffice.org/t/export-directly-to-pdf-only-produces-a-blank-page/56400 may fix empty PDF problem
 # TODO try https://github.com/nichtich/pandoc-filter-arrows
+
+# Geeqie had some troubles, get latest appimage
+# https://github.com/BestImageViewer/geeqie/releases
+# move it to ~/bin/geeqie  , chmod +x 
 
 
 ## Multimedia 
@@ -65,13 +75,14 @@ pip install -e git+https://github.com/matplotlib/matplotlib.git#egg=matplotlib
 # sudo apt install -y mpb harminv python-h5py paraview		## electromagnetic computation (MEEP will be compiled from scratch, search for python-meep-install on github)
 
 
-## TODO Mayavi2 not working as of 2026
+## TODO Mayavi2 had some install troubles as of 2026
 # git clone https://github.com/enthought/mayavi.git
 # cd mayavi
 # pip install -r requirements.txt
 # pip install PyQt5  # replace this with any supported toolkit
 # python setup.py install  # or develop
 # sudo apt install python3-pyqt5.qtsvg     ## this helped
+sudo apt install -y 
  
 ## Alternate approach, also see https://github.com/enthought/mayavi/issues/1230; launching command is `mayavi2` 
 #pip install mayavi2 --no-build-isolation  
@@ -323,3 +334,7 @@ sudo apt install sbctl
 # ... into:  sudo vi /etc/X11/xorg.conf.d/00-keyboard.conf
 # 
 #
+
+# VPN & connection to work
+sudo apt install wireguard resolvconf
+
