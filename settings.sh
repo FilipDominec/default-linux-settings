@@ -20,10 +20,17 @@ snap install czkawka
 sudo add-apt-repository ppa:libreoffice # latest LO
 sudo apt update
 
+# Gwyddion
 sudo add-apt-repository -y ppa:gwyddion-spm/ppa
+#sudo apt install gwyddion -y
 
+# Inkscape (or get newest binary from https://inkscape.org/release/inkscape-dev/gnulinux/appimage/dl/ )
 #sudo add-apt-repository -y ppa:inkscape.dev/stable
 sudo add-apt-repository -y ppa:inkscape.dev/trunk
+sudo apt update
+#sudo apt install inkscape
+sudo apt install inkscape-trunk
+
 
 
 sudo add-apt-repository ppa:deadsnakes/ppa # latest Python 
@@ -33,9 +40,8 @@ sudo apt install python3.14 python3.14-venv python3.14-dev python3.14-tk
 
 sudo apt update
 sudo apt install libreoffice hyphen-cs hyphen-en-us -y
-sudo apt install gwyddion inkscape -y
 
-sudo apt install -y evince gimp inkscape libimage-exiftool-perl rawtherapee hugin #  geeqie 
+sudo apt install -y evince gimp inkscape libimage-exiftool-perl rawtherapee hugin 
 sudo apt install -y texlive-fonts-extra pdfposter biber texlive-bibtex-extra texlive-lang-czechslovak pdftk imagemagick # djvulibre-bin  #?? pdfjam 
 sudo apt install -y texlive-latex-extra dvipng pandoc # for type1cm.sty to make latex+matplotlib work
 #note https://ask.libreoffice.org/t/export-directly-to-pdf-only-produces-a-blank-page/56400 may fix empty PDF problem
@@ -43,6 +49,8 @@ sudo apt install -y texlive-latex-extra dvipng pandoc # for type1cm.sty to make 
 
 # Geeqie had some troubles, get latest appimage
 # https://github.com/BestImageViewer/geeqie/releases
+wget https://github.com/BestImageViewer/geeqie/releases/download/continuous/Geeqie-latest-x86_64.AppImage -O ~/bin/geeqie
+chmod +x ~/bin/geeqie
 # move it to ~/bin/geeqie  , chmod +x 
 
 
