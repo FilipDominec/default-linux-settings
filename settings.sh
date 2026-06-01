@@ -8,7 +8,7 @@ echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select tr
 sudo apt --reinstall install ttf-mscorefonts-installer
 
 ## Basics
-sudo apt install -y vim-gtk3 silversearcher-ag htop plocate cstocs testdisk git gitg gnupg  unrar n2n nmap debfoster osdclock baobab  mc xdotool xsel nethogs arandr osdsh libxosd2 libnotify-bin network-manager-pptp curl gparted rename meld sshfs snapd
+sudo apt install -y vim-gtk3 silversearcher-ag htop plocate cstocs testdisk git gitg gnupg  unrar n2n nmap debfoster osdclock baobab  mc xdotool xsel nethogs arandr osdsh libxosd2 libnotify-bin network-manager-pptp curl gparted rename meld sshfs snapd cifs-utils
 
 snap install czkawka
 #sudo snap connect czkawka:removable-media
@@ -28,8 +28,8 @@ sudo add-apt-repository -y ppa:gwyddion-spm/ppa
 #sudo add-apt-repository -y ppa:inkscape.dev/stable
 sudo add-apt-repository -y ppa:inkscape.dev/trunk
 sudo apt update
-#sudo apt install inkscape
-sudo apt install inkscape-trunk
+sudo apt install inkscape
+#sudo apt install inkscape-trunk     # version 1.4 kept crashing...
 
 
 
