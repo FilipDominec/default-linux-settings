@@ -8,7 +8,7 @@ echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select tr
 sudo apt --reinstall install ttf-mscorefonts-installer
 
 ## Basics
-sudo apt install -y vim-gtk3 silversearcher-ag htop plocate cstocs testdisk git gitg gnupg  unrar n2n nmap debfoster osdclock baobab  mc xdotool xsel nethogs arandr osdsh libxosd2 libnotify-bin network-manager-pptp curl gparted rename meld sshfs snapd cifs-utils
+sudo apt install -y vim-gtk3 silversearcher-ag htop plocate cstocs testdisk git gitg gnupg  unrar n2n nmap debfoster osdclock baobab  mc xdotool xsel nethogs arandr osdsh libxosd2 libnotify-bin network-manager-pptp curl gparted rename meld sshfs snapd cifs-utils transmission
 
 snap install czkawka
 #sudo snap connect czkawka:removable-media
@@ -330,19 +330,21 @@ curl -fsSL https://download.opensuse.org/repositories/home:jloeser:secureboot/xU
 sudo apt update
 sudo apt install sbctl
 
-
+## Swapping escape and CapsLock permanently - works easily on Lubuntu, couldn't make it permanent on Mate
 # Option 1: put 
 # dconf write /org/gnome/desktop/input-sources/xkb-options "['caps:swapescape']" # AOEUaoeuAEOU # AOUE
-
 # Option 2: put 
 #Section "InputClass"
         #MatchIsKeyboard "on"
         #Option "XkbOptions" "caps:escape"
 #EndSection
-# ... into:  sudo vi /etc/X11/xorg.conf.d/00-keyboard.conf
+# ... into:  sudo vi /etc/X11/xorg.conf.d/00-keyboard.conf -- broke the system ? 
 # 
+# Firefox stop popups manually
+# go:    about:config,   search popup_allowed_events,  clear all of them
 #
 
 # VPN & connection to work
 sudo apt install wireguard resolvconf
 
+xdg-mime default vim.desktop text/x-python
