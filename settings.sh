@@ -347,4 +347,4 @@ sudo apt install sbctl
 # VPN & connection to work
 sudo apt install wireguard resolvconf
 
-xdg-mime default vim.desktop text/x-python
+xdg-mime default gvim.desktop text/x-python
