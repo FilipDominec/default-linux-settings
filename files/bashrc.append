@@ -4,8 +4,8 @@ PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[0
 # source ~/bin/bash-git-prompt/gitprompt.sh
 alias fastmotion='mencoder mf://*.JPG -mf w=1024:h=768:fps=25:type=jpg -ovc lavc -lavcopts vcodec=mpeg4:mbd=2:trell:vbitrate=2152 -oac copy -o output.avi'
 # opt="vbitrate=2160000:mbd=2:keyint=132:v4mv:vqmin=3:lumi_mask=0.07:dark_mask=0.2:mpeg_quant:scplx_mask=0.1:tcplx_mask=0.1:naq" (..edges)
-alias py='ipython3 -i -c  "import os, pathlib; import numpy as np; a=np.array([1,2,3]); b=np.array([10,30,20]); aa=np.array([[1,2,3],[4,5,6],[7,8,9]]); l = [1,2,3]; d = {3:100, 4:200, 5:300}; ar=lambda *s: np.array(list(s))"'
-alias pym='ipython3 -i -c  "import os, pathlib; import matplotlib.pyplot as plt; import numpy as np; import numpy.linalg as la; from scipy.constants import c, pi, h, e; a=np.array([1,2,3]); b=np.array([10,20,30]); aa=np.array([[1,2,3],[4,5,6],[7,8,9]]); l = [1,2,3]; di = {3:100, 4:200, 5:300}; ar=lambda *s: np.array(list(s))"'
+alias py='~/.venv/bin/ipython -i -c  "import os, pathlib; import numpy as np; a=np.array([1,2,3]); b=np.array([10,30,20]); aa=np.array([[1,2,3],[4,5,6],[7,8,9]]); l = [1,2,3]; d = {3:100, 4:200, 5:300}; ar=lambda *s: np.array(list(s))"'
+alias pym='~/.venv/bin/ipython -i -c  "import os, pathlib; import matplotlib.pyplot as plt; import numpy as np; import numpy.linalg as la; from scipy.constants import c, pi, h, e; a=np.array([1,2,3]); b=np.array([10,20,30]); aa=np.array([[1,2,3],[4,5,6],[7,8,9]]); l = [1,2,3]; di = {3:100, 4:200, 5:300}; ar=lambda *s: np.array(list(s))"'
 alias lxp='killall lxpanel; lxpanel --profile Lubuntu &'
 alias aa='ack-grep'
 #alias np='mpirun -np 2'
@@ -13,13 +13,13 @@ alias xc='xclock & sleep 1; killall xclock'
 alias vi='gvim -p '
 alias vi_convertutf='vim +"argdo set ff=utf-8" +wqa '
 alias cal='cal -m'
-alias gq='geeqie . &'
+gq() { export GQ_NEW_INSTANCE=y; geeqie . &  }
 alias df="df -h"
 alias ls='ls --color=auto'
 alias licqa='licq -b ~/.licqadam &'
 alias repltxt='sed s/\!:1/\!:2/g \!:3 > temp.txt; mv -f temp.txt \!:3'
-zz()  { nice zip -rq9 `echo $1 | sed 's/\///g'`.zip "$1"; }
-zz1()  { nice zip -rq9 `echo $1 | sed 's/\///g'`.zip "$1"; }
+zz()   { nice zip -rq9 `echo $1 | sed 's/\///g'`.zip "$1"; }
+zz1()  { nice zip -rq1 `echo $1 | sed 's/\///g'`.zip "$1"; }
 uz()  { nice unzip -q "$1"; }
 cdd()    { if [ -z $1 ]; then cd ..;		else ls -d ../$1*/ ;		cd ../$1*/;			fi }
 cddd()   { if [ -z $1 ]; then cd ../..;		else ls -d ../../$1*/ ;		cd ../../$1*/;		fi }
@@ -53,10 +53,10 @@ alias sapti="sudo apt-get install -y"
 alias saptu="sudo apt-get update"
 alias saptr="sudo apt-get remove -y"
 alias sapts="apt-cache search"
-alias dush="sudo du * -shk | sort -nr"
+alias dush="du * -shk | sort -nr"
 alias dtt="date  --rfc-3339\=date"
 alias dt="date --rfc-3339\=date | sed -e 's#20\([0-9][0-9]\)\-\([0-9][0-9]\)-#\1\2#'"
-alias ll="ls -lka"
+alias ll="ls -lha"
 alias l="ls -lk"
 alias rsync='rsync --progress '
 alias josm2="export JAVACMD=/etc/alternatives/java; josm &"
@@ -100,7 +100,7 @@ rec() { timeout $2 cvlc v4l2:///dev/video1 :v4l2-standard= :input-slave=pulseaud
 
 
 ffmpeg5000() { nice ffmpeg -y -i "$1"  -c:v libx264 -preset medium -b:v 5000k  -pass 1 -c:a mp3 -b:a 256k -f mp4 /dev/null && nice ffmpeg -i "$1"  -c:v libx264 -preset medium -b:v 5000k  -pass 2 -c:a mp3 -b:a 256k "${1%.*}_5000kbps.mp4"; }
-ffmpeg1200() { nice ffmpeg -y -i "$1"  -c:v libx264 -preset medium -b:v 1200k  -pass 1 -c:a mp3 -b:a 128k -f mp4 /dev/null && nice ffmpeg -i "$1"  -c:v libx264 -preset medium -b:v 1200k  -pass 2 -c:a mp3 -b:a 128k "${1%.*}_1200kbps.mp4" ; }
+ffmpeg1200() { nice ffmpeg -y -i "$1"  -c:v libx264 -preset medium -b:v 1200k  -pass 1 -c:a mp3 -b:a 128k -f mp4 /dev/null && nice ffmpeg -i "$1"  -c:v libx264 -preset medium -b:v 1200k  -pass 2 -c:a mp3 -b:a 128k "${1%.*}_1200kbps.mp4" ; mv ffmpeg2pass* ~/k/ ; }
 ffmpeg2000() { nice ffmpeg -y -i "$1"  -c:v libx264 -preset medium -b:v 2000k  -pass 1 -c:a mp3 -b:a 128k -f mp4 /dev/null && nice ffmpeg -i "$1"  -c:v libx264 -preset medium -b:v 2000k  -pass 2 -c:a mp3 -b:a 128k "${1%.*}_2000kbps.mp4"; }
 #ffmpeg1200xvid() { nice ffmpeg -y -i "$1"  -c:v libxvid -preset medium -b:v 1200k  -pass 1 -c:a mp3 -b:a 128k -f mp4 /dev/null && nice ffmpeg -i "$1"  -c:v libxvid -preset medium -b:v 1200k  -pass 2 -c:a mp3 -b:a 128k "${1%.*}_1200kbps_xvid.mp4"; }
 #ffmpeg1200st() { nice ffmpeg -y -i "$1" -ss "$2" -t $3 -c:v libx264 -preset medium -b:v 1200k  -pass 1 -c:a mp3 -b:a 128k -f mp4 /dev/null && nice ffmpeg -i "$1"  -ss "$2" -t $3 -c:v libx264 -preset medium -b:v 1200k  -pass 2 -c:a mp3 -b:a 128k "${1%.*}_1200kbps.mp4" ; echo FINISHED; date; }
@@ -132,7 +132,7 @@ stack_soft() { align_image_stack -v -m -a TMP "${@}" && enfuse  --exposure-weigh
 stack_hard2() { align_image_stack -v -m -a TMP "${@}" && enfuse  --exposure-weight=0 --saturation-weight=0 --contrast-weight=1 --hard-mask  --contrast-edge-scale=0.3 --contrast-min-curvature=0.5%  --contrast-window-size=7  --output=depth_composed_hardmask2.tif TMP*tif && rm TMP*tif; }
 heightstack() { align_image_stack -v -m -a TMP "${@}" && enfuse  --save-masks --exposure-weight=0 --saturation-weight=0 --contrast-weight=1 --hard-mask --output=depth_composed_height.tif TMP*tif && rm TMP*tif; mogrify -format JPG *mask*tif; }
 date_to_iso() { for x in 1* ; do mv $x `echo $x | sed 's/\([0-9][0-9]\)\([0-9][0-9]\)\([0-9][0-9]\)/20\1-\2-\3/g' `; done; }
-# cropjoin() { for x in * ; do briss "$x" ; done; pdfjoin *cropp*; mv *-joined* ALL-crop-join.pdf ; }
+cropjoin() { for x in * ; do briss "$x" ; done; pdfjoin *cropp*; mv *-joined* ALL-crop-join.pdf ; }
 tiffize() { for x in *tif; do convert "$x" `echo ${x%.tif} | tr ' ' '_'`.jpg ; done; mkdir TIFF;  mv *tif *TIF *hdr TIFF;  }
 renamer() { ls -1 | sed 's/\(.*\)/mv "\1"    "\1"/g' | vi - ; }
 # set -o vi   # could not find equivalent for Alt-. etc.
@@ -210,17 +210,13 @@ pondeli() { cd /home/dominecf/LIMBA/ ; find  -newermt $(date +%Y-%m-%d -d '7 day
 find_dir_perm() { find . -type d ! -perm /g=w -exec ls -ld {}  \; ; }
 fix_dir_perm() { find . -type d ! -perm /g=w -exec ls -ld {} \; -exec chmod 770 {} \; ; }
 
-export PICO_SDK_PATH=/home/dominecf/bin/pico-sdk
-export PICO_EXAMPLES_PATH=/home/dominecf/bin/pico-examples
-export PICO_EXTRAS_PATH=/home/dominecf/bin/pico-extras
-export PICO_PLAYGROUND_PATH=/home/dominecf/bin/pico-playground
 
 posterconv() { convert -alpha remove -density 120 "$1"  "../${1%.pdf}_m.png" ; } 
 
-
+# thumbnail_gallery_with_names() { for f in "${@}"; do  convert "$f" -resize 600x600 -gravity South -fill black  -splice 0x18 -pointsize 28 -annotate +0-6 "${f%%.*}" miff:- ; done |  montage -geometry +1+1 -tile x5 miff:- montage.pdf ; }  # tighter layout for white-bg images
 # { for f in "${@}"; do  convert "$f" -auto-orient  -resize 600x600 -gravity South -fill black  -splice 0x18 -pointsize 28 -annotate +0-6 "${f%%.*}" miff:- ; done |  montage -geometry +1+1 -tile x5 miff:- montage.pdf ; } # TODO test this
 thumbnail_gallery_with_names() { for f in "${@}"; do  convert "$f" -auto-orient  -resize 600x600 -gravity South -fill black  -splice 0x28 -pointsize 28 -annotate +0-6 "${f%%.*}" miff:- ; done |  montage -geometry +3+1 -tile x5 miff:- montage.pdf ; evince montage.pdf ; }
- 
+
 # Here I automatically set up my default userspace virtual environment in ~/.venv/... for Python & PIP not to complain
 if [[ -f ~/.venv/bin/activate ]] ; then
 	export VIRTUAL_ENV_DISABLE_PROMPT=1
