@@ -5,19 +5,19 @@
 
 ## Accept the EULA by default
 echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | sudo debconf-set-selections
-sudo apt --reinstall install ttf-mscorefonts-installer
+sudo apt -y --reinstall install ttf-mscorefonts-installer
 
 ## Basics
 sudo apt install -y vim-gtk3 silversearcher-ag htop plocate cstocs testdisk git gitg gnupg  unrar n2n nmap debfoster osdclock baobab  mc xdotool xsel nethogs arandr osdsh libxosd2 libnotify-bin network-manager-pptp curl gparted rename meld sshfs snapd cifs-utils transmission
 
-snap install czkawka
+sudo snap install czkawka		# sudo is better for copy-paste approach
 #sudo snap connect czkawka:removable-media
 
 
 
 ## Graphics and writing
 #sudo apt install -y libreoffice-calc libreoffice-writer libreoffice-impress myspell-dictionary-cs hyphen-cs libreoffice-l10n-cs libreoffice-gtk3 libreoffice-style-tango libreoffice-pdfimport 
-sudo add-apt-repository ppa:libreoffice # latest LO
+sudo add-apt-repository -y ppa:libreoffice # latest LO 
 sudo apt update
 
 # Gwyddion
@@ -28,14 +28,14 @@ sudo add-apt-repository -y ppa:gwyddion-spm/ppa
 #sudo add-apt-repository -y ppa:inkscape.dev/stable
 sudo add-apt-repository -y ppa:inkscape.dev/trunk
 sudo apt update
-sudo apt install inkscape
+sudo apt install -y inkscape
 #sudo apt install inkscape-trunk     # version 1.4 kept crashing...
 
 
 
-sudo add-apt-repository ppa:deadsnakes/ppa # latest Python 
+sudo add-apt-repository -y ppa:deadsnakes/ppa # latest Python 
 sudo apt update
-sudo apt install python3.14 python3.14-venv python3.14-dev python3.14-tk
+sudo apt install -y python3.14 python3.14-venv python3.14-dev python3.14-tk
 # should also check out python3.14-nogil - will it perform faster?
 
 sudo apt update
@@ -56,9 +56,6 @@ chmod +x ~/bin/geeqie
 
 ## Multimedia 
 sudo apt install -y sound-juicer lame smplayer vlc audacity ffmpeg handbrake
-sudo pip install  yt-dlp # (upgraded fork of youtube-dl)
-
-
 
 
 ## Programming, electronics and research
