@@ -8,7 +8,7 @@ echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select tr
 sudo apt -y --reinstall install ttf-mscorefonts-installer
 
 ## Basics
-sudo apt install -y vim-gtk3 silversearcher-ag htop plocate cstocs testdisk git gitg gnupg  unrar n2n nmap debfoster osdclock baobab  mc xdotool xsel nethogs arandr osdsh libxosd2 libnotify-bin network-manager-pptp curl gparted rename meld sshfs snapd cifs-utils transmission
+sudo apt install -y vim-gtk3 silversearcher-ag htop plocate cstocs testdisk git gitg gnupg  unrar n2n nmap debfoster osdclock baobab  mc xdotool xsel nethogs arandr osdsh libxosd2 libnotify-bin network-manager-pptp curl gparted rename meld sshfs snapd cifs-utils transmission dconf-cli
 
 sudo snap install czkawka		# sudo is better for copy-paste approach
 #sudo snap connect czkawka:removable-media
@@ -69,6 +69,14 @@ sudo apt install -y libgirepository1.0-dev python3-gi # fixed some error by usin
 ## but also accept the system-wide packages installed by `apt`. And get freshest packages.
 ## (Note that .bashrc will also have to be amended to enter this environment in every new terminal window. 
 python3 -m venv --system-site-packages .venv  # check this
+
+# set up my default userspace virtual environment in ~/.venv/... for Python & PIP not to complain
+# Will be automatically run from .bashrc always a new terminal is run.
+if [[ -f ~/.venv/bin/activate ]] ; then
+	export VIRTUAL_ENV_DISABLE_PROMPT=1
+    source ~/.venv/bin/activate
+fi 
+
 pip install scipy
 pip install ipython
 pip install yt-dlp # (upgraded fork of youtube-dl)
@@ -221,6 +229,7 @@ if [ -f ~/.config/openbox/lubuntu-rc.xml ]; then
 fi
 
 ## Lower the default threshold for scientific notation in ipython
+mkdir  ~/.ipython/profile_default/      # TODO might need to run ipython manually first?
 echo "c = get_config()" >> ~/.ipython/profile_default/ipython_config.py
 echo "c.InteractiveShellApp.exec_lines = ['%precision %.6g']" >> ~/.ipython/profile_default/ipython_config.py
 
