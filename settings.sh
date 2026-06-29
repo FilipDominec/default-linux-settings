@@ -188,6 +188,7 @@ sed s/allDesktops>yes<\/allDesktops/allDesktops>no<\/allDesktops/ -i ~/.config/o
 sudo mv /etc/ImageMagick-6/policy.xml /etc/ImageMagick-6/policy.xmlout
 
 ## VIM modules (pathogen.vim required for semantic highlight, multicursor etc.)
+# TODO needs fixing: access rights not set at this point 
 mkdir -p ~/.vim/autoload ~/.vim/bundle
 curl -LSso ~/.vim/autoload/pathogen.vim https://raw.githubusercontent.com/tpope/vim-pathogen/master/autoload/pathogen.vim
 pushd ~/.vim/bundle 
@@ -218,7 +219,7 @@ echo 'In Paraview, one shall switch "Auto apply"'
 ## Desktop manager settings
 if [ -f ~/.config/openbox/lubuntu-rc.xml ]; then
 	## More desktops
-	sed -i ~/.config/openbox/lubuntu-rc.xml -e 's;ber>2</num;ber>6</num;' 
+	sed -i ~/.config/openbox/lubuntu-rc.xml -e 's;ber>2</num;ber>8</num;' 
 
 	## Experimental: middle-mouse clipboard paste activated by keyboard; add this in the middle of  
 	sed -i ~/.config/openbox/lubuntu-rc.xml -e '/<keyboard>/r lubuntu-rc.append'
