@@ -1,6 +1,3 @@
-
-echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | sudo debconf-set-selections
-sudo apt-get --reinstall install ttf-mscorefonts-installer
 ## NOTE: Run this script as the respective user, not root
 ## NOTE: on notebook, fix for the powerbutton may be needed: sudo vi /etc/systemd/logind.conf
 
@@ -8,66 +5,131 @@ sudo apt-get --reinstall install ttf-mscorefonts-installer
 
 ## Accept the EULA by default
 echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | sudo debconf-set-selections
+sudo apt -y --reinstall install ttf-mscorefonts-installer
 
 ## Basics
-sudo apt-get install -y vim-gtk3 silversearcher-ag htop  cstocs testdisk git gitg gnupg  unrar n2n nmap debfoster osdclock baobab  mc xdotool xsel nethogs arandr osdsh libxosd2 libnotify-bin network-manager-pptp curl gparted rename meld sshfs 
+sudo apt install -y vim-gtk3 silversearcher-ag htop plocate cstocs testdisk git gitg gnupg  unrar n2n nmap debfoster osdclock baobab  mc xdotool xsel nethogs arandr osdsh libxosd2 libnotify-bin network-manager-pptp curl gparted rename meld sshfs snapd cifs-utils transmission dconf-cli
 
-snap install czkawka
+sudo snap install czkawka		# sudo is better for copy-paste approach
 #sudo snap connect czkawka:removable-media
 
+
+
 ## Graphics and writing
-#sudo apt-get install -y libreoffice-calc libreoffice-writer libreoffice-impress myspell-dictionary-cs hyphen-cs libreoffice-l10n-cs libreoffice-gtk3 libreoffice-style-tango libreoffice-pdfimport 
-sudo add-apt-repository ppa:libreoffice # latest LO
+#sudo apt install -y libreoffice-calc libreoffice-writer libreoffice-impress myspell-dictionary-cs hyphen-cs libreoffice-l10n-cs libreoffice-gtk3 libreoffice-style-tango libreoffice-pdfimport 
+sudo add-apt-repository -y ppa:libreoffice # latest LO 
+sudo apt update
+
+# Gwyddion
+sudo add-apt-repository -y ppa:gwyddion-spm/ppa
+#sudo apt install gwyddion -y
+
+# Inkscape (or get newest binary from https://inkscape.org/release/inkscape-dev/gnulinux/appimage/dl/ )
+#sudo add-apt-repository -y ppa:inkscape.dev/stable
+sudo add-apt-repository -y ppa:inkscape.dev/trunk
+sudo apt update
+sudo apt install -y inkscape
+#sudo apt install inkscape-trunk     # version 1.4 kept crashing...
+
+
+
+sudo add-apt-repository -y ppa:deadsnakes/ppa # latest Python 
+sudo apt update
+sudo apt install -y python3.14 python3.14-venv python3.14-dev python3.14-tk
+# should also check out python3.14-nogil - will it perform faster?
+
 sudo apt update
 sudo apt install libreoffice hyphen-cs hyphen-en-us -y
 
-sudo add-apt-repository -y ppa:gwyddion-spm/ppa
-sudo add-apt-repository -y ppa:inkscape.dev/stable
-sudo apt-get install -y evince gimp inkscape libimage-exiftool-perl gwyddion rawtherapee hugin geeqie 
-#sudo apt-get install -y texlive-fonts-extra pdfposter biber texlive-bibtex-extra texlive-lang-czechslovak pdftk imagemagick djvulibre-bin  #?? pdfjam 
-#sudo apt-get install -y texlive-latex-extra dvipng pandoc # for type1cm.sty to make latex+matplotlib work
+sudo apt install -y evince gimp inkscape libimage-exiftool-perl rawtherapee hugin 
+sudo apt install -y texlive-fonts-extra pdfposter biber texlive-bibtex-extra texlive-lang-czechslovak pdftk imagemagick # djvulibre-bin  #?? pdfjam 
+sudo apt install -y texlive-latex-extra dvipng pandoc # for type1cm.sty to make latex+matplotlib work
 #note https://ask.libreoffice.org/t/export-directly-to-pdf-only-produces-a-blank-page/56400 may fix empty PDF problem
 # TODO try https://github.com/nichtich/pandoc-filter-arrows
 
+# Geeqie had some troubles, get latest appimage
+# https://github.com/BestImageViewer/geeqie/releases
+wget https://github.com/BestImageViewer/geeqie/releases/download/continuous/Geeqie-latest-x86_64.AppImage -O ~/bin/geeqie
+chmod +x ~/bin/geeqie
+# move it to ~/bin/geeqie  , chmod +x 
+
+
 ## Multimedia 
-sudo apt-get install -y sound-juicer lame smplayer vlc audacity ffmpeg handbrake
+sudo apt install -y sound-juicer lame smplayer vlc audacity ffmpeg handbrake
+
 
 ## Programming, electronics and research
-sudo apt-get install -y avr-libc gcc-avr glade avrdude kicad  ## programming and technology
-sudo apt-get install -y ipython3 python3-numpy python3-scipy python3-pip python3-psutil python3-serial python3-imageio 
+sudo apt install -y avr-libc gcc-avr glade avrdude kicad  ## programming and technology
 
-sudo pip install -e git+git://github.com/matplotlib/matplotlib.git#egg=matplotlib
-# alternate:  git clone --depth 1 git@github.com:matplotlib/matplotlib.git  &&  cd matplotlib  &&  python -m pip install -e .
-pip install kiwisolver cycler python-dateutil # pip dependencies of matplotlib
-# sudo apt-get install -y mpb harminv python-h5py paraview		## electromagnetic computation (MEEP will be compiled from scratch, search for python-meep-install on github)
+## TODO better get newest matplotlib etc. using pip, see below
+sudo apt install -y ipython3 python3-full python3-numpy python3-pip python3-psutil python3-serial python3-imageio python3-opencv
+sudo apt install -y libgirepository1.0-dev python3-gi # fixed some error by using: --system-site-packages
+
+## Create one default virtual environment for installing all user-space Python modules using pip3,
+## but also accept the system-wide packages installed by `apt`. And get freshest packages.
+## (Note that .bashrc will also have to be amended to enter this environment in every new terminal window. 
+python3 -m venv --system-site-packages .venv  # check this
+
+# set up my default userspace virtual environment in ~/.venv/... for Python & PIP not to complain
+# Will be automatically run from .bashrc always a new terminal is run.
+if [[ -f ~/.venv/bin/activate ]] ; then
+	export VIRTUAL_ENV_DISABLE_PROMPT=1
+    source ~/.venv/bin/activate
+fi 
+
+pip install scipy
+pip install ipython
+pip install yt-dlp # (upgraded fork of youtube-dl)
+pip install gspread oauth2client
+
+pip install -e git+https://github.com/matplotlib/matplotlib.git#egg=matplotlib
+# alternate approach:  git clone --depth 1 git@github.com:matplotlib/matplotlib.git  &&  cd matplotlib  &&  python -m pip install -e .
+# pip install kiwisolver cycler python-dateutil # are they necessary?  these are pip dependencies of matplotlib
+# sudo apt install -y mpb harminv python-h5py paraview		## electromagnetic computation (MEEP will be compiled from scratch, search for python-meep-install on github)
 
 
-#sudo pip install  yt-dlp # (upgraded fork of youtube-dl)
-
+## TODO Mayavi2 had some install troubles as of 2026
+# git clone https://github.com/enthought/mayavi.git
+# cd mayavi
+# pip install -r requirements.txt
+# pip install PyQt5  # replace this with any supported toolkit
+# python setup.py install  # or develop
+# sudo apt install python3-pyqt5.qtsvg     ## this helped
+sudo apt install -y 
+ 
+## Alternate approach, also see https://github.com/enthought/mayavi/issues/1230; launching command is `mayavi2` 
+#pip install mayavi2 --no-build-isolation  
 
 
 ## === Install non-repository software ===
 
+
+## LunarVim experiment https://www.lunarvim.org/docs/installation
+#sapti neovim npm nodejs cargo ripgrep    # lazygit??
+#TODO
+
+
+
+
 ## LibOrigin for python
-sudo apt-get install -y python3-pip cython doxygen cmake libboost-all-dev
-sudo pip3 install Cython
-git clone https://github.com/Saluev/python-liborigin2.git
-cd python-liborigin2/
-mkdir build
-cd build
-cmake ../
-make
-doxygen Doxyfile
-cd ..
-# sudo python setup.py install
-python3 setup.py install
-cd ..
+	#sudo apt install -y python3-pip cython doxygen cmake libboost-all-dev
+	#sudo pip3 install Cython
+	#git clone https://github.com/Saluev/python-liborigin2.git
+	#cd python-liborigin2/
+	#mkdir build
+	#cd build
+	#cmake ../
+	#make
+	#doxygen Doxyfile
+	#cd ..
+	#python3 setup.py install
+	#cd ..
 
 ## Esmska
 # echo "deb http://repo.palatinus.cz/stable / #Esmska" >> /etc/apt/sources.list
 #wget  --quiet -O - http://repo.palatinus.cz/repo.key | sudo apt-key add - > /dev/null
-#sudo apt-get install esmska 
-#apt-get update
+#sudo apt install esmska 
+#apt update
 
 ## Set up autostart in Lubuntu
 mkdir ~/.config/autostart -p
@@ -89,18 +151,12 @@ echo -e "[Desktop Entry]\nType=Application\nExec=bash ~/.config/autostart/osd_cp
 
 ## Kaitai compiler is useful for parsing binary formats  : TODO has problem with java version ?
 ### 1. the module for parsing (for users of scientific instrumentation etc.)
-#sudo pip  install kaitaistruct
 sudo pip3 install kaitaistruct	
-### 2. the compiler for parsers (for developers)
-echo "deb https://dl.bintray.com/kaitai-io/debian jessie main" | sudo tee /etc/apt/sources.list.d/kaitai.list
-sudo apt-key adv --keyserver hkp://pool.sks-keyservers.net --recv 379CE192D401AB61
-sudo apt-get update
-sudo apt-get install kaitai-struct-compiler  
-
-## Unetbootin no more oficially supported, yet no good replacement found
-sudo add-apt-repository -y ppa:gezakovacs/ppa
-sudo apt-get update
-sudo apt-get -y install unetbootin
+### 2. the compiler for parsers (for developers) - didn't work as of 2026
+#echo "deb https://dl.bintray.com/kaitai-io/debian jessie main" | sudo tee /etc/apt/sources.list.d/kaitai.list
+#sudo apt-key adv --keyserver hkp://pool.sks-keyservers.net --recv 379CE192D401AB61
+#sudo apt update
+#sudo apt install kaitai-struct-compiler  
 
 
 # if Acrobat reader installed for interactive forms, set evince still as default
@@ -124,7 +180,6 @@ cp files/ssh/* ~/.ssh/ -r
 cp files/vim/ ~/.vim/ -r
 cp files/vimrc ~/.vimrc
 
-xgamma -gamma .7
 sed s/allDesktops>yes<\/allDesktops/allDesktops>no<\/allDesktops/ -i ~/.config/openbox/lxqt-rc.xml
 #sudo sed s/#user_allow_other/user_allow_other/ -i /etc/ssh ##???
 
@@ -133,6 +188,7 @@ sed s/allDesktops>yes<\/allDesktops/allDesktops>no<\/allDesktops/ -i ~/.config/o
 sudo mv /etc/ImageMagick-6/policy.xml /etc/ImageMagick-6/policy.xmlout
 
 ## VIM modules (pathogen.vim required for semantic highlight, multicursor etc.)
+# TODO needs fixing: access rights not set at this point 
 mkdir -p ~/.vim/autoload ~/.vim/bundle
 curl -LSso ~/.vim/autoload/pathogen.vim https://raw.githubusercontent.com/tpope/vim-pathogen/master/autoload/pathogen.vim
 pushd ~/.vim/bundle 
@@ -163,14 +219,18 @@ echo 'In Paraview, one shall switch "Auto apply"'
 ## Desktop manager settings
 if [ -f ~/.config/openbox/lubuntu-rc.xml ]; then
 	## More desktops
-	sed -i ~/.config/openbox/lubuntu-rc.xml -e 's;ber>2</num;ber>6</num;' 
+	sed -i ~/.config/openbox/lubuntu-rc.xml -e 's;ber>2</num;ber>8</num;' 
 
 	## Experimental: middle-mouse clipboard paste activated by keyboard; add this in the middle of  
 	sed -i ~/.config/openbox/lubuntu-rc.xml -e '/<keyboard>/r lubuntu-rc.append'
 	sed -i ~/.config/openbox/lubuntu-rc.xml -e '/<applications>/r lubuntu-rc.append2'
+
+	## Note: change AllDesktops to 'false' to disable Alt-Tab switching windows over all desktops
+	# vi  ~/.config/openbox/rc.xml
 fi
 
 ## Lower the default threshold for scientific notation in ipython
+mkdir  ~/.ipython/profile_default/      # TODO might need to run ipython manually first?
 echo "c = get_config()" >> ~/.ipython/profile_default/ipython_config.py
 echo "c.InteractiveShellApp.exec_lines = ['%precision %.6g']" >> ~/.ipython/profile_default/ipython_config.py
 
@@ -181,7 +241,7 @@ echo "c.InteractiveShellApp.exec_lines = ['%precision %.6g']" >> ~/.ipython/prof
 gsettings set org.gnome.Evince page-cache-size 2014
 
 ## Origin viewer
-sudo apt-get install -y wine-development #TODO test 
+#sudo apt install -y wine-development #TODO test 
 # cp ./files/wine/syswow64/mfc110u.dll ~/.wine/syswow64/ ### FIXME missing? 
 # get the DLL from https://wikidll.com/download/14122 (md5 = b8de851298e99a005bfd34aa906b3fe8)
 ## TODO get it from https://www.originlab.com/viewer/dl.aspx 
@@ -208,30 +268,32 @@ mkdir -p ~/bin
 mv briss* ~/bin/
 
 ## OCR for documents
-sudo snap install jbig2enc --edge
-sudo apt-get install -y tesseract-ocr ocrmypdf
+#sudo snap install jbig2enc --edge
+#sudo apt install -y tesseract-ocr ocrmypdf
 
 ## Re-flow of PDF for mobile/e-ink readers ### TODO test
-sudo apt-get install -y k2pdfopt
+sudo apt install -y k2pdfopt
 pushd ~/bin/
 git clone https://github.com/pwang7/rebook --depth 1
 ln -s `which k2pdfopt` .
 popd
 
+# persistent swapescape settings:
+dconf write "/org/gnome/desktop/input-sources/xkb-options" "['caps:swapescape']"
 
 
 # Unnecessary?
 # todo https://www.vim.org/scripts/script.php?script_id=3282
 # todo install unetbootin or similar?
-#sudo apt-get install -y default-jre # default-jdk  
-#sudo apt-get install -y mtpfs mtp-tools gmtp  
+#sudo apt install -y default-jre # default-jdk  
+#sudo apt install -y mtpfs mtp-tools gmtp  
 # if it does not help: libmtp-common mtp-tools libmtp-runtime libmtp9
 #echo wicd-daemon wicd/users multiselect `whoami` | debconf-set-selections ## TESTING
-#sudo apt-get install -y wicd 
+#sudo apt install -y wicd 
 ## === Remove unused default apps ===
-#sudo apt-get remove -y abiword gnumeric 
+#sudo apt remove -y abiword gnumeric 
 ## Internet and communication
-#sudo apt-get install -y pidgin pidgin-bot-sentry linphone youtube-dl
+#sudo apt install -y pidgin pidgin-bot-sentry linphone youtube-dl
 
 
 ## REVTeX for publication in APS journals (PRA, PRB, PRX ...) [added 2014-09-02]
@@ -241,8 +303,8 @@ popd
 # sudo unzip revtex4-1-tds.zip -d /usr/share/texmf-texlive/; sudo mktexlsr /usr/share/texmf-texlive/
 
 #sudo add-apt-repository -y ppa:finalterm/daily
-#sudo apt-get update
-#sudo apt-get install finalterm
+#sudo apt update
+#sudo apt install finalterm
 
 ## To have clear sound input for IP telephony, it must be:
 ##	1) "Analog duplex stereo" on the Hardware tab, 
@@ -263,7 +325,7 @@ popd
 # Guide from: http://cd-rw.org/t/fix-the-broken-hp-printer-driver-installation-on-ubuntu-15-04-linux-mint-17-02-and-others/33
 # wget https://www.openprinting.org/download/printdriver/auxfiles/HP/plugins/hplip-3.15.2-plugin.run.asc
 # wget https://www.openprinting.org/download/printdriver/auxfiles/HP/plugins/hplip-3.15.2-plugin.run
-# sudo apt-get install hplip hplip-gui ## For the HP printer
+# sudo apt install hplip hplip-gui ## For the HP printer
 # sudo hp-setup -i
 # sudo sed -i 's/#user_allow_other/user_allow_other/g' /etc/fuse.conf
 ## If there are problems with installation or complaining of wrong MD5 sum, install it by compilation http://hplipopensource.com/hplip-web/install/manual/distros/ubuntu.html (needs to run `hp-plugin' and install the binary blob, and THEN, add the printer in a common way?)
@@ -274,3 +336,22 @@ echo 'deb http://download.opensuse.org/repositories/home:/jloeser:/secureboot/xU
 curl -fsSL https://download.opensuse.org/repositories/home:jloeser:secureboot/xUbuntu_24.04/Release.key | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/home_jloeser_secureboot.gpg > /dev/null
 sudo apt update
 sudo apt install sbctl
+
+## Swapping escape and CapsLock permanently - works easily on Lubuntu, couldn't make it permanent on Mate
+# Option 1: put 
+# dconf write /org/gnome/desktop/input-sources/xkb-options "['caps:swapescape']" # AOEUaoeuAEOU # AOUE
+# Option 2: put 
+#Section "InputClass"
+        #MatchIsKeyboard "on"
+        #Option "XkbOptions" "caps:escape"
+#EndSection
+# ... into:  sudo vi /etc/X11/xorg.conf.d/00-keyboard.conf -- broke the system ? 
+# 
+# Firefox stop popups manually
+# go:    about:config,   search popup_allowed_events,  clear all of them
+#
+
+# VPN & connection to work
+sudo apt install wireguard resolvconf
+
+xdg-mime default gvim.desktop text/x-python
