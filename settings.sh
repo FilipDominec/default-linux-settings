@@ -1,3 +1,4 @@
+
 echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | sudo debconf-set-selections
 sudo apt-get --reinstall install ttf-mscorefonts-installer
 ## NOTE: Run this script as the respective user, not root
@@ -153,8 +154,8 @@ echo '  cp ${OLDHOME}/.gitconfig ${NEWHOME} '
 echo '  cp ${OLDHOME}/.gnupg/ ${NEWHOME}/ -r'
 echo '  cp ${OLDHOME}/.ssh/ ${NEWHOME}/ -r'
 echo '  ssh-add ~/.ssh/id_rsa			## ... so that git does not prompt for a password every time'
-echo '  cp ${OLDHOME}/.purple/ ${NEWHOME}/ -r'
-echo '  cp ${OLDHOME}/.linphonerc ${NEWHOME}/'
+#echo '  cp ${OLDHOME}/.purple/ ${NEWHOME}/ -r'
+#echo '  cp ${OLDHOME}/.linphonerc ${NEWHOME}/'
 
 echo 
 echo 'In Paraview, one shall switch "Auto apply"'
