@@ -180,7 +180,8 @@ cp files/ssh/* ~/.ssh/ -r
 cp files/vim/ ~/.vim/ -r
 cp files/vimrc ~/.vimrc
 
-sed s/allDesktops>yes<\/allDesktops/allDesktops>no<\/allDesktops/ -i ~/.config/openbox/lxqt-rc.xml
+sed s/allDesktops>yes<\/allDesktops/allDesktops>no<\/allDesktops/ -i ~/.config/openbox/rc.xml # used to be lxqt-rc.xml prior to 26.04
+
 #sudo sed s/#user_allow_other/user_allow_other/ -i /etc/ssh ##???
 
 
@@ -350,8 +351,16 @@ sudo apt install sbctl
 # Firefox stop popups manually
 # go:    about:config,   search popup_allowed_events,  clear all of them
 #
+# Firefox: trying to lower memory usage 
+# about:config ... unloadOnLowMemory .. set true
+# # (also might help: https://addons.mozilla.org/en-US/firefox/addon/auto-tab-discard/)
+# # (also try out:  systemd-run --slice user-firefox.slice --scope firefox ? )
+#
 
 # VPN & connection to work
 sudo apt install wireguard resolvconf
 
 xdg-mime default gvim.desktop text/x-python
+
+
+## 
